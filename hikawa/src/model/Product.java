@@ -28,47 +28,4 @@ public class Product extends Object{
 			
 		}
 		
-		public void setCustId(int custId) {
-			this.custId = custId;
-		}
-		
-		public  int getCustId() {	
-			return custId ;
-		}
-		
-		public void setCustName(String custName) {
-			this.custName = custName;
-		}
-		
-		public String getCustName() {
-			return custName;
-		}
-		
-		public void setKana(String kana) {
-			this.kana = kana;
-		}
-		
-		public String getKana() {
-			return kana;
-		}
-		
-		public void setTel(String tel) {
-			this.tel = tel;
-		}
-		
-		public String getTel() {
-			return tel;
-		}
-		
-		public void setAddress(String address) {
-			this.address = address;
-		}
-		
-		public String getAddress() {
-			return address;
-		}
-		
-		
-		
-		
 }
