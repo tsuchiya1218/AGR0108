@@ -7,4 +7,5 @@ public class Login {
 	    frame.setTitle("MyTitle");
 	    frame.setVisible(true);
 	  }
+	
 }
