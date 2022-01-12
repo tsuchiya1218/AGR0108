@@ -25,7 +25,6 @@ public class Product extends Object{
 		public  Product(int PdCode,String PdName,String Category,int Price,String Maker,int Stock,String Expiration,String ExpirationDate) {
 			this.PdCode = PdCode;
 			
-			
 		}
 		
 }
