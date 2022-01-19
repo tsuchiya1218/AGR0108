@@ -86,4 +86,5 @@ public class WeekSales extends JFrame {
 		contentPane.add(btnNewButton);
 	}
 
+	
 }
