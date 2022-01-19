@@ -28,7 +28,7 @@ public class LoginDBAccess {
 		return DBPass;
 	}
 	public boolean login() {
-		if (getDBPass().equals(/*入力されたパスワード*/)) {
+		if (getDBPass().equals(/*入力されfdたパスワード*/)) {
 			return true;
 		}else {
 			return false;
