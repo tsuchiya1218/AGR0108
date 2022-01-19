@@ -22,6 +22,7 @@ public class DBAccess {
 	public void closeConnection(Connection con) throws Exception{
 		if(con != null) {
 			try{
+				aa
 				//データベースクローズ
 				con.close();
 			}catch (Exception e) {
