@@ -5,11 +5,14 @@ import java.sql.DriverManager;
 
 public class DBAccess {
 	private Connection con =null;
+	private String url = "jdbc:mysql://10.64.144.5:3306/20jy0125";
+	private String name = "20jy0125";
+	private String password = "20jy0125";
 
 	public Connection createConnection() throws Exception {
 		try {
 			//データベース接続
-			con = DriverManager.getConnection("jdbc:mysql://10.64.144.5:3306/20jy0125","20jy0125","20jy0125");
+			con = DriverManager.getConnection(url,name,password);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
