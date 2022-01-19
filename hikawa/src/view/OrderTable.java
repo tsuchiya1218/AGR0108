@@ -66,6 +66,14 @@ public class OrderTable extends JFrame {
 				"\u5546\u54C1\u30B3\u30FC\u30C9", "\u5546\u54C1\u540D", "\u500B\u6570", ""
 			}
 		) {
+			
+			Class[] columnTypes = new Class[] {
+					String.class, String.class, Integer.class,Object.class
+				};
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+			}
+			
 			boolean[] columnEditables = new boolean[] {
 				false, false, false, false
 			};
