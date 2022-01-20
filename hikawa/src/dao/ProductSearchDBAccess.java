@@ -1,21 +1,33 @@
-<<<<<<< HEAD
 /*
  * DBから商品を検索するクラス
  */
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 package dao;
 
+import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
+import model.Product;
 
 
 public class ProductSearchDBAccess{
-	
-=======
-public class ProductSearchDBAccess{
->>>>>>> branch 'main' of https://github.com/tsuchiya1218/AGR0108.git
+	private Connection con;
+	//DBAccess db = new DBAccess();
+	//ResultSet rs = null;
+	//PreparedStatement ps = null;
+	public ArrayList<Product> productSerchByName(String productName) throws Exception{
+		DBAccess db = new DBAccess();
+		con = db.createConnection();
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		ArrayList<Product> list = new ArrayList<Product>();
+		
+		try {
+			ps =con.prepareStatement("SELECT ProductCode, ProductName, Price, ");
+			//SQLメモ(SELECT * FROM product INNER JOIN category ON product.CategoryID = category.CategoryID;)
+		}catch{
+	}
 }
+
