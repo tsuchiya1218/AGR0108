@@ -17,9 +17,7 @@ public class LoginDBAccess {
 	DBAccess db = new DBAccess();		
 	ResultSet rs = null;
 	PreparedStatement ps = null;
-	
-	String DBPass = null;
-	public void getDBPass(int StaffID) {
+	public String getDBPass(int StaffID) {
 		try {
 			//DB接続
 			db.createConection();
@@ -28,6 +26,7 @@ public class LoginDBAccess {
 			ps.setString(1, StaffID);
 			rs = ps.executeQuery();
 			
+			String DBPass = null;
 			//DBPassにDBで検索したパスワードを入れる
 			if (rs.getString("password") != null) {
 				DBPass = rs.getString("password");				
