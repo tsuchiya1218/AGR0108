@@ -28,9 +28,12 @@ public class LoginDBAccess {
 			
 			String DBPass = null;
 			//DBPassにDBで検索したパスワードを入れる
-			if (rs.getString("password") != null) {
-				DBPass = rs.getString("password");				
+			while(rs.next()) {
+				if (rs.getString("password") != null) {
+					DBPass = rs.getString("password");
+				}
 			}
+			
 		}
 		return DBPass;
 	}
