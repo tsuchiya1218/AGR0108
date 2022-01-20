@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class DBAccess {
-	private Connection con =null;
+	public Connection con =null;
 	private String url = "jdbc:mysql://10.64.144.5:3306/20jy0125";
 	private String name = "20jy0125";
 	private String password = "20jy0125";
