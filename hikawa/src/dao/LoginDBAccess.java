@@ -21,7 +21,7 @@ public class LoginDBAccess {
 		try {
 			//DB接続
 			db.createConection();
-			//SQLでパスワードを検索
+			//SQLでDBからパスワードを検索
 			ps = db.prepareStatement("SELECT password FROM staff WHERE StaffID = ?");
 			ps.setString(1, StaffID);
 			rs = ps.executeQuery();
@@ -38,7 +38,7 @@ public class LoginDBAccess {
 		return DBPass;
 	}
 	public boolean login(int input_StaffID, String input_password) {
-		//input_StaffID及びinput_passwordはユーザーがログイン画面で入力された値
+		//input_StaffID及びinput_passwordはユーザーがログイン画面で入力した値
 		//↓DBのパスワードと入力されたパスワードが同じか
 		if (getDBPass(input_StaffID).equals(input_password)) {
 			return true;
