@@ -1,5 +1,6 @@
 /*
  * DBから商品を検索するクラス
+ * 未完成・後回し
  */
 
 package dao;
@@ -26,8 +27,12 @@ public class ProductSearchDBAccess{
 		
 		try {
 			ps =con.prepareStatement("SELECT ProductCode, ProductName, Price, ");
-			//SQLメモ(SELECT * FROM product INNER JOIN category ON product.CategoryID = category.CategoryID;)
+			/*
+			SQLメモ(SELECT * FROM product INNER JOIN category ON product.CategoryID = category.CategoryID;)
+			*/
 		}catch{
+
+		}	
 	}
 }
 
