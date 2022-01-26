@@ -19,8 +19,7 @@ public class OrderHistory extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTable table;
-	private JLabel lblNewLabel_1;
-	private JButton btnNewButton;
+
 
 	/**
 	 * Create the frame.
