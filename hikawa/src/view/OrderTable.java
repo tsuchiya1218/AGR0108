@@ -90,6 +90,8 @@ public class OrderTable extends JFrame implements ActionListener {
 
 		JButton btnOrder = new JButton("発注");
 		btnOrder.setBounds(87, 224, 76, 26);
+		btnOrder.setActionCommand("btnOrder");
+		btnOrder.addActionListener(this);
 		contentPane.add(btnOrder);
 	}
 
