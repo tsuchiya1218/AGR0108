@@ -1,7 +1,8 @@
 package view;
 
-import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,31 +13,17 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-public class SaleProductHistory extends JFrame {
+public class SaleProductHistory extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
 	private JTable table;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SaleProductHistory frame = new SaleProductHistory();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
 	public SaleProductHistory() {
+		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 542, 348);
 		contentPane = new JPanel();
@@ -84,6 +71,13 @@ public class SaleProductHistory extends JFrame {
 		JButton btnNewButton = new JButton("売上");
 		btnNewButton.setBounds(449, 12, 65, 26);
 		contentPane.add(btnNewButton);
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+		
 	}
 
 }
