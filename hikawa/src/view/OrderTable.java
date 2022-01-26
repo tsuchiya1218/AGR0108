@@ -115,7 +115,6 @@ public class OrderTable extends JFrame implements ActionListener {
 			
 			
 			
-			
 		}
 	}
 }
