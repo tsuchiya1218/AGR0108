@@ -1,8 +1,10 @@
 package control;
 
+import action.AddSaleDisplayAction;
 import action.LoginDisplayAction;
 import action.OrderHistoryDisplayAction;
 import action.OrderTableDisplayAction;
+import action.ProductSelectionSalesDisplayAction;
 import action.ProductTableDisplayAction;
 import action.SalesDisplayAction;
 import action.TopDisplayAction;
@@ -49,6 +51,24 @@ public class HikawaController {
 	//ログイン画面表示
 	public static void LoginDisplay() {
 		LoginDisplayAction action = new LoginDisplayAction();
+		action.execute();
+	}
+
+	//売上金額入力画面表示
+	public static void AddSaleDisplay() {
+		AddSaleDisplayAction action = new AddSaleDisplayAction();
+		action.execute();
+	}
+
+	//売上商品選択画面表示
+	public static void ProductSelectionSalesDisplay() {
+		ProductSelectionSalesDisplayAction action = new ProductSelectionSalesDisplayAction();
+		action.execute();
+	}
+	
+	//売上商品履歴画面表示
+	public static void SaleProductHistoryDisplay() {
+		SaleProductHistoryDisplayAction action = new SaleProductHistoryDisplayAction();
 		action.execute();
 	}
 }
