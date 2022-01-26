@@ -1,7 +1,8 @@
 package view;
 
-import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,33 +13,20 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-public class OrderHistory extends JFrame {
+public class OrderHistory extends JFrame  implements ActionListener {
 
 	private JPanel contentPane;
 	private JTable table;
 	private JLabel lblNewLabel_1;
 	private JButton btnNewButton;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					OrderHistory frame = new OrderHistory();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+
 
 	/**
 	 * Create the frame.
 	 */
 	public OrderHistory() {
+		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 664, 391);
 		contentPane = new JPanel();
@@ -77,9 +65,17 @@ public class OrderHistory extends JFrame {
 		lblNewLabel_1.setBounds(249, 44, 124, 26);
 		contentPane.add(lblNewLabel_1);
 		
-		btnNewButton = new JButton("発注");
+		btnNewButton = new JButton("発注表");
 		btnNewButton.setBounds(545, 22, 82, 26);
 		contentPane.add(btnNewButton);
+	}
+
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+		
 	}
 
 }
