@@ -1,4 +1,4 @@
-package control;
+package action;
 
 import view.SaleProductHistory;
 
