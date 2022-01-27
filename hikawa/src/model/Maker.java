@@ -2,8 +2,8 @@ package model;
 
 public class Maker {
 
-	private char MakerID; //商品コード
-	private String MakerName; //商品名
+	private char MakerID; //メーカーID
+	private String MakerName; //メーカー名
 
 	public Maker() {
 

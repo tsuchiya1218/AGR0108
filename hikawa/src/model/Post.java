@@ -2,7 +2,7 @@ package model;
 
 public class Post {
 
-	private int postCode; //商品コード
+	private int postCode; //役職番号
 	private String postName; //商品名
 
 	public Post() {

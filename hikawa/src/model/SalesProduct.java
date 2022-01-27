@@ -2,19 +2,21 @@ package model;
 
 public class SalesProduct {
 
-	private String SPCode; //商品コード
-	private int Quantity; //商品名
-	private String SPDate; //商品名
-	private String ProductCode; //商品名
+	private String SPCode; //売上商品コード
+	private int Quantity; //売上個数
+	private String SPDate; //売上商品日付
+	private String ProductCode; //商品コード
+	private String SPName; //売上商品名	
 
 	public SalesProduct() {
 	}
 
-	public SalesProduct(String SPCode, int Quantity, String SPDate, String ProductCode) {
+	public SalesProduct(String SPCode, int Quantity, String SPDate, String ProductCode,String SPName) {
 		this.SPCode = SPCode;
 		this.Quantity = Quantity;
 		this.SPDate = SPDate;
 		this.ProductCode = ProductCode;
+		this.SPName = SPName;
 	}
 
 	public void setSPCode(String SPCode) {
@@ -29,7 +31,7 @@ public class SalesProduct {
 		this.Quantity = Quantity;
 	}
 
-	public int getStock() {
+	public int getQuantity() {
 		return Quantity;
 	}
 
@@ -46,5 +48,13 @@ public class SalesProduct {
 
 	public String getProductCode() {
 		return ProductCode;
+	}
+	
+	public void setSPName(String SPName) {
+		this.SPName = SPName;
+	}
+
+	public String getSPName() {
+		return SPName;
 	}
 }

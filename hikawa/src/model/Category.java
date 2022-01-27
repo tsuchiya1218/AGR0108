@@ -2,8 +2,8 @@ package model;
 
 public class Category {
 
-	private char CategoryID; //商品コード
-	private String CategoryName; //商品名
+	private char CategoryID; //カテゴリID
+	private String CategoryName; //カテゴリ名
 
 	public Category() {
 
