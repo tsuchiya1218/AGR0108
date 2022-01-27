@@ -5,22 +5,16 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public class ProductControlUtility {
-
+public class SalesProductControlUtility {
 	public static String[][] productToArray(ArrayList<Product> list) {
 
 		int listSize = list.size();
-		String[][] tableData = new String[listSize][7];
+		String[][] tableData = new String[listSize][2];
 
 		for (int i = 0; i < listSize; i++) {
 			Product product = list.get(i);
 			tableData[i][0] = product.getProductCode();
 			tableData[i][1] = product.getProductName();
-			tableData[i][2] = Integer.toString(product.getCategoryID());
-			tableData[i][3] = Integer.toString(product.getPrice());
-			tableData[i][4] = product.getMakerID();
-			tableData[i][5] = Integer.toString(product.getStock());
-			tableData[i][6] = Integer.toString(product.getExpiration());
 		}
 		return tableData;
 
@@ -30,6 +24,5 @@ public class ProductControlUtility {
 
 		JOptionPane.showMessageDialog(frame, e + "：管理者に連絡してください。", "【システムエラー】", JOptionPane.ERROR_MESSAGE);
 	}
-
 }
-//商品表
+//売上商品選択画面

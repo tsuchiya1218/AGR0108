@@ -2,9 +2,9 @@ package model;
 
 public class SalesDetails {
 	
-	private  String Week; //商品コード
-	private int SalesAmount; //商品名
-	private String SalesDate; //商品名
+	private  String Week; //週
+	private int SalesAmount; //売上金額
+	private String SalesDate; //売上日付
 
 	public SalesDetails() {
 

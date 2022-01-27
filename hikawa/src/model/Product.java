@@ -7,32 +7,34 @@ package model;
  */
 
 public class Product extends Object {
-	private char ProductCode; //商品コード
+	private String ProductCode; //商品コード
 	private String ProductName; //商品名
 	private int Price; //値段
-	private char FoodLimitCode; //食品期限
-	private char MakerID; //メーカーID
+	private int Expiration; //食品期限
+	private String MakerID; //メーカーID
 	private int CategoryID; //カテゴリID
+	private int Stock ; //在庫量
 
 	public Product() {
 
 	}
 
-	public Product(char ProductCode, String ProductName, int Price, char FoodLimitCode,
-			char MakerID, int CategoryID) {
+	public Product(String ProductCode, String ProductName, int Price, int Expiration,
+			String MakerID, int CategoryID,int Stock) {
 		this.ProductCode = ProductCode;
 		this.ProductName = ProductName;
 		this.Price = Price;
-		this.FoodLimitCode = FoodLimitCode;
+		this.Expiration = Expiration;
 		this.MakerID = MakerID;
 		this.CategoryID = CategoryID;
+		this.Stock = Stock;
 	}
 
-	public void setProductCode(char ProductCode) {
+	public void setProductCode(String ProductCode) {
 		this.ProductCode = ProductCode;
 	}
 
-	public char getPdCode() {
+	public String getProductCode() {
 		return ProductCode;
 	}
 
@@ -52,19 +54,19 @@ public class Product extends Object {
 		return Price;
 	}
 
-	public void setFoodLimitCode(char FoodLimitCode) {
-		this.FoodLimitCode = FoodLimitCode;
+	public void setExpiration(int Expiration) {
+		this.Expiration = Expiration;
 	}
 
-	public char getFoodLimitCode() {
-		return FoodLimitCode;
+	public int getExpiration() {
+		return Expiration;
 	}
 
-	public void setMakerID(char MakerID) {
+	public void setMakerID(String MakerID) {
 		this.MakerID = MakerID;
 	}
 
-	public char getMakerID() {
+	public String getMakerID() {
 		return MakerID;
 	}
 
@@ -74,5 +76,13 @@ public class Product extends Object {
 
 	public int getCategoryID() {
 		return CategoryID;
+	}
+	
+	public void setStock(int Stock) {
+		this.Stock = Stock;
+	}
+
+	public int getStock() {
+		return Stock;
 	}
 }

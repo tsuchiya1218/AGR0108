@@ -2,21 +2,25 @@ package model;
 
 public class Sales {
 
-	private int SalesCode; //商品コード
-	private int wTotol; //商品名
-	private int mTotal; //商品名
-	private int yTotal; //商品名
-	private String Week; //商品名
+	private int SalesCode; //売上コード
+	private int wTotal; //週合計
+	private int mTotal; //月合計
+	private int yTotal; //年合計
+	private String Week; //週
+	private int Day; //日付
+	private int Sale; //売上金額
 	
 	public Sales() {
 	}
 
-	public Sales(int SalesCode, int wTotol, int mTotal, int yTotal, String Week) {
+	public Sales(int SalesCode, int wTotal, int mTotal, int yTotal, String Week,int Day, int Sale ) {
 		this.SalesCode = SalesCode;
-		this.wTotol = wTotol;
+		this.wTotal = wTotal;
 		this.mTotal = mTotal;
 		this.yTotal = yTotal;
 		this.Week   = Week;
+		this.Day = Day;
+		this.Sale   = Sale;
 	}
 
 	public void setSalesCode(int SalesCode) {
@@ -27,12 +31,12 @@ public class Sales {
 		return SalesCode;
 	}
 
-	public void setwTotol(int wTotol) {
-		this.wTotol = wTotol;
+	public void setwTotal(int wTotal) {
+		this.wTotal = wTotal;
 	}
 
-	public int getwTotol() {
-		return wTotol;
+	public int getwTotal() {
+		return wTotal;
 	}
 
 	public void setmTotal(int mTotal) {
@@ -49,11 +53,27 @@ public class Sales {
 	public int getyTotal() {
 		return yTotal;
 	}
+	
 	public void setWeek(String Week) {
 		this.Week = Week;
 	}
 
 	public String getWeek() {
 		return Week;
+	}
+	
+	public void setDay(int Day) {
+		this.Day = Day;
+	}
+
+	public int getDay() {
+		return Day;
+	}
+	public void setSale(int Sale) {
+		this.Sale = Sale;
+	}
+
+	public int getSale() {
+		return Sale;
 	}
 }
