@@ -25,7 +25,7 @@ public class ProductAdditionDBAccess {
 	
 	
 	//商品を新規作成する
-	public void productAddition() {
+	public void productAddition() throws Exception {
 		Connection con = null;
 		DBAccess db = new DBAccess();
 		PreparedStatement ps = null;
@@ -43,6 +43,7 @@ public class ProductAdditionDBAccess {
 			ps.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
+			con.rollback();
 			e.printStackTrace();
 		}finally {
 			if(ps!= null) {
@@ -152,7 +153,7 @@ public class ProductAdditionDBAccess {
 	
 	
 	//新しいメーカーを作成する
-	public void makeMaker(String makerID, String makerName) {
+	public void makeMaker(String makerID, String makerName) throws Exception {
 		Connection con = null;
 		DBAccess db = new DBAccess();
 		PreparedStatement ps = null;
@@ -166,6 +167,7 @@ public class ProductAdditionDBAccess {
 			//コミット
 			con.commit();
 		}catch (Exception e) {
+			con.rollback();
 			e.printStackTrace();
 		}finally {
 			if(ps!= null) {
