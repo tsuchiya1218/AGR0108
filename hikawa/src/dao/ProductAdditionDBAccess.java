@@ -44,6 +44,19 @@ public class ProductAdditionDBAccess {
 			con.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			if(ps!= null) {
+				try {
+					ps.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			try {
+				db.closeConnection(con);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
 		
