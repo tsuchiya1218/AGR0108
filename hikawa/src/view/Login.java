@@ -14,6 +14,7 @@ import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
 import control.HikawaController;
+import dao.LoginDBAccess;
 
 public class Login extends JFrame implements ActionListener{
 
@@ -84,11 +85,20 @@ public class Login extends JFrame implements ActionListener{
 	    
 	    //ログインボタンが押された時の処理
 	    if (cmd.equals("Login")){
-	    	String StaffID = StaffIDText.getText();
-	    	System.out.println(StaffID);
+	    	//従業員番号取得
+	    	Integer StaffID = Integer.parseInt(StaffIDText.getText());
+	    	//パスワード取得
+	    	char[] passwordchar = PassField.getPassword();
+	    	String password = new String(passwordchar);
 	    	
-	    	char[] password = PassField.getPassword();
-	    	System.out.println(password);
+	    	//LoginDBA引渡し
+	    	try {
+				LoginDBAccess.login(StaffID, password);
+			} catch (Exception e1) {
+				// TODO 自動生成された catch ブロック
+				e1.printStackTrace();
+			}
+	    	
 	    	
 	    	setVisible(false);
 	    	HikawaController.TopDisplay();
