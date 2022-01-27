@@ -1,8 +1,9 @@
 package view;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -10,30 +11,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class AddSalesAmount extends JFrame {
+public class AddSalesAmount extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AddSalesAmount frame = new AddSalesAmount();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+
 
 	/**
 	 * Create the frame.
 	 */
 	public AddSalesAmount() {
+		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 312, 283);
 		contentPane = new JPanel();
@@ -73,5 +61,13 @@ public class AddSalesAmount extends JFrame {
 		JButton btnNewButton_1 = new JButton("確認");
 		btnNewButton_1.setBounds(52, 195, 67, 26);
 		contentPane.add(btnNewButton_1);
+	}
+
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+		
 	}
 }

@@ -2,9 +2,9 @@ package model;
 
 public class FoodLimit {
 
-	private char FoodLimitCode; //商品コード
-	private char LimitDate; //商品名
-	private char LimitDisplay; //商品名
+	private char FoodLimitCode; //食品期限コード
+	private char LimitDate; //食品期限日
+	private char LimitDisplay; //期限表示　消費か賞味か
 
 	public FoodLimit() {
 

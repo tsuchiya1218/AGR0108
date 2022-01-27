@@ -1,10 +1,10 @@
 package model;
 
 public class ProductTable {
-	private int ProductTableID; //商品コード
-	private int Stock; //商品名
-	private int Price; //商品名
-	private String OrderCode; //商品名
+	private int ProductTableID; //商品表ID
+	private int Stock; //在庫量
+	private int Price; //仕入れ価格
+	private String OrderCode; //発注コード
 
 	public ProductTable() {
 	}

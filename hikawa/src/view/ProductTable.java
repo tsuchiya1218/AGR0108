@@ -1,8 +1,10 @@
 package view;
 
-import java.awt.EventQueue;
+
 import java.awt.Font;
 import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,32 +15,19 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-public class ProductTable extends JFrame {
+import control.HikawaController;
+
+public class ProductTable extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
 	private JTable table;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ProductTable frame = new ProductTable();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 
 	/**
 	 * Create the frame.
 	 */
 	public ProductTable() {
+		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 867, 424);
 		contentPane = new JPanel();
@@ -63,9 +52,11 @@ public class ProductTable extends JFrame {
 		textField.setBounds(87, 70, 120, 23);
 		contentPane.add(textField);
 		
-		JButton btnNewButton = new JButton("検索");
-		btnNewButton.setBounds(213, 67, 63, 26);
-		contentPane.add(btnNewButton);
+		JButton btnSerch = new JButton("検索");
+		btnSerch.setBounds(213, 67, 63, 26);
+		btnSerch.setActionCommand("btnSerch");
+		btnSerch.addActionListener(this);
+		contentPane.add(btnSerch);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(28, 109, 811, 213);
@@ -96,16 +87,50 @@ public class ProductTable extends JFrame {
 		});
 		scrollPane.setViewportView(table);
 		
-		JButton btnNewButton_1 = new JButton("発注表");
-		btnNewButton_1.setBounds(69, 343, 91, 26);
-		contentPane.add(btnNewButton_1);
+		JButton btnOrder = new JButton("発注表");
+		btnOrder.setBounds(69, 343, 91, 26);
+		btnOrder.setActionCommand("btnOrder");
+		btnOrder.addActionListener(this);
+		contentPane.add(btnOrder);
 		
-		JButton btnNewButton_2 = new JButton("廃棄");
-		btnNewButton_2.setBounds(669, 54, 63, 26);
-		contentPane.add(btnNewButton_2);
+		JButton btnWaste = new JButton("廃棄一覧表");
+		btnWaste.setBounds(625, 54, 120, 26);
+		btnWaste.setActionCommand("btnWaste");
+		btnWaste.addActionListener(this);
+		contentPane.add(btnWaste);
 		
-		JButton btnNewButton_3 = new JButton("トップ");
-		btnNewButton_3.setBounds(755, 54, 77, 26);
-		contentPane.add(btnNewButton_3);
+		JButton btnTop = new JButton("トップ");
+		btnTop.setBounds(755, 54, 77, 26);
+		btnTop.setActionCommand("btnTop");
+		btnTop.addActionListener(this);
+		contentPane.add(btnTop);
+	}
+	
+
+	public void actionPerformed(ActionEvent e) {
+		String cmd = e.getActionCommand();
+
+		//検索ボタンが押された時の処理
+		if (cmd.equals("btnSerch")) {
+
+		}
+
+		//発注表ボタンが押された時の処理
+		if (cmd.equals("btnOrder")) {
+			setVisible(false);
+			HikawaController.OrderTableDisplay();
+		}
+
+		//廃棄一覧表ボタンが押された時の処理
+		if (cmd.equals("btnWaste")) {
+			setVisible(false);
+			HikawaController.WasteDisplay();
+		}
+
+		//トップボタンが押された時の処理
+		if (cmd.equals("btnTop")) {
+			setVisible(false);
+			HikawaController.TopDisplay();
+		}
 	}
 }

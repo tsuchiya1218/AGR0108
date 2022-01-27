@@ -1,9 +1,9 @@
 package model;
 
 public class Staff {
-	private int StaffID; //商品コード
-	private String PassWord; //商品名
-	private int PostCode; //商品名
+	private int StaffID; //従業員番号
+	private String PassWord; //パスワード
+	private int PostCode; //役職番号
 
 	public Staff() {
 
