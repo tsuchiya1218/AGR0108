@@ -28,7 +28,6 @@ public class ProductAdditionDBAccess {
 	public void productAddition() {
 		Connection con = null;
 		DBAccess db = new DBAccess();
-		ResultSet rs = null;
 		PreparedStatement ps = null;
 		if(makerID == null) {
 			makerID = makeMakerID();
@@ -37,11 +36,12 @@ public class ProductAdditionDBAccess {
 		try {
 			con = db.createConnection();
 			String sql = 
-					"INSERT INTO product(ProductCode,ProductName,Price,FoodLimitCode,MakerID,CategoryID) VALUES("
-					+")";
+					"INSERT INTO product(ProductCode,ProductName,Price,FoodLimitCode,MakerID,CategoryID) "
+					+"VALUES(" + pCode +","+ pName + "," + price +","+ foodLCode + "," + makerID + "," + cID  +")";
 			//ProductCode,ProductName,Price,FoodLimitCode,MakerID,CategoryIDを商品表に追加
 			ps = con.prepareStatement(sql);
-			rs = ps.executeQuery();
+			ps.executeUpdate();
+			con.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -136,6 +136,7 @@ public class ProductAdditionDBAccess {
 		mID  = String.valueOf(cnt);
 		return mID;
 	}
+	
 	
 	//新しいメーカーを作成する
 	public void makeMaker(String makerID, String makerName) {
