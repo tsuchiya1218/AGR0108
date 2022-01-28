@@ -5,6 +5,7 @@
  */
 package dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,16 +14,17 @@ import java.sql.SQLException;
 
 public class LoginDBAccess {
 	
-	DBAccess db = new DBAccess();		
-	ResultSet rs = null;
-	PreparedStatement ps = null;
-	String DBPass = null;
+	
 	public String getDBPass(int StaffID) throws Exception {
+		DBAccess db = new DBAccess();		
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		String DBPass = null;
 		try {
 			//DB接続
-			db.createConnection();
+			Connection con = db.createConnection();
 			//SQLでDBからパスワードを検索
-			ps = db.con.prepareStatement("SELECT password FROM staff WHERE StaffID = ?");
+			ps = con.prepareStatement("SELECT password FROM staff WHERE StaffID = ?");
 			ps.setInt(1, StaffID);
 			rs = ps.executeQuery();
 			
@@ -56,7 +58,9 @@ public class LoginDBAccess {
 	public boolean login(int input_StaffID, String input_password) throws Exception {
 		//input_StaffID及びinput_passwordはユーザーがログイン画面で入力した値
 		//↓DBのパスワードと入力されたパスワードが同じか
-		if (getDBPass(input_StaffID).equals(input_password)) {
+		if (getDBPass(input_StaffID) == null) { //DBにパスワードが存在しない(NULL)の場合
+			return false;
+		}else if( getDBPass(input_StaffID).equals(input_password)){
 			return true;
 		}else {
 			return false;
