@@ -93,15 +93,16 @@ public class Login extends JFrame implements ActionListener{
 	    	
 	    	//LoginDBA引渡し
 	    	try {
-				LoginDBAccess.login(StaffID, password);
+				if (LoginDBAccess.login(StaffID, password)) {
+					HikawaController.TopDisplay();
+				}
 			} catch (Exception e1) {
 				// TODO 自動生成された catch ブロック
 				e1.printStackTrace();
 			}
 	    	
-	    	
 	    	setVisible(false);
-	    	HikawaController.TopDisplay();
+	    	
 	    }
 	    
 	    //リセットボタンが押された時の処理
