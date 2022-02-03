@@ -1,3 +1,7 @@
+/*
+ * 商品編集するクラス
+ */
+
 package dao;
 
 import java.sql.Connection;
@@ -5,6 +9,7 @@ import java.sql.PreparedStatement;
 
 public class ProductEditDBAccess {
 	public static void ProductEdit(String pName,String mName, int cID, int price,int stock,String foodlimit) throws Exception{
+		//引数(商品名、メーカー名、カテゴリID、値段、在庫数、食品期限)
 		DBAccess db = new DBAccess();
 		Connection con = db.createConnection();
 		PreparedStatement ps = null;
@@ -24,9 +29,11 @@ public class ProductEditDBAccess {
 			ps.setString(6, foodlimit);
 			
 			ps.executeUpdate();
+			//コミット
 			con.commit();
 		}catch (Exception e) {
 			e.printStackTrace();
+			//ロールバック
 			con.rollback();
 		}finally {
 			if(ps!= null) {
