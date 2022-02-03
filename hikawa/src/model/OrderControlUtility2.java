@@ -6,20 +6,20 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class OrderControlUtility2 {
-	public static String[][] orderToArray(ArrayList<Order> list) {
+	public static String[][] orderhistoryToArray(ArrayList<OrderHistory> list) {
 
 		int listSize = list.size();
 		String[][] tableData = new String[listSize][7];
 
 		for (int i = 0; i < listSize; i++) {
-			Order order = list.get(i);
-			tableData[i][0] = Integer.toString(order.getOrderDate());
-			tableData[i][1] = order.getOrderCode();
-			tableData[i][2] = order.getProductCode();
-			tableData[i][3] = order.getOrderName();
-			tableData[i][4] = Integer.toString(order.getOrderQuantity());
-			tableData[i][5] = Integer.toString(order.getOrderQuantity());
-			tableData[i][6] = Integer.toString(order.getFoodLimit());
+			OrderHistory orderhis = list.get(i);
+			tableData[i][0] = Integer.toString(orderhis.getOdDate());
+			tableData[i][1] = orderhis.getOdCode();
+			tableData[i][2] = orderhis.getPdCode();
+			tableData[i][3] = orderhis.getOdName();
+			tableData[i][4] = Integer.toString(orderhis.getOdQuantity());
+			tableData[i][5] = Integer.toString(orderhis.getDeliDate());
+			tableData[i][6] = Integer.toString(orderhis.getFoodLimit());
 		}
 		return tableData;
 

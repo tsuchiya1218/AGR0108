@@ -7,43 +7,50 @@ package model;
  */
 
 public class Product extends Object {
-	private String ProductCode; //商品コード
-	private String ProductName; //商品名
+	private String PdCode; //商品コード
+	private String PdName; //商品名
+	private int Category; //カテゴリ
 	private int Price; //値段
+	private String MakerName; //メーカー名
+	private int Stock; //在庫量
 	private int Expiration; //食品期限
-	private String MakerID; //メーカーID
-	private int CategoryID; //カテゴリID
-	private int Stock ; //在庫量
 
 	public Product() {
-
 	}
 
-	public Product(String ProductCode, String ProductName, int Price, int Expiration,
-			String MakerID, int CategoryID,int Stock) {
-		this.ProductCode = ProductCode;
-		this.ProductName = ProductName;
+	public Product(String PdCode, String PdName, int Category, int Price, String MakerName,
+			int Stock, int Expiration) {
+		this.PdCode = PdCode;
+		this.PdName = PdName;
+		this.Category = Category;
 		this.Price = Price;
-		this.Expiration = Expiration;
-		this.MakerID = MakerID;
-		this.CategoryID = CategoryID;
+		this.MakerName = MakerName;
 		this.Stock = Stock;
+		this.Expiration = Expiration;
 	}
 
-	public void setProductCode(String ProductCode) {
-		this.ProductCode = ProductCode;
+	public void setPdCode(String PdCode) {
+		this.PdCode = PdCode;
 	}
 
-	public String getProductCode() {
-		return ProductCode;
+	public String getPdCode() {
+		return PdCode;
 	}
 
-	public void setProductName(String ProductName) {
-		this.ProductName = ProductName;
+	public void setPdName(String PdName) {
+		this.PdName = PdName;
 	}
 
-	public String getProductName() {
-		return ProductName;
+	public String getPdName() {
+		return PdName;
+	}
+
+	public void setCategory(int Category) {
+		this.Category = Category;
+	}
+
+	public int getCategory() {
+		return Category;
 	}
 
 	public void setPrice(int Price) {
@@ -54,6 +61,22 @@ public class Product extends Object {
 		return Price;
 	}
 
+	public void setMakerName(String MakerName) {
+		this.MakerName = MakerName;
+	}
+
+	public String getMakerName() {
+		return MakerName;
+	}
+
+	public void setStock(int Stock) {
+		this.Stock = Stock;
+	}
+
+	public int getStock() {
+		return Stock;
+	}
+
 	public void setExpiration(int Expiration) {
 		this.Expiration = Expiration;
 	}
@@ -62,27 +85,4 @@ public class Product extends Object {
 		return Expiration;
 	}
 
-	public void setMakerID(String MakerID) {
-		this.MakerID = MakerID;
-	}
-
-	public String getMakerID() {
-		return MakerID;
-	}
-
-	public void setCategoryID(int CategoryID) {
-		this.CategoryID = CategoryID;
-	}
-
-	public int getCategoryID() {
-		return CategoryID;
-	}
-	
-	public void setStock(int Stock) {
-		this.Stock = Stock;
-	}
-
-	public int getStock() {
-		return Stock;
-	}
 }

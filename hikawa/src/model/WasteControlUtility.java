@@ -13,8 +13,8 @@ public class WasteControlUtility {
 
 		for (int i = 0; i < listSize; i++) {
 			Waste waste = list.get(i);
-			tableData[i][0] = waste.getPuroductCode();
-			tableData[i][1] = waste.getProductName();
+			tableData[i][0] = waste.getWastePdCode();
+			tableData[i][1] = waste.getWastePdName();
 			tableData[i][2] = Integer.toString(waste.getWasteQuantity());
 			tableData[i][3] = Integer.toString(waste.getLimit());
 		}

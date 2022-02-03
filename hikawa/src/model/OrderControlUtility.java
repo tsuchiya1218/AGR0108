@@ -13,9 +13,9 @@ public class OrderControlUtility {
 
 		for (int i = 0; i < listSize; i++) {
 			Order order = list.get(i);
-			tableData[i][0] = order.getProductCode();
-			tableData[i][1] = order.getOrderName();
-			tableData[i][2] = Integer.toString(order.getOrderQuantity());
+			tableData[i][0] = order.getPdCode();
+			tableData[i][1] = order.getPdName();
+			tableData[i][2] = Integer.toString(order.getStock());
 		}
 		return tableData;
 

@@ -6,14 +6,15 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class SalesProductControlUtility2 {
-	public static String[][] salesproductToArray(ArrayList<SalesProduct> list) {
+	public static String[][] salesproductinputToArray(ArrayList<SalesProductInput> list) {
 
 		int listSize = list.size();
-		String[][] tableData = new String[listSize][1];
+		String[][] tableData = new String[listSize][2];
 
 		for (int i = 0; i < listSize; i++) {
-			SalesProduct sp = list.get(i);
-			tableData[i][0] = sp.getSPName();
+			SalesProductInput spinp = list.get(i);
+			tableData[i][0] = spinp.getSPName();
+
 		}
 		return tableData;
 

@@ -14,9 +14,9 @@ public class SalesProductControlUtility3 {
 		for (int i = 0; i < listSize; i++) {
 			SalesProduct sp = list.get(i);
 			tableData[i][0] = sp.getSPCode();
-			tableData[i][1] = sp.getProductCode();
+			tableData[i][1] = sp.getPdCode();
 			tableData[i][2] = sp.getSPName();
-			tableData[i][3] = Integer.toString(sp.getQuantity());
+			tableData[i][3] = Integer.toString(sp.getSPQuantity());
 			tableData[i][4] = sp.getSPDate();
 		}
 		return tableData;

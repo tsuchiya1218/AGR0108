@@ -2,20 +2,20 @@ package model;
 
 public class Waste {
 	private String WasteCode; //廃棄コード
+	private String WastePdCode; //商品コード
+	private String WastePdName;//商品名
 	private int WasteQuantity; //廃棄個数
-	private String PuroductCode; //商品コード
-	private String ProductName;
 	private int Limit;
 
 	public Waste() {
 
 	}
 
-	public Waste(String WasteCode, int WasteQuantity, String PuroductCode,String ProductName,int Limit) {
+	public Waste(String WasteCode, String WastePdCode, String WastePdName, int WasteQuantity, int Limit) {
 		this.WasteCode = WasteCode;
+		this.WastePdCode = WastePdCode;
+		this.WastePdName = WastePdName;
 		this.WasteQuantity = WasteQuantity;
-		this.PuroductCode = PuroductCode;
-		this.ProductName = ProductName;
 		this.Limit = Limit;
 	}
 
@@ -27,6 +27,22 @@ public class Waste {
 		return WasteCode;
 	}
 
+	public void setWastePdCode(String WastePdCode) {
+		this.WastePdCode = WastePdCode;
+	}
+
+	public String getWastePdCode() {
+		return WastePdCode;
+	}
+
+	public void setWastePdName(String WastePdName) {
+		this.WastePdName = WastePdName;
+	}
+
+	public String getWastePdName() {
+		return WastePdName;
+	}
+
 	public void setWasteQuantity(int WasteQuantity) {
 		this.WasteQuantity = WasteQuantity;
 	}
@@ -35,22 +51,6 @@ public class Waste {
 		return WasteQuantity;
 	}
 
-	public void setPuroductCode(String PuroductCode) {
-		this.PuroductCode = PuroductCode;
-	}
-
-	public String getPuroductCode() {
-		return PuroductCode;
-	}
-	
-	public void setProductName(String ProductName) {
-		this.ProductName = ProductName;
-	}
-
-	public String getProductName() {
-		return ProductName;
-	}
-	
 	public void setLimit(int Limit) {
 		this.Limit = Limit;
 	}

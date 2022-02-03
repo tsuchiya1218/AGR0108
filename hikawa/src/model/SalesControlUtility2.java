@@ -6,15 +6,15 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class SalesControlUtility2 {
-	public static String[][] salesToArray(ArrayList<Sales> list) {
+	public static String[][] salesdetailsToArray(ArrayList<SalesDetails> list) {
 
 		int listSize = list.size();
 		String[][] tableData = new String[listSize][2];
 
 		for (int i = 0; i < listSize; i++) {
-			Sales sales = list.get(i);
-			tableData[i][0] = Integer.toString(sales.getDay());
-			tableData[i][1] = Integer.toString(sales.getwTotal());
+			SalesDetails salesdetails = list.get(i);
+			tableData[i][0] = Integer.toString(salesdetails.getSalesDate());
+			tableData[i][1] = Integer.toString(salesdetails.getSalesAmount());
 		}
 		return tableData;
 
