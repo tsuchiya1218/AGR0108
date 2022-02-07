@@ -81,10 +81,15 @@ public class Login extends JFrame implements ActionListener{
 	
 	
 	public void actionPerformed(ActionEvent e){
+		JFrame frame = new JFrame();
 	    String cmd = e.getActionCommand();
+	    
+	    //結果
+	    boolean judge ;
 	    
 	    //ログインボタンが押された時の処理
 	    if (cmd.equals("Login")){
+	    	LoginDBAccess lb = new LoginDBAccess();
 	    	//従業員番号取得
 	    	Integer StaffID = Integer.parseInt(StaffIDText.getText());
 	    	//パスワード取得
@@ -93,15 +98,20 @@ public class Login extends JFrame implements ActionListener{
 	    	
 	    	//LoginDBA引渡し
 	    	try {
-				if (LoginDBAccess.login(StaffID, password)) {
-					HikawaController.TopDisplay();
+				judge = lb.login(StaffID, password);
+				//判定true画面遷移falseエラー表示
+				if(judge) {
+					setVisible(false);
+			    	HikawaController.TopDisplay();
+				}else {
+					JOptionPane.showMessageDialog(frame, "従業員番号かパスワードが間違っています");
 				}
+				
+				
 			} catch (Exception e1) {
 				// TODO 自動生成された catch ブロック
 				e1.printStackTrace();
 			}
-	    	
-	    	setVisible(false);
 	    	
 	    }
 	    
