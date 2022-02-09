@@ -1,8 +1,9 @@
 package view;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -12,30 +13,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class EditProduct extends JFrame {
+public class EditProduct extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EditProduct frame = new EditProduct();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
 	public EditProduct() {
+		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 342, 432);
 		contentPane = new JPanel();
@@ -108,6 +94,12 @@ public class EditProduct extends JFrame {
 		JButton btnNewButton_1 = new JButton("確定");
 		btnNewButton_1.setBounds(54, 335, 77, 26);
 		contentPane.add(btnNewButton_1);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+		
 	}
 
 }
