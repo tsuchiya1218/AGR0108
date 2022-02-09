@@ -1,7 +1,8 @@
 /*
  * DBから商品を検索するクラス
- * 未完成・後回し
- */
+ *
+ * 
+ * */
 
 package dao;
 
@@ -15,9 +16,6 @@ import model.DisplayProductTable;
 
 public class ProductSearchDBAccess{
 	private Connection con;
-	//DBAccess db = new DBAccess();
-	//ResultSet rs = null;
-	//PreparedStatement ps = null;
 	public ArrayList<DisplayProductTable> productSerchByName(String productName) throws Exception{
 		DBAccess db = new DBAccess();
 		con = db.createConnection();
