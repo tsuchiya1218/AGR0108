@@ -4,7 +4,6 @@ import java.awt.Font;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,6 +14,7 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import action.CreateTableData;
 import control.HikawaController;
 import dao.ProductTableDBAccess;
 
@@ -71,10 +71,9 @@ public class ProductTable extends JFrame implements ActionListener {
 		DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
 		table = new JTable(tableModel);
 		
-		ProductTableDBAccess ptd = new ProductTableDBAccess();
 		try {
-			ArrayList<model.ProductTable> list = ptd.getProductTable();
-			String[][] tabledata = ProductTableDBAccess.productTableToArray(list);
+			ProductTableDBAccess ptd = new ProductTableDBAccess();
+			String[][] tabledata = CreateTableData.productTableToArray(ptd.getProductTable());
 			if (tabledata != null) {
 				for(String[] data : tabledata) {
 					tableModel.addRow(data);
@@ -83,6 +82,7 @@ public class ProductTable extends JFrame implements ActionListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 		scrollPane.setViewportView(table);
 		
 		/*
@@ -197,4 +197,7 @@ public class ProductTable extends JFrame implements ActionListener {
 			Integer ProductCode = Integer.parseInt(Deletetext.getText());
 		}
 	}
+
 }
+
+

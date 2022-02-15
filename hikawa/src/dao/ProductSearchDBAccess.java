@@ -1,4 +1,3 @@
-/*
  * DBから商品を検索するクラス
  *
  * 
@@ -11,32 +10,34 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import model.DisplayProductTable;
+import model.ProductTable;
 
 
 public class ProductSearchDBAccess{
 	private Connection con;
-	public ArrayList<DisplayProductTable> productSerchByName(String productName) throws Exception{
+	public ArrayList<ProductTable> productSerchByName(String productName) throws Exception{
 		DBAccess db = new DBAccess();
 		con = db.createConnection();
 		ResultSet rs = null;
 		PreparedStatement ps = null;
-		ArrayList<DisplayProductTable> list = new ArrayList<DisplayProductTable>();
+		ArrayList<ProductTable> list = new ArrayList<ProductTable>();
 		try {
 			/*
 			表示項目(商品コード、商品名、カテゴリ、値段、メーカー名、在庫量、食品期限) 
 			*/
-			ps =con.prepareStatement("SELECT ProductCode, ProductName, CategoryName, Price, MakerName, Stock, LimitDate"
-				+ "FROM producttable INNER JOIN product ON product.ProductCode = producttable.ProductCode "
+			ps =con.prepareStatement("SELECT `Status`, ProductCode, ProductName, CategoryName, Price, MakerName, Stock, LimitDate " 
+				+ "FROM product " 
 				+ "INNER JOIN category ON product.CategoryID = category.CategoryID "
-				+ "INNER JOIN maker ON product.MakerID = maker.makerID"
-				+ "INNER JOIN foodlimit ON product.FoodLimitCode = foodlimit.FoodLimitCode"
+				+ "INNER JOIN maker ON maker.MakerID = product.MakerID " 
+				+ "INNER JOIN foodlimit ON product.FoodLimitCode = foodlimit.FoodLimitCode " 
+				+ "INNER JOIN orders ON orders.FoodLimitCode = foodlimit.FoodLimitCode "
+				+ "INNER JOIN producttable ON orders.OrderCode = orders.OrderCode "
 				+ "WHERE ProductName = ?");
 			ps.setString(1,productName);
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				list.add(new DisplayProductTable(rs.getString("ProductCode"),rs.getString("ProductName"),
+				list.add(new ProductTable(rs.getString("Status"),rs.getString("ProductCode"),rs.getString("ProductName"),
 						rs.getString("CategoryName"),rs.getInt("Price"),rs.getString("makerName"),rs.getInt("Stock"),
 						rs.getString("LimitDate")));
 			}
@@ -61,5 +62,7 @@ public class ProductSearchDBAccess{
 		}
 		return list;
 	}
+	
+	
 }
 
