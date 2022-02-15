@@ -46,7 +46,7 @@ public class OrderTable extends JFrame implements ActionListener {
 		contentPane.add(scrollPane);
 
 		table = new JTable();
-		//列の入れ替え禁止処理 
+		//列の入れ替え禁止処理
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setModel(new DefaultTableModel(
 				new Object[][] {
