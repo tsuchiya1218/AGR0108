@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import control.HikawaController;
+import dao.ProductTableDBAccess;
 
 public class ProductTable extends JFrame implements ActionListener {
 
@@ -27,6 +29,7 @@ public class ProductTable extends JFrame implements ActionListener {
 
 	/**
 	 * Create the frame.
+	 * @throws Exception 
 	 */
 	public ProductTable() {
 		setVisible(true);
@@ -63,8 +66,26 @@ public class ProductTable extends JFrame implements ActionListener {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(28, 109, 811, 213);
 		contentPane.add(scrollPane);
-
-		table = new JTable();
+		
+		String[] columnNames = {"発注状況", "商品コード", "商品名", "カテゴリー","値段","メーカー名","在庫量","食品期限"};
+		DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+		table = new JTable(tableModel);
+		
+		ProductTableDBAccess ptd = new ProductTableDBAccess();
+		try {
+			ArrayList<model.ProductTable> list = ptd.getProductTable();
+			String[][] tabledata = ProductTableDBAccess.productTableToArray(list);
+			if (tabledata != null) {
+				for(String[] data : tabledata) {
+					tableModel.addRow(data);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		scrollPane.setViewportView(table);
+		
+		/*
 		table.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null, null, null, null }, },
 				new String[] { "\u767A\u6CE8\u72B6\u6CC1", "\u5546\u54C1\u30B3\u30FC\u30C9", "\u5546\u54C1\u540D",
 						"\u30AB\u30C6\u30B4\u30EA\u30FC", "\u5024\u6BB5", "\u30E1\u30FC\u30AB\u30FC\u540D",
@@ -76,7 +97,8 @@ public class ProductTable extends JFrame implements ActionListener {
 				return columnTypes[columnIndex];
 			}
 		});
-		scrollPane.setViewportView(table);
+		
+		*/
 
 		JButton btnOrder = new JButton("発注表");
 		btnOrder.setBounds(33, 404, 91, 26);
