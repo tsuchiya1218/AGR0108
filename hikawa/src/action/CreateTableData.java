@@ -2,6 +2,7 @@ package action;
 
 import java.util.ArrayList;
 
+import model.Order;
 import model.ProductTable;
 
 public class CreateTableData {
@@ -26,5 +27,18 @@ public class CreateTableData {
 			}
 			return tableData;
 
+	}
+	
+	public static String[][] orderTableToArray(ArrayList<Order> list){
+		int listSize = list.size();
+		String[][] tableData = new String[listSize][3];
+		for (int i = 0; i < listSize; i++ ) {
+			Order o = list.get(i);
+			tableData[i][0] = o.getPdCode();
+			tableData[i][1] = o.getPdName();
+			tableData[i][2] = Integer.toString(o.getStock());
+		}
+		
+		return tableData;
 	}
 }
