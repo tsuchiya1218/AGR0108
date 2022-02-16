@@ -22,14 +22,14 @@ public class ProductTable extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTable table;
-	
+
 	private TextField AddOrdertext;
 	private TextField EditProducttext;
 	private TextField Deletetext;
 
 	/**
 	 * Create the frame.
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public ProductTable() {
 		setVisible(true);
@@ -66,13 +66,28 @@ public class ProductTable extends JFrame implements ActionListener {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(28, 109, 811, 213);
 		contentPane.add(scrollPane);
-		
+
 		String[] columnNames = {"発注状況", "商品コード", "商品名", "カテゴリー","値段","メーカー名","在庫量","食品期限"};
 		DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
 		table = new JTable(tableModel);
-		
+
 		try {
 			ProductTableDBAccess ptd = new ProductTableDBAccess();
+
+			//列の入れ替えを禁止
+			table.getTableHeader().setReorderingAllowed(false);
+
+			//列の幅指定
+			table.getColumn("発注状況").setPreferredWidth(90);
+			table.getColumn("商品コード").setPreferredWidth(100);
+			table.getColumn("商品名").setPreferredWidth(350);
+			table.getColumn("カテゴリー").setPreferredWidth(90);
+			table.getColumn("値段").setPreferredWidth(80);
+			table.getColumn("メーカー名").setPreferredWidth(150);
+			table.getColumn("在庫量").setPreferredWidth(70);
+			table.getColumn("食品期限").setPreferredWidth(115);
+
+
 			String[][] tabledata = CreateTableData.productTableToArray(ptd.getProductTable());
 			if (tabledata != null) {
 				for(String[] data : tabledata) {
@@ -82,9 +97,9 @@ public class ProductTable extends JFrame implements ActionListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		scrollPane.setViewportView(table);
-		
+
 		/*
 		table.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null, null, null, null }, },
 				new String[] { "\u767A\u6CE8\u72B6\u6CC1", "\u5546\u54C1\u30B3\u30FC\u30C9", "\u5546\u54C1\u540D",
@@ -97,7 +112,7 @@ public class ProductTable extends JFrame implements ActionListener {
 				return columnTypes[columnIndex];
 			}
 		});
-		
+
 		*/
 
 		JButton btnOrder = new JButton("発注表");
@@ -151,6 +166,14 @@ public class ProductTable extends JFrame implements ActionListener {
 		btnDelete.addActionListener(this);
 		btnDelete.setBounds(562, 352, 60, 26);
 		contentPane.add(btnDelete);
+
+		JButton btnAddProduct = new JButton("商品追加");
+		btnAddProduct.setActionCommand("btnDelete");
+		btnAddProduct.setBounds(155, 407, 87, 21);
+		btnAddProduct.addActionListener(this);
+
+
+		contentPane.add(btnDelete);
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -187,7 +210,7 @@ public class ProductTable extends JFrame implements ActionListener {
 		if (cmd.equals("btnEditProduct")) {
 			//Integer ProductCode = Integer.parseInt(EditProducttext.getText());
 			//System.out.println(ProductCode);
-			
+
 			setVisible(false);
 	    	HikawaController.EditProductDisplay();
 		}
@@ -196,8 +219,13 @@ public class ProductTable extends JFrame implements ActionListener {
 		if (cmd.equals("btnDelete")) {
 			Integer ProductCode = Integer.parseInt(Deletetext.getText());
 		}
-	}
 
+		// 商品追加ボタンが押された時の処理
+		if (cmd.equals("btnAddProduct")) {
+			setVisible(false);
+			HikawaController.AddProductDisplay();
+		}
+	}
 }
 
 
