@@ -1,3 +1,4 @@
+/*
  * DBから商品を検索するクラス
  *
  * 
@@ -30,7 +31,7 @@ public class ProductSearchDBAccess{
 				+ "INNER JOIN category ON product.CategoryID = category.CategoryID "
 				+ "INNER JOIN maker ON maker.MakerID = product.MakerID " 
 				+ "INNER JOIN foodlimit ON product.FoodLimitCode = foodlimit.FoodLimitCode " 
-				+ "INNER JOIN orders ON orders.FoodLimitCode = foodlimit.FoodLimitCode "
+				+ "INNER JOIN orders ON orders.FoodLimitCo+de = foodlimit.FoodLimitCode "
 				+ "INNER JOIN producttable ON orders.OrderCode = orders.OrderCode "
 				+ "WHERE ProductName = ?");
 			ps.setString(1,productName);

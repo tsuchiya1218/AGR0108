@@ -34,13 +34,6 @@ public class ProductTable {
 		this.lDate = lDate;
 	}
 	
-	/*
-	 * 
-	 * new ProductTable(rs.getString("Status"),rs.getString("ProductCode"),rs.getString("ProductName"),
-						rs.getString("CategoryName"),rs.getInt("Price"),rs.getString("makerName"),rs.getInt("Stock"),
-						rs.getString("LimitDate"
-	 */
-
 	public String getStatus() {
 		return Status;
 	}
