@@ -168,9 +168,11 @@ public class ProductTable extends JFrame implements ActionListener {
 		contentPane.add(btnDelete);
 
 		JButton btnAddProduct = new JButton("商品追加");
-		btnAddProduct.setActionCommand("btnDelete");
-		btnAddProduct.setBounds(155, 407, 87, 21);
+		btnAddProduct.setActionCommand("btnAddProduct");
 		btnAddProduct.addActionListener(this);
+		btnAddProduct.setBounds(155, 407, 87, 21);
+		contentPane.add(btnAddProduct);
+
 
 
 		contentPane.add(btnDelete);
