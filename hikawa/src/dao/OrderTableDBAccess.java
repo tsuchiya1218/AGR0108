@@ -9,6 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
+import model.Order;
 
 public class OrderTableDBAccess {
 
@@ -116,5 +119,42 @@ public class OrderTableDBAccess {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	//発注表を抽出しlistで返す
+	public ArrayList<Order> getOrderTable() throws Exception{
+		Connection con = null;
+		PreparedStatement ps = null;
+		DBAccess db = new DBAccess();
+		ResultSet rs = null;
+		ArrayList<Order> list = new ArrayList<Order>();
+		//SQL文
+		String sql = "SELECT * FROM ordertable";
+		
+		try {
+			con = db.createConnection();
+			//SQL実行
+			ps = con.prepareStatement(sql);
+			//実行結果をrsに
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				list.add(new Order(rs.getString("ProductCode"),rs.getString("ProductName"),rs.getInt("OrderStock")));
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+				if(rs != null) {
+					rs.close();
+				}
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+			db.closeConnection(con);
+		}
+		return list;
 	}
 }
