@@ -157,4 +157,30 @@ public class OrderTableDBAccess {
 		}
 		return list;
 	}
+	
+	//発注表の削除
+	public void deleteOrderTable() throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		DBAccess db = new DBAccess();
+		String sql = "DELETE FROM ordertable";
+		try {
+			con = db.createConnection();
+			ps = con.prepareStatement(sql);
+			ps.executeQuery();
+			con.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			con.rollback();
+		}finally {
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+				db.closeConnection(con);
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
 }
