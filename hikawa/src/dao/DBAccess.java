@@ -13,11 +13,16 @@ public class DBAccess {
 		try {
 			//データベース接続
 			con = DriverManager.getConnection(url,name,password);
+
+			//aotoコミットオフ
+			con.setAutoCommit (false);
+
+
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		return con;
-			
+
 	}
 	public void closeConnection(Connection con) throws Exception{
 		if(con != null) {
