@@ -1,5 +1,6 @@
 package control;
 
+import action.AddProductDisplayAction;
 import action.AddSaleDisplayAction;
 import action.AddSalesAmountCheckDisplayAction;
 import action.AddWastePtoductDisplayAction;
@@ -103,5 +104,12 @@ public class HikawaController {
 		EditProductDisplayAction action = new EditProductDisplayAction();
 		action.execute();
 
+	}
+
+	//商品追加画面表示
+	public static void AddProductDisplay() {
+		// TODO 自動生成されたメソッド・スタブ
+		AddProductDisplayAction action = new AddProductDisplayAction;
+		action.execute();
 	}
 }
