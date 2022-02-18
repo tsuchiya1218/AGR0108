@@ -35,7 +35,7 @@ public class ProductAdditionDBAccess {
 			con = db.createConnection();
 			String sql = 
 					"INSERT INTO product(ProductCode,ProductName,Price,FoodLimitCode,MakerID,CategoryID) "
-					+"VALUES(" + pCode +","+ pName + "," + price +","+ foodLCode + "," + makerID + "," + cID  +")";
+					+"VALUES('" + pCode +"','"+ pName + "','" + price +"','"+ foodLCode + "','" + makerID + "','" + cID  +"')";
 			//ProductCode,ProductName,Price,FoodLimitCode,MakerID,CategoryIDを商品表に追加
 			ps = con.prepareStatement(sql);
 			ps.executeUpdate();
@@ -65,7 +65,7 @@ public class ProductAdditionDBAccess {
 	 */
 	public String makeProductCode() {
 		String ProductCode = null;
-		int cnt = 0;
+		int cnt = 1;
 		Connection con = null;
 		DBAccess db = new DBAccess();
 		ResultSet rs = null;
@@ -75,7 +75,10 @@ public class ProductAdditionDBAccess {
 			ps = con.prepareStatement("SELECT COUNT(*) cnt FROM product WHERE CategoryID = ?");
 			ps.setString(1, cID);
 			rs = ps.executeQuery();
-			cnt = rs.getInt("cnt") + 1;
+			while(rs.next()) {
+				cnt += rs.getInt("cnt") ;				
+			}
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}finally {
