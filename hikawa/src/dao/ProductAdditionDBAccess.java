@@ -9,9 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class ProductAdditionDBAccess {
-	String pName,mName,cID;
-	int price,foodLCode;
-	ProductAdditionDBAccess(String pName, String mName, String cID, int price, int foodLCode){
+	String pName,mName,cID,foodLCode;
+	int price;
+	public ProductAdditionDBAccess(String pName, String mName, String cID, int price, String foodLCode){
 		//引数(商品名、メーカー名、カテゴリID、価格、食品期限コード)
 		this.pName = pName;
 		this.mName = mName;
