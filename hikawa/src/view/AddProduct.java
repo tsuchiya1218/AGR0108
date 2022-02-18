@@ -67,7 +67,7 @@ public class AddProduct extends JFrame implements ActionListener {
 		contentPane.add(lblNewLabel_4);
 
 		cIDBox = new JComboBox<String>();
-		cIDBox.setModel(new DefaultComboBoxModel<String>(new String[] { "肉", "魚", "酒" }));
+		cIDBox.setModel(new DefaultComboBoxModel<String>(new String[] { "乳製品", "肉", "飲料" }));
 		cIDBox.setBounds(126, 152, 135, 25);
 		contentPane.add(cIDBox);
 
@@ -121,8 +121,12 @@ public class AddProduct extends JFrame implements ActionListener {
 			}
 
 			//コンボボックスで選択したカテゴリーをコードに変換
-			if(cIDS == "肉") {
+			if(cIDS == "乳製品") {
+				cID = "01";
+			}else if(cIDS == "肉") {
 				cID = "02";
+			}else if(cIDS == "飲料") {
+				cID = "03";
 			}
 
 			ProductAdditionDBAccess pad = new ProductAdditionDBAccess(pName, mName, cID, price, foodLCode);

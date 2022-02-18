@@ -76,7 +76,7 @@ public class ProductAdditionDBAccess {
 			ps.setString(1, cID);
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				cnt += rs.getInt("cnt") ;				
+				cnt += rs.getInt("cnt") ;
 			}
 			
 		}catch (Exception e) {
