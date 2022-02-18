@@ -14,7 +14,7 @@ public class DBAccess {
 			//データベース接続
 			con = DriverManager.getConnection(url,name,password);
 
-			//aotoコミットオフ
+			//autoコミットオフ
 			con.setAutoCommit (false);
 
 
