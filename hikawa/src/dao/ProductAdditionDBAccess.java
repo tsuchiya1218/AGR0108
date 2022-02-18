@@ -9,8 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class ProductAdditionDBAccess {
-	String pName,mName,cID,foodLCode;
-	int price;
+	public String pName,mName,cID,foodLCode;
+	public int price;
 	public ProductAdditionDBAccess(String pName, String mName, String cID, int price, String foodLCode){
 		//引数(商品名、メーカー名、カテゴリID、価格、食品期限コード)
 		this.pName = pName;
@@ -19,11 +19,12 @@ public class ProductAdditionDBAccess {
 		this.price = price;
 		this.foodLCode = foodLCode;
 	}
-	String makerID = MakerDBAccess.getMakerIDbyName(mName);//makerIDを取得
-	String pCode = makeProductCode();//商品コード生成
+	
 	
 	//商品を新規作成する
 	public void productAddition() throws Exception {
+		String makerID = MakerDBAccess.getMakerIDbyName(mName);//makerIDを取得
+		String pCode = makeProductCode();//商品コード生成
 		Connection con = null;
 		DBAccess db = new DBAccess();
 		PreparedStatement ps = null;
@@ -102,7 +103,15 @@ public class ProductAdditionDBAccess {
 				e.printStackTrace();
 			}
 		}
-		ProductCode = cID + "_" + cnt;
+		String Scnt = null;
+		if (cnt < 10) {
+			Scnt = "00"+cnt;
+		}else if(cnt < 100) {
+			Scnt = "0"+cnt;
+		}else {
+			Scnt = "";
+		}
+		ProductCode = cID + "_" + Scnt;
 		return ProductCode;
 	}
 }
