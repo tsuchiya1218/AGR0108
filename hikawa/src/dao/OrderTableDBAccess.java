@@ -23,15 +23,21 @@ public class OrderTableDBAccess {
 		DBAccess db = new DBAccess();
 		try {
 			con = db.createConnection();
-			String pName = serchPName(pCode);//商品名
-			int Quantity = 1;//個数
-			//INSER文
-			ps = con.prepareStatement("INSERT INTO ordertable(ProductCode,ProductName,OrderStock) VALUES("
-					+"'"+ pCode +"' , '"+ pName +"' , '" + Quantity + "' )");
-			//SQL実行
-			ps.executeUpdate();
-			//コミット
-			con.commit();
+			String pName = null;
+			pName = serchPName(pCode);//商品名
+			if(pName != null) {
+				int Quantity = 1;//個数
+				//INSER文
+				ps = con.prepareStatement("INSERT INTO ordertable(ProductCode,ProductName,OrderStock) VALUES("
+						+"'"+ pCode +"' , '"+ pName +"' , '" + Quantity + "' )");
+				//SQL実行
+				ps.executeUpdate();
+				//コミット
+				con.commit();
+			}else {
+				System.out.println("存在しない商品コードが入力されました");
+			}
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 			//ロールバック
