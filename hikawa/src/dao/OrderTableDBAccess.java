@@ -48,6 +48,7 @@ public class OrderTableDBAccess {
 			db.closeConnection(con);
 		}
 	}
+
 	
 	//商品コードから商品名を検索し返すメソッド
 	public String serchPName(String pCode) throws Exception {

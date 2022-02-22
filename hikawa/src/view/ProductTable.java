@@ -205,7 +205,7 @@ public class ProductTable extends JFrame implements ActionListener {
 		}
 		// 発注追加ボタンが押された時の処理
 		if (cmd.equals("btnAddOrder")) {
-			if(AddOrdertext.getText() != null) {
+			if(!AddOrdertext.getText().equals("") && !AddOrdertext.getText().equals(null)) {
 				OrderTableDBAccess otd = new OrderTableDBAccess();
 				try {
 					otd.addOrderTable(AddOrdertext.getText());				
@@ -213,6 +213,8 @@ public class ProductTable extends JFrame implements ActionListener {
 					e2.printStackTrace();
 					System.out.println("otd.addOrderTable(ProductCode)でエラー");
 				}
+			}else {
+				JOptionPane.showMessageDialog(contentPane, "商品コードを入力してください。");
 			}
 		}
 
