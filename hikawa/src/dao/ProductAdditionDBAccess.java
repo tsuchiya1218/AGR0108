@@ -111,7 +111,7 @@ public class ProductAdditionDBAccess {
 		}else {
 			Scnt = "";
 		}
-		ProductCode = cID + "_" + Scnt;
+		ProductCode = cID + "_" + Scnt + foodLCode;
 		return ProductCode;
 	}
 }
