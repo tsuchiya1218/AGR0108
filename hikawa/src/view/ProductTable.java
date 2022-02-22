@@ -139,7 +139,7 @@ public class ProductTable extends JFrame implements ActionListener {
 		lblNewLabel_3.setBounds(38, 329, 304, 16);
 		contentPane.add(lblNewLabel_3);
 
-		AddOrdertext = new TextField();
+		TextField AddOrdertext = new TextField();
 		AddOrdertext.setBounds(29, 353, 95, 23);
 		contentPane.add(AddOrdertext);
 
@@ -205,26 +205,37 @@ public class ProductTable extends JFrame implements ActionListener {
 		}
 		// 発注追加ボタンが押された時の処理
 		if (cmd.equals("btnAddOrder")) {
-			if(!AddOrdertext.getText().equals("") && !AddOrdertext.getText().equals(null)) {
+			if (!AddOrdertext.getText().equals("") && !AddOrdertext.getText().equals(null)) {
 				OrderTableDBAccess otd = new OrderTableDBAccess();
 				try {
-					otd.addOrderTable(AddOrdertext.getText());				
+					otd.addOrderTable(AddOrdertext.getText());
 				} catch (Exception e2) {
 					e2.printStackTrace();
 					System.out.println("otd.addOrderTable(ProductCode)でエラー");
 				}
-			}else {
+			} else {
 				JOptionPane.showMessageDialog(contentPane, "商品コードを入力してください。");
 			}
 		}
 
 		// 商品編集ボタンが押された時の処理
 		if (cmd.equals("btnEditProduct")) {
-			//Integer ProductCode = Integer.parseInt(EditProducttext.getText());
-			//System.out.println(ProductCode);
+			String ProductCode = null;
+			try {
+				//入力判定
+				try {
+					ProductCode = EditProducttext.getText();
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(contentPane, "商品コードを入力してください");
+				}
+				setVisible(false);
+				EditProduct ep = new EditProduct(ProductCode);
+				ep.EditProducts();
 
-			setVisible(false);
-			HikawaController.EditProductDisplay();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+
 		}
 
 		// 削除ボタンが押された時の処理
@@ -239,17 +250,17 @@ public class ProductTable extends JFrame implements ActionListener {
 				}
 				ProductDeleteDBAccess pdd = new ProductDeleteDBAccess(ProductCode);
 				pdd.ProductDelete();
-				
+
+				JOptionPane.showMessageDialog(contentPane, "該当商品を削除しました");
+
 				//再読み込み
 				setVisible(false);
 				HikawaController.ProductTableDisplay();
-				
-				JOptionPane.showMessageDialog(contentPane, "該当商品を削除しました");
+
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
 
-			
 		}
 
 		// 商品追加ボタンが押された時の処理
