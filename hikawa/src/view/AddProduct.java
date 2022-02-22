@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -103,40 +104,54 @@ public class AddProduct extends JFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
-
+		String pName = null;
+		String mName = null;
+		String cIDS = null;
+		String cID = null;
+		Integer price = null;
+		String foodLCode = null;
+		ProductAdditionDBAccess pad = null;
 		// 追加ボタンが押された時の処理
 		if (cmd.equals("btnAdd")) {
-			String pName = pNameFeild.getText();
-			String mName = mNameFeild.getText();
-			String cIDS = (String) cIDBox.getSelectedItem();
-			String cID = null;
-			int price = Integer.parseInt(priceFeild.getText());
-			String foodLCode = (String) foodLCodeBox.getSelectedItem();
 
-			//コンボボックスで選択した食品期限をコードに変換
-			if(foodLCode == "消費") {
-				foodLCode = "01";
-			}else if(foodLCode == "賞味") {
-				foodLCode = "02";
-			}
-
-			//コンボボックスで選択したカテゴリーをコードに変換
-			if(cIDS == "乳製品") {
-				cID = "01";
-			}else if(cIDS == "肉") {
-				cID = "02";
-			}else if(cIDS == "飲料") {
-				cID = "03";
-			}
-
-			ProductAdditionDBAccess pad = new ProductAdditionDBAccess(pName, mName, cID, price, foodLCode);
 			try {
 
+				//項目が入力されていなかったときの処理
+				try {
+					pName = pNameFeild.getText();
+					mName = mNameFeild.getText();
+					cIDS = (String) cIDBox.getSelectedItem();
+					price = Integer.parseInt(priceFeild.getText());
+					foodLCode = (String) foodLCodeBox.getSelectedItem();
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(contentPane, "項目を入力してください");
+				}
+
+				//コンボボックスで選択した食品期限をコードに変換
+				if (foodLCode == "消費") {
+					foodLCode = "01";
+				} else if (foodLCode == "賞味") {
+					foodLCode = "02";
+				}
+
+				//コンボボックスで選択したカテゴリーをコードに変換
+				if (cIDS == "乳製品") {
+					cID = "01";
+				} else if (cIDS == "肉") {
+					cID = "02";
+				} else if (cIDS == "飲料") {
+					cID = "03";
+				}
+
+				pad = new ProductAdditionDBAccess(pName, mName, cID, price, foodLCode);
 				pad.productAddition();
+				JOptionPane.showMessageDialog(contentPane, "追加完了しました");
 			} catch (Exception e1) {
-				// TODO 自動生成された catch ブロック
 				e1.printStackTrace();
 			}
+			
+			
+
 		}
 
 		//商品表ボタンを押した際の処理
