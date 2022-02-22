@@ -24,10 +24,10 @@ public class OrderTableDBAccess {
 		try {
 			con = db.createConnection();
 			String pName = serchPName(pCode);//商品名
-			int Quantity = 0;//個数
+			int Quantity = 1;//個数
 			//INSER文
 			ps = con.prepareStatement("INSERT INTO ordertable(ProductCode,ProductName,OrderStock) VALUES("
-					+ pCode +" , "+ pName +" , " + Quantity + " )");
+					+"'"+ pCode +"' , '"+ pName +"' , '" + Quantity + "' )");
 			//SQL実行
 			ps.executeUpdate();
 			//コミット
@@ -57,8 +57,7 @@ public class OrderTableDBAccess {
 		PreparedStatement ps = null;
 		DBAccess db = new DBAccess(); 
 		//SQL文
-		String sql = "SELECT ProductName FROM product "
-				+ "WHERE ProductCode = \"" + pCode + "\"";
+		String sql = "SELECT ProductName FROM product WHERE ProductCode = '" + pCode +"'";
 		try {
 			con = db.createConnection();
 			ps = con.prepareStatement(sql);
@@ -69,7 +68,7 @@ public class OrderTableDBAccess {
 			while(rs.next()) {
 				pName = rs.getString("ProductName");
 			}
-			
+			System.out.println(pName);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {

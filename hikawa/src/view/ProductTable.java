@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 
 import action.CreateTableData;
 import control.HikawaController;
+import dao.OrderTableDBAccess;
 import dao.ProductDeleteDBAccess;
 import dao.ProductTableDBAccess;
 
@@ -138,7 +139,7 @@ public class ProductTable extends JFrame implements ActionListener {
 		lblNewLabel_3.setBounds(38, 329, 304, 16);
 		contentPane.add(lblNewLabel_3);
 
-		TextField AddOrdertext = new TextField();
+		AddOrdertext = new TextField();
 		AddOrdertext.setBounds(29, 353, 95, 23);
 		contentPane.add(AddOrdertext);
 
@@ -204,7 +205,15 @@ public class ProductTable extends JFrame implements ActionListener {
 		}
 		// 発注追加ボタンが押された時の処理
 		if (cmd.equals("btnAddOrder")) {
-			Integer ProductCode = Integer.parseInt(AddOrdertext.getText());
+			if(AddOrdertext.getText() != null) {
+				OrderTableDBAccess otd = new OrderTableDBAccess();
+				try {
+					otd.addOrderTable(AddOrdertext.getText());				
+				} catch (Exception e2) {
+					e2.printStackTrace();
+					System.out.println("otd.addOrderTable(ProductCode)でエラー");
+				}
+			}
 		}
 
 		// 商品編集ボタンが押された時の処理
