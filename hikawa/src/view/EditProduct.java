@@ -35,7 +35,7 @@ public class EditProduct extends JFrame implements ActionListener {
 
 	/**
 	 * Create the frame.
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 
 	public void EditProducts() throws Exception {
@@ -68,29 +68,30 @@ public class EditProduct extends JFrame implements ActionListener {
 		lblNewLabel_3.setBounds(33, 157, 63, 16);
 		contentPane.add(lblNewLabel_3);
 
-		
-		
-		
 		//DBからメーカーを取得、表示
-		List<String> list = ProductEditDBAccess.ProductMaker();
-		String[] lists = new String[list.size()];
-		for (int i = 0; i < list.size(); i++) {
-			lists[i] = list.get(i);
+		List<String> list1 = ProductEditDBAccess.ProductMaker();
+		String[] lists1 = new String[list1.size()];
+		for (int i = 0; i < list1.size(); i++) {
+			lists1[i] = list1.get(i);
 		}
 		mNameBox = new JComboBox<String>();
-		mNameBox.setModel(new DefaultComboBoxModel<String>(lists));
+		mNameBox.setModel(new DefaultComboBoxModel<String>(lists1));
 		mNameBox.setBounds(104, 155, 138, 23);
 		contentPane.add(mNameBox);
 
-		
-		
-		
 		JLabel lblNewLabel_4 = new JLabel("カテゴリ：");
 		lblNewLabel_4.setBounds(33, 191, 62, 16);
 		contentPane.add(lblNewLabel_4);
 
+		//DBからカテゴリー名を取得、表示
+		List<String> list2 = ProductEditDBAccess.ProductCategory();
+		String[] lists2 = new String[list2.size()];
+		for (int i = 0; i < list2.size(); i++) {
+			lists2[i] = list2.get(i);
+		}
+
 		cIDBox = new JComboBox<String>();
-		cIDBox.setModel(new DefaultComboBoxModel<String>(new String[] { "乳製品", "肉", "飲料", "魚", "酒", "魚" }));
+		cIDBox.setModel(new DefaultComboBoxModel<String>(lists2));
 		cIDBox.setBounds(104, 188, 136, 25);
 		contentPane.add(cIDBox);
 
@@ -139,7 +140,7 @@ public class EditProduct extends JFrame implements ActionListener {
 		Integer price = null;
 		Integer stock = null;
 		String foodlimit = null;
-		String cID = null;
+		String cName = null;
 		//確定ボタンが押された時の処理
 		if (cmd.equals("Confirm")) {
 
@@ -152,12 +153,12 @@ public class EditProduct extends JFrame implements ActionListener {
 					price = Integer.parseInt(priceFeild.getText());
 					stock = Integer.parseInt(stockFeild.getText());
 					foodlimit = foodlimitFeild.getText();
-					cID = (String) cIDBox.getSelectedItem();
+					cName = (String) cIDBox.getSelectedItem();
 				} catch (Exception e2) {
 					JOptionPane.showMessageDialog(contentPane, "項目を入力してください");
 				}
 
-				//コンボボックスで選択したカテゴリーをコードに変換
+				/*コンボボックスで選択したカテゴリーをコードに変換
 
 				if (cID == "乳製品") {
 					cID = "01";
@@ -165,13 +166,13 @@ public class EditProduct extends JFrame implements ActionListener {
 					cID = "02";
 				} else if (cID == "飲料") {
 					cID = "03";
-				} else if (cID == "酒") {
-					cID = "04";
 				} else if (cID == "魚") {
+					cID = "04";
+				} else if (cID == "酒") {
 					cID = "05";
-				}
+				}*/
 
-				ProductEditDBAccess ped = new ProductEditDBAccess(pCode, pName, mName, cID, price, stock, foodlimit);
+				ProductEditDBAccess ped = new ProductEditDBAccess(pCode, pName, mName, cName, price, stock, foodlimit);
 				ped.ProductEdit();
 
 			} catch (Exception e1) {
