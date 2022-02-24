@@ -13,10 +13,17 @@ import java.util.ArrayList;
 
 import model.ProductTable;
 
+public class ProductSearchDBAccess {
+	public String sName;
 
-public class ProductSearchDBAccess{
+	public ProductSearchDBAccess(String sName) {
+		//引数(商品名)
+		this.sName = sName;
+	}
+
 	private Connection con;
-	public ArrayList<ProductTable> productSerchByName(String productName) throws Exception{
+
+	public ArrayList<ProductTable> productSerchByName(String sName) throws Exception {
 		DBAccess db = new DBAccess();
 		con = db.createConnection();
 		ResultSet rs = null;
@@ -26,36 +33,44 @@ public class ProductSearchDBAccess{
 			/*
 			表示項目(商品コード、商品名、カテゴリ、値段、メーカー名、在庫量、食品期限) 
 			*/
-			ps =con.prepareStatement("SELECT `Status`, ProductCode, ProductName, CategoryName, Price, MakerName, Stock, LimitDate " 
-				+ "FROM product " 
-				+ "INNER JOIN category ON product.CategoryID = category.CategoryID "
-				+ "INNER JOIN maker ON maker.MakerID = product.MakerID " 
-				+ "INNER JOIN foodlimit ON product.FoodLimitCode = foodlimit.FoodLimitCode " 
-				+ "INNER JOIN orders ON orders.FoodLimitCo+de = foodlimit.FoodLimitCode "
-				+ "INNER JOIN producttable ON orders.OrderCode = orders.OrderCode "
-				+ "WHERE ProductName = ?");
-			ps.setString(1,productName);
+			ps = con.prepareStatement(
+					"SELECT `Status`, product.ProductCode, ProductName, CategoryName, Price, MakerName, Stock, LimitDate "
+							+ "FROM product "
+							+ "INNER JOIN category ON product.CategoryID = category.CategoryID "
+							+ "INNER JOIN maker ON maker.MakerID = product.MakerID "
+							+ "INNER JOIN foodlimit ON product.FoodLimitCode = foodlimit.FoodLimitCode "
+							+ "INNER JOIN orders ON orders.FoodLimitCode = foodlimit.FoodLimitCode "
+							+ "INNER JOIN producttable ON orders.OrderCode = orders.OrderCode "
+							+ "WHERE ProductName = ?");
+			ps.setString(1, sName);
 			rs = ps.executeQuery();
-			
-			while(rs.next()) {
-				list.add(new ProductTable(rs.getString("Status"),rs.getString("ProductCode"),rs.getString("ProductName"),
-						rs.getString("CategoryName"),rs.getInt("Price"),rs.getString("makerName"),rs.getInt("Stock"),
+
+			while (rs.next()) {
+				list.add(new ProductTable(
+
+						rs.getString("Status"),
+						rs.getString("ProductCode"),
+						rs.getString("ProductName"),
+						rs.getString("CategoryName"),
+						rs.getInt("Price"),
+						rs.getString("makerName"),
+						rs.getInt("Stock"),
 						rs.getString("LimitDate")));
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
-			if(rs != null) {
+		} finally {
+			if (rs != null) {
 				try {
 					rs.close();
-				}catch (Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-			if(ps != null) {
+			if (ps != null) {
 				try {
 					ps.close();
-				}catch (Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -63,7 +78,4 @@ public class ProductSearchDBAccess{
 		}
 		return list;
 	}
-	
-	
 }
-
