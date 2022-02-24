@@ -113,6 +113,7 @@ public class OrderHistoryDBAccess {
 						+ "FROM orders"
 						+ "INNDER JOIN product ON orders.ProductCode = product.ProductCode";
 			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
