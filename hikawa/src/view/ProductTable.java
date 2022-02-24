@@ -27,9 +27,11 @@ public class ProductTable extends JFrame implements ActionListener {
 	private JTable table;
 
 	private TextField AddOrdertext;
-	private TextField EditProducttext;
 	private TextField Deletetext;
-
+	private TextField EditProducttext;
+	private JScrollPane scrollPane;
+	private TextComponent btnSerchtext;
+	private DefaultTableModel tableModel;
 	/**
 	 * Create the frame.
 	 * @throws Exception
