@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Font;
+import java.awt.TextComponent;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +20,7 @@ import action.CreateTableData;
 import control.HikawaController;
 import dao.OrderTableDBAccess;
 import dao.ProductDeleteDBAccess;
+import dao.ProductSearchDBAccess;
 import dao.ProductTableDBAccess;
 
 public class ProductTable extends JFrame implements ActionListener {
@@ -32,9 +34,10 @@ public class ProductTable extends JFrame implements ActionListener {
 	private JScrollPane scrollPane;
 	private TextComponent btnSerchtext;
 	private DefaultTableModel tableModel;
+
 	/**
 	 * Create the frame.
-	 * @throws Exception
+	 * @throws Exception 
 	 */
 	public ProductTable() {
 		setVisible(true);
@@ -58,9 +61,9 @@ public class ProductTable extends JFrame implements ActionListener {
 		lblNewLabel_2.setBounds(33, 72, 55, 16);
 		contentPane.add(lblNewLabel_2);
 
-		TextField Serchtext = new TextField();
-		Serchtext.setBounds(87, 70, 120, 23);
-		contentPane.add(Serchtext);
+		btnSerchtext = new TextField();
+		btnSerchtext.setBounds(87, 70, 120, 23);
+		contentPane.add(btnSerchtext);
 
 		JButton btnSerch = new JButton("検索");
 		btnSerch.setBounds(213, 67, 63, 26);
@@ -68,12 +71,12 @@ public class ProductTable extends JFrame implements ActionListener {
 		btnSerch.addActionListener(this);
 		contentPane.add(btnSerch);
 
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setBounds(28, 109, 811, 213);
 		contentPane.add(scrollPane);
 
 		String[] columnNames = { "発注状況", "商品コード", "商品名", "カテゴリー", "値段", "メーカー名", "在庫量", "食品期限" };
-		DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+		tableModel = new DefaultTableModel(columnNames, 0);
 		table = new JTable(tableModel);
 
 		try {
@@ -144,7 +147,7 @@ public class ProductTable extends JFrame implements ActionListener {
 		AddOrdertext = new TextField();
 		AddOrdertext.setBounds(29, 353, 95, 23);
 		contentPane.add(AddOrdertext);
-
+		
 		JButton btnAddOrder = new JButton("発注追加");
 		btnAddOrder.setActionCommand("btnAddOrder");
 		btnAddOrder.addActionListener(this);
@@ -174,7 +177,7 @@ public class ProductTable extends JFrame implements ActionListener {
 		JButton btnAddProduct = new JButton("商品追加");
 		btnAddProduct.setActionCommand("btnAddProduct");
 		btnAddProduct.addActionListener(this);
-		btnAddProduct.setBounds(155, 404, 87, 26);
+		btnAddProduct.setBounds(155, 407, 87, 21);
 		contentPane.add(btnAddProduct);
 
 		contentPane.add(btnDelete);
@@ -182,8 +185,10 @@ public class ProductTable extends JFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
+		
 		String sName = null;
 		ProductSearchDBAccess psd = null;
+		
 		// 検索ボタンが押された時の処理
 		if (cmd.equals("btnSerch")) {
 			//テキストフィールド内の情報を取得
@@ -204,7 +209,6 @@ public class ProductTable extends JFrame implements ActionListener {
 			}
 			scrollPane.setViewportView(table);
 		}
-
 		// 廃棄一覧表ボタンが押された時の処理
 		if (cmd.equals("btnWaste")) {
 			setVisible(false);
@@ -230,22 +234,22 @@ public class ProductTable extends JFrame implements ActionListener {
 			//商品コードの入力判定
 			if (!pCode.equals("")) {
 				try {
-					String pName = otd.serchPName(pCode); 
+					String pName = otd.serchPName(pCode);
 					//商品コードが存在するか判定
-					if(pName != null) {
+					if (pName != null) {
 						try {
 							otd.addOrderTable(pCode);
-							JOptionPane.showMessageDialog(contentPane, pName +"を発注表に追加しました。");
+							JOptionPane.showMessageDialog(contentPane, pName + "を発注表に追加しました。");
 						} catch (Exception e2) {
 							e2.printStackTrace();
 						}
-					}else {
+					} else {
 						JOptionPane.showMessageDialog(contentPane, "存在しない商品コードです。");
 					}
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
-				
+
 			} else {
 				JOptionPane.showMessageDialog(contentPane, "商品コードを入力してください。");
 			}
@@ -293,7 +297,6 @@ public class ProductTable extends JFrame implements ActionListener {
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
-
 		}
 
 		// 商品追加ボタンが押された時の処理
@@ -302,4 +305,5 @@ public class ProductTable extends JFrame implements ActionListener {
 			HikawaController.AddProductDisplay();
 		}
 	}
+
 }
