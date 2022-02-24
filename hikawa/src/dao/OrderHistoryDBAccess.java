@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import action.CreateTableData;
+import model.OrderHistory;
 
 //発注履歴のデータベースアクセス
 public class OrderHistoryDBAccess {
@@ -45,9 +47,10 @@ public class OrderHistoryDBAccess {
 		}
 		for(int i = 0; i<listSize; i++) {
 			
-			String sql = "INSERT INTO(OrderCode,OrderDate,OrderQuantity,DeliveryDate,Status,FoodLimitCode) "
-					+ "VALUE(" 
-					+ orderCodes[i] +"," + orderDate+ "," + quantity[i] + "," + DeliveryDate +"," + Status + "," +FoodLimitCode +")";
+			String sql = "INSERT INTO orders (OrderCode,OrderDate,OrderQuantity,DeliveryDate,Status,FoodLimitCode,ProductCode) "
+					+ "VALUE('" 
+					+ orderCodes[i] +"','" + orderDate+ "','" + quantity[i] + "','" + DeliveryDate +"','" + Status + "','" 
+					+ FoodLimitCode +"','" +pCode[i]  +"')";
 			try {
 				DBAccess db = new DBAccess();
 				PreparedStatement ps = null;
@@ -95,5 +98,23 @@ public class OrderHistoryDBAccess {
 			}
 		}
 		return Integer.toString(count);
+	}
+	
+	//発注履歴の表示
+	public ArrayList<OrderHistory> getOrderHistory(){
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		DBAccess db = new DBAccess();
+		try {
+			con = db.createConnection();
+			//発注日、発注コード、商品コード、発注商品(商品名)、個数、納品予定日
+			String sql = "SELECT OrderDate, OrderCode orders.ProductCode, ProductName, OrderQuantity, DeliveryDate"
+						+ "FROM orders"
+						+ "INNDER JOIN product ON orders.ProductCode = product.ProductCode";
+			ps = con.prepareStatement(sql);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
