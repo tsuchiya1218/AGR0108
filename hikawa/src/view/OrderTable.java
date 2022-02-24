@@ -13,7 +13,9 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import action.CreateTableData;
 import control.HikawaController;
+import dao.OrderTableDBAccess;
 
 public class OrderTable extends JFrame implements ActionListener {
 
@@ -44,36 +46,32 @@ public class OrderTable extends JFrame implements ActionListener {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(58, 112, 348, 95);
 		contentPane.add(scrollPane);
+		String[] columnNames = { "商品コード", "商品名", "個数"};
+		DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+		table = new JTable(tableModel);
 
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
-				new Object[][] {
-						{ null, null, null, null },
-				},
-				new String[] {
-						"\u5546\u54C1\u30B3\u30FC\u30C9", "\u5546\u54C1\u540D", "\u500B\u6570", ""
-				}) {
+		try {
+			OrderTableDBAccess otd = new OrderTableDBAccess();
 
-			Class[] columnTypes = new Class[] {
-					String.class, String.class, Integer.class, Object.class
-			};
+			//列の入れ替えを禁止
+			table.getTableHeader().setReorderingAllowed(false);
 
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
+			//列の幅指定
+			table.getColumn("商品コード").setPreferredWidth(10);
+			table.getColumn("商品名").setPreferredWidth(150);
+			table.getColumn("個数").setPreferredWidth(10);
+			
+			String[][] tabledata = CreateTableData.orderTableToArray(otd.getOrderTable());
+			if (tabledata != null) {
+				for (String[] data : tabledata) {
+					tableModel.addRow(data);
+				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("");
+		}
 
-			boolean[] columnEditables = new boolean[] {
-					false, false, false, false
-			};
-
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		table.getColumnModel().getColumn(0).setPreferredWidth(110);
-		table.getColumnModel().getColumn(1).setPreferredWidth(120);
-		table.getColumnModel().getColumn(2).setPreferredWidth(55);
-		table.getColumnModel().getColumn(3).setPreferredWidth(55);
 		scrollPane.setViewportView(table);
 
 		JButton btnOrderHistory = new JButton("発注履歴");
