@@ -184,45 +184,7 @@ public class ProductTable extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		String cmd = e.getActionCommand();
 		
-		String sName = null;
-		ProductSearchDBAccess psd = null;
-		
-		// 検索ボタンが押された時の処理
-		if (cmd.equals("btnSerch")) {
-			//テキストフィールド内の情報を取得
-			sName = btnSerchtext.getText();
-			if (!(sName.equals(""))) {
-				try {
-
-					psd = new ProductSearchDBAccess(sName);
-					psd.productSerchByName(sName);
-
-					tableModel.setRowCount(0);
-
-					String[][] searchdata = CreateTableData.productTableToArray(psd.productSerchByName(sName));
-					for (String[] rowData : searchdata) {
-						tableModel.addRow(rowData);
-					}
-				} catch (Exception ex1) {
-					JOptionPane.showMessageDialog(contentPane, "商品名を入力してください");
-				}
-			} else {
-				try {
-					tableModel.setRowCount(0);
-					ProductTableDBAccess ptd = new ProductTableDBAccess();
-
-					String[][] tabledata = CreateTableData.productTableToArray(ptd.getProductTable());
-					for (String[] data : tabledata) {
-						tableModel.addRow(data);
-					}
-				} catch (Exception ex2) {
-					ex2.printStackTrace();
-				}
-			}
-			scrollPane.setViewportView(table);
-		}
 		// 廃棄一覧表ボタンが押された時の処理
 		if (cmd.equals("btnWaste")) {
 			setVisible(false);
