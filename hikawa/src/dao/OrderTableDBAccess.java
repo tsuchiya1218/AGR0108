@@ -19,40 +19,68 @@ public class OrderTableDBAccess {
 	//引数pCodeは商品コード
 	public void addOrderTable(String pCode) throws Exception {
 		Connection con = null;
-		PreparedStatement ps = null;
+		PreparedStatement ps1 = null;
+		ResultSet rs1 = null;
+		PreparedStatement ps2 = null;
 		DBAccess db = new DBAccess();
 		try {
-			con = db.createConnection();
-			String pName = null;
-			pName = serchPName(pCode);//商品名
-			if(pName != null) {
-				int Quantity = 1;//個数
-				//INSER文
-				ps = con.prepareStatement("INSERT INTO ordertable(ProductCode,ProductName,OrderStock) VALUES("
-						+"'"+ pCode +"' , '"+ pName +"' , '" + Quantity + "' )");
-				//SQL実行
-				ps.executeUpdate();
-				//コミット
+			//商品がすでに発注表に存在する場合、発注表の個数を変更する
+			if(checkSameProduct(pCode)) {
+				int Quantity = 0;
+				con = db.createConnection();
+				String sql1 = "SELECT OrderStock FROM ordertable WHERE ProductCode = '" + pCode + "'";
+				ps1 = con.prepareStatement(sql1);
+				rs1 = ps1.executeQuery();
+				while(rs1.next()) {
+					Quantity = rs1.getInt("OrderStock");
+				}
+				
+				Quantity = Quantity + 1;
+				
+				String sql2 = "UPDATE ordertable SET OrderStock = " + Quantity + " WHERE ProductCode = '" +pCode +"'" ;
+				ps2 = con.prepareStatement(sql2);
+				ps2.executeUpdate();
 				con.commit();
+			//商品が発注表にない場合
 			}else {
-				System.out.println("存在しない商品コードが入力されました");
+				try {
+					con = db.createConnection();
+					String pName = null;
+					pName = serchPName(pCode);//商品名
+					if(pName != null) {
+						int Quantity = 1;//個数
+						//INSER文
+						ps1 = con.prepareStatement("INSERT INTO ordertable(ProductCode,ProductName,OrderStock) VALUES("
+								+"'"+ pCode +"' , '"+ pName +"' , '" + Quantity + "' )");
+						//SQL実行
+						ps1.executeUpdate();
+						//コミット
+						con.commit();
+					}else {
+						System.out.println("存在しない商品コードが入力されました");
+					}
+					
+				}catch(Exception e) {
+					e.printStackTrace();
+					//ロールバック
+					con.rollback();
+				}finally {
+					if(ps1 != null) {
+						try {
+							ps1.close();
+						}catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					//データベース切断
+					db.closeConnection(con);
+				}
 			}
 			
 		}catch(Exception e) {
 			e.printStackTrace();
-			//ロールバック
-			con.rollback();
-		}finally {
-			if(ps != null) {
-				try {
-					ps.close();
-				}catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			//データベース切断
-			db.closeConnection(con);
 		}
+		
 	}
 
 	
@@ -124,6 +152,51 @@ public class OrderTableDBAccess {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	//すでに発注表に商品があるかチェックする。
+	//すでに商品がある場合trueを返す。
+	public boolean checkSameProduct(String pCode) throws Exception {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		DBAccess db = new DBAccess();
+		int cnt = 0;
+		String SQL = "SELECT COUNT(*) AS cnt FROM ordertable WHERE ProductCode = '" + pCode +"'" ;
+		try {
+			con = db.createConnection();
+			ps = con.prepareStatement(SQL);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				cnt = rs.getInt("cnt");
+			}
+		}catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if(ps != null) {
+				try {
+					ps.close();
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			//データベースクローズ
+			db.closeConnection(con);
+		}
+		if(cnt > 0) {
+			return true;
+		}else {
+			return false;
+		}
+		
+		
 	}
 	
 	//発注表を抽出しlistで返す
