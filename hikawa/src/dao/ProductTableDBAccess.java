@@ -23,7 +23,7 @@ public class ProductTableDBAccess {
 		try {
 			con = db.createConnection();
 			
-			String sql = "SELECT `Status`, ProductCode, ProductName, CategoryName, Price, MakerName, Stock, LimitDate " 
+			String sql = "SELECT `Status`, product.ProductCode, ProductName, CategoryName, Price, MakerName, Stock, LimitDate " 
 					+ "FROM product " 
 					+ "INNER JOIN category ON product.CategoryID = category.CategoryID "
 					+ "INNER JOIN maker ON maker.MakerID = product.MakerID " 
