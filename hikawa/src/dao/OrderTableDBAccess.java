@@ -75,7 +75,6 @@ public class OrderTableDBAccess {
 			while(rs.next()) {
 				pName = rs.getString("ProductName");
 			}
-			System.out.println(pName);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {

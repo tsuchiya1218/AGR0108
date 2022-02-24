@@ -139,7 +139,7 @@ public class ProductTable extends JFrame implements ActionListener {
 		lblNewLabel_3.setBounds(38, 329, 304, 16);
 		contentPane.add(lblNewLabel_3);
 
-		TextField AddOrdertext = new TextField();
+		AddOrdertext = new TextField();
 		AddOrdertext.setBounds(29, 353, 95, 23);
 		contentPane.add(AddOrdertext);
 
@@ -205,14 +205,28 @@ public class ProductTable extends JFrame implements ActionListener {
 		}
 		// 発注追加ボタンが押された時の処理
 		if (cmd.equals("btnAddOrder")) {
-			if (!AddOrdertext.getText().equals("") && !AddOrdertext.getText().equals(null)) {
-				OrderTableDBAccess otd = new OrderTableDBAccess();
+			//入力された商品コードをpCodeに代入
+			String pCode = AddOrdertext.getText();
+			OrderTableDBAccess otd = new OrderTableDBAccess();
+			//商品コードの入力判定
+			if (!pCode.equals("")) {
 				try {
-					otd.addOrderTable(AddOrdertext.getText());
-				} catch (Exception e2) {
-					e2.printStackTrace();
-					System.out.println("otd.addOrderTable(ProductCode)でエラー");
+					String pName = otd.serchPName(pCode); 
+					//商品コードが存在するか判定
+					if(pName != null) {
+						try {
+							otd.addOrderTable(pCode);
+							JOptionPane.showMessageDialog(contentPane, pName +"を発注表に追加しました。");
+						} catch (Exception e2) {
+							e2.printStackTrace();
+						}
+					}else {
+						JOptionPane.showMessageDialog(contentPane, "存在しない商品コードです。");
+					}
+				} catch (Exception e1) {
+					e1.printStackTrace();
 				}
+				
 			} else {
 				JOptionPane.showMessageDialog(contentPane, "商品コードを入力してください。");
 			}
