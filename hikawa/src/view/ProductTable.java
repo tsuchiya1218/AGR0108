@@ -180,7 +180,28 @@ public class ProductTable extends JFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
-		
+		String sName = null;
+		ProductSearchDBAccess psd = null;
+		// 検索ボタンが押された時の処理
+		if (cmd.equals("btnSerch")) {
+			//テキストフィールド内の情報を取得
+			sName = btnSerchtext.getText();
+			try {
+
+				psd = new ProductSearchDBAccess(sName);
+				psd.productSerchByName(sName);
+
+				tableModel.setRowCount(0);
+
+				String[][] searchdata = CreateTableData.productTableToArray(psd.productSerchByName(sName));
+				for (String[] rowData : searchdata) {
+					tableModel.addRow(rowData);
+				}
+			} catch (Exception ex1) {
+				JOptionPane.showMessageDialog(contentPane, "商品名を入力してください");
+			}
+			scrollPane.setViewportView(table);
+		}
 
 		// 廃棄一覧表ボタンが押された時の処理
 		if (cmd.equals("btnWaste")) {
