@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -111,7 +112,6 @@ public class OrderTable extends JFrame implements ActionListener {
 
 		//発注ボタンが押された時の処理
 		if (cmd.equals("btnOrder")) {
-			setVisible(false);
 			OrderHistoryDBAccess ohd = new OrderHistoryDBAccess();
 			OrderTableDBAccess otd = new OrderTableDBAccess();
 			//発注表に追加
@@ -129,6 +129,8 @@ public class OrderTable extends JFrame implements ActionListener {
 					System.out.println("発注表の削除エラー");
 				}
 			}
+			JOptionPane.showMessageDialog(contentPane, "発注完了しました");
 		}
+		
 	}
 }
