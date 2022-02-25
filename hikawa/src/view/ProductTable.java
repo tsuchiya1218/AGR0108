@@ -147,7 +147,7 @@ public class ProductTable extends JFrame implements ActionListener {
 		AddOrdertext = new TextField();
 		AddOrdertext.setBounds(29, 353, 95, 23);
 		contentPane.add(AddOrdertext);
-		
+
 		JButton btnAddOrder = new JButton("発注追加");
 		btnAddOrder.setActionCommand("btnAddOrder");
 		btnAddOrder.addActionListener(this);
@@ -270,24 +270,22 @@ public class ProductTable extends JFrame implements ActionListener {
 		}
 
 		// 商品編集ボタンが押された時の処理
-		if (cmd.equals("btnEditProduct")) {
-			String ProductCode = null;
-			try {
-				//入力判定
-				try {
-					ProductCode = EditProducttext.getText();
-				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(contentPane, "商品コードを入力してください");
-				}
-				setVisible(false);
-				EditProduct ep = new EditProduct(ProductCode);
-				ep.EditProducts();
+				if (cmd.equals("btnEditProduct")) {
+					String ProductCode = null;
+					try {
+						ProductCode = EditProducttext.getText();
 
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+						if (!ProductCode.equals("")) {
 
-		}
+							setVisible(false);
+							EditProduct ep = new EditProduct(ProductCode);
+							ep.EditProducts();
+						} else {
+							JOptionPane.showMessageDialog(contentPane, "商品コードを入力してください");
+						}
+					} catch (Exception e2) {
+						e2.printStackTrace();
+					}
 
 		// 削除ボタンが押された時の処理
 		if (cmd.equals("btnDelete")) {
