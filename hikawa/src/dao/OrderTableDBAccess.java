@@ -245,7 +245,7 @@ public class OrderTableDBAccess {
 		try {
 			con = db.createConnection();
 			ps = con.prepareStatement(sql);
-			ps.executeQuery();
+			ps.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
 			e.printStackTrace();

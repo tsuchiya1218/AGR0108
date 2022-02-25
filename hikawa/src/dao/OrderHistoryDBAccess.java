@@ -45,25 +45,33 @@ public class OrderHistoryDBAccess {
 			pName[i] = orderlist[i][1];
 			quantity[i] = orderlist[i][2];
 		}
+		
 		for(int i = 0; i<listSize; i++) {
 			
 			String sql = "INSERT INTO orders (OrderCode,OrderDate,OrderQuantity,DeliveryDate,Status,FoodLimitCode,ProductCode) "
 					+ "VALUE('" 
 					+ orderCodes[i] +"','" + orderDate+ "','" + quantity[i] + "','" + DeliveryDate +"','" + Status + "','" 
 					+ FoodLimitCode +"','" +pCode[i]  +"')";
+			DBAccess db = new DBAccess();
+			PreparedStatement ps = null;
 			try {
-				DBAccess db = new DBAccess();
-				PreparedStatement ps = null;
 				con = db.createConnection();
 				ps = con.prepareStatement(sql);
-				ps.executeQuery();
+				ps.executeUpdate();
+				con.commit();
 			}catch (Exception e) {
 				e.printStackTrace();
+				con.rollback();
+			}finally {
+				try {
+					if(ps != null) {
+						ps.close();
+					}
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
 			}
-			
 		}
-		
-		
 	}
 	
 	//発注コードを作成
@@ -102,6 +110,7 @@ public class OrderHistoryDBAccess {
 	
 	//発注履歴の表示
 	public ArrayList<OrderHistory> getOrderHistory(){
+		ArrayList<OrderHistory> list = new ArrayList<OrderHistory>();
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -109,13 +118,30 @@ public class OrderHistoryDBAccess {
 		try {
 			con = db.createConnection();
 			//発注日、発注コード、商品コード、発注商品(商品名)、個数、納品予定日
-			String sql = "SELECT OrderDate, OrderCode orders.ProductCode, ProductName, OrderQuantity, DeliveryDate"
-						+ "FROM orders"
-						+ "INNDER JOIN product ON orders.ProductCode = product.ProductCode";
+			String sql = "SELECT OrderDate, OrderCode, 'orders.ProductCode' , ProductName, OrderQuantity, DeliveryDate "
+					+ "FROM orders "
+					+ "INNDER JOIN product ON 'orders.ProductCode' = product.ProductCode;";
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
+			while(rs.next()) {
+				list.add(new OrderHistory(rs.getString("OrderDate"),rs.getString("OrderCode"),rs.getString("orders.ProductCode"),
+						rs.getString("ProductName"),rs.getInt("OrderQuantity"),rs.getString("DeliveryDate")));
+			}
 		}catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+				if(rs != null) {
+					rs.close();
+				}
+				db.closeConnection(con);
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}	
 		}
+		return list;
 	}
 }

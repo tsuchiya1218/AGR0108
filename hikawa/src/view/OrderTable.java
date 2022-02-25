@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 
 import action.CreateTableData;
 import control.HikawaController;
+import dao.OrderHistoryDBAccess;
 import dao.OrderTableDBAccess;
 
 public class OrderTable extends JFrame implements ActionListener {
@@ -110,10 +111,24 @@ public class OrderTable extends JFrame implements ActionListener {
 
 		//発注ボタンが押された時の処理
 		if (cmd.equals("btnOrder")) {
-			
-			
-			
-			
+			setVisible(false);
+			OrderHistoryDBAccess ohd = new OrderHistoryDBAccess();
+			OrderTableDBAccess otd = new OrderTableDBAccess();
+			//発注表に追加
+			try {
+				ohd.addOrderHistory();
+			} catch (Exception e1) {
+				// TODO 自動生成された catch ブロック
+				e1.printStackTrace();
+				System.out.println("発注追加時のエラー");
+			}finally {
+				try {
+					otd.deleteOrderTable();
+				} catch (Exception e2) {
+					e2.printStackTrace();
+					System.out.println("発注表の削除エラー");
+				}
+			}
 		}
 	}
 }
