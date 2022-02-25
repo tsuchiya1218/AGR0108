@@ -107,7 +107,7 @@ public class HikawaController {
 	}
 
 	//商品追加画面表示
-	public static void AddProductDisplay() {
+	public static void AddProductDisplay() throws Exception {
 		// TODO 自動生成されたメソッド・スタブ
 		AddProductDisplayAction action = new AddProductDisplayAction();
 		action.execute();
