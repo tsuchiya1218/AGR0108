@@ -41,7 +41,7 @@ public class EditProduct extends JFrame implements ActionListener {
 	public void EditProducts() throws Exception {
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 342, 432);
+		setBounds(100, 100, 342, 390);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -79,44 +79,28 @@ public class EditProduct extends JFrame implements ActionListener {
 		mNameBox.setBounds(104, 155, 138, 23);
 		contentPane.add(mNameBox);
 
-		JLabel lblNewLabel_4 = new JLabel("カテゴリ：");
-		lblNewLabel_4.setBounds(33, 191, 62, 16);
-		contentPane.add(lblNewLabel_4);
-
-		//DBからカテゴリー名を取得、表示
-		List<String> list2 = ProductEditDBAccess.ProductCategory();
-		String[] lists2 = new String[list2.size()];
-		for (int i = 0; i < list2.size(); i++) {
-			lists2[i] = list2.get(i);
-		}
-
-		cIDBox = new JComboBox<String>();
-		cIDBox.setModel(new DefaultComboBoxModel<String>(lists2));
-		cIDBox.setBounds(104, 188, 136, 25);
-		contentPane.add(cIDBox);
-
 		JLabel lblNewLabel_5 = new JLabel("価格：");
-		lblNewLabel_5.setBounds(58, 227, 37, 16);
+		lblNewLabel_5.setBounds(58, 190, 37, 16);
 		contentPane.add(lblNewLabel_5);
 
 		priceFeild = new TextField();
-		priceFeild.setBounds(103, 225, 140, 23);
+		priceFeild.setBounds(103, 190, 140, 23);
 		contentPane.add(priceFeild);
 
 		JLabel lblNewLabel_6 = new JLabel("在庫量：");
-		lblNewLabel_6.setBounds(46, 261, 53, 16);
+		lblNewLabel_6.setBounds(46, 230, 53, 16);
 		contentPane.add(lblNewLabel_6);
 
 		stockFeild = new TextField();
-		stockFeild.setBounds(102, 260, 142, 23);
+		stockFeild.setBounds(102,230, 142, 23);
 		contentPane.add(stockFeild);
 
 		JLabel lblNewLabel_7 = new JLabel("食品期日：");
-		lblNewLabel_7.setBounds(33, 296, 66, 16);
+		lblNewLabel_7.setBounds(33, 260, 66, 16);
 		contentPane.add(lblNewLabel_7);
 
 		foodlimitFeild = new TextField();
-		foodlimitFeild.setBounds(102, 295, 143, 23);
+		foodlimitFeild.setBounds(102, 260, 143, 23);
 		contentPane.add(foodlimitFeild);
 
 		JButton btnProduct = new JButton("商品表");
@@ -128,7 +112,7 @@ public class EditProduct extends JFrame implements ActionListener {
 		JButton Confirm = new JButton("確定");
 		Confirm.setActionCommand("Confirm");
 		Confirm.addActionListener(this);
-		Confirm.setBounds(54, 335, 77, 26);
+		Confirm.setBounds(54, 300, 77, 26);
 		contentPane.add(Confirm);
 	}
 
@@ -140,43 +124,23 @@ public class EditProduct extends JFrame implements ActionListener {
 		Integer price = null;
 		Integer stock = null;
 		String foodlimit = null;
-		String cName = null;
 		//確定ボタンが押された時の処理
 		if (cmd.equals("Confirm")) {
 
 			try {
 
 				//入力判定
-				try {
-					pName = pNameFeild.getText();
-					mName = (String) mNameBox.getSelectedItem();
-					price = Integer.parseInt(priceFeild.getText());
-					stock = Integer.parseInt(stockFeild.getText());
-					foodlimit = foodlimitFeild.getText();
-					cName = (String) cIDBox.getSelectedItem();
-				} catch (Exception e2) {
-					JOptionPane.showMessageDialog(contentPane, "項目を入力してください");
-				}
+				pName = pNameFeild.getText();
+				mName = (String) mNameBox.getSelectedItem();
+				price = Integer.parseInt(priceFeild.getText());
+				stock = Integer.parseInt(stockFeild.getText());
+				foodlimit = foodlimitFeild.getText();
 
-				/*コンボボックスで選択したカテゴリーをコードに変換
-
-				if (cID == "乳製品") {
-					cID = "01";
-				} else if (cID == "肉") {
-					cID = "02";
-				} else if (cID == "飲料") {
-					cID = "03";
-				} else if (cID == "魚") {
-					cID = "04";
-				} else if (cID == "酒") {
-					cID = "05";
-				}*/
-
-				ProductEditDBAccess ped = new ProductEditDBAccess(pCode, pName, mName, cName, price, stock, foodlimit);
+				ProductEditDBAccess ped = new ProductEditDBAccess(pCode, pName, mName, price, stock, foodlimit);
 				ped.ProductEdit();
 
 			} catch (Exception e1) {
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(contentPane, "項目を入力してください");
 			}
 
 		}
@@ -189,3 +153,4 @@ public class EditProduct extends JFrame implements ActionListener {
 	}
 
 }
+
