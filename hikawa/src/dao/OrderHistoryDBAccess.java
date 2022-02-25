@@ -35,9 +35,9 @@ public class OrderHistoryDBAccess {
 		String[] pCode = new String[listSize];//商品コード
 		String[] pName = new String[listSize];//商品名
 		String[] quantity = new String[listSize];//個数
-		String DeliveryDate = null;//納品予定
+		String DeliveryDate = "未定";//納品予定
 		String Status = "確定";
-		String FoodLimitCode = null;
+		String FoodLimitCode = "00";
 		
 		for(int i = 0; i < listSize; i++) {
 			orderCodes[i] = createOrderCode(i);
