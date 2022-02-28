@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -19,6 +20,7 @@ public class OrderHistory extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTable table;
+	private JTextField textField;
 
 
 	/**
@@ -27,7 +29,7 @@ public class OrderHistory extends JFrame implements ActionListener {
 	public OrderHistory() {
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 664, 391);
+		setBounds(100, 100, 664, 419);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -43,17 +45,16 @@ public class OrderHistory extends JFrame implements ActionListener {
 
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
-				new Object[][] {
-						{ null, null, null, null, null, null, null },
-				},
-				new String[] {
-						"\u767A\u6CE8\u65E5", "\u767A\u6CE8\u30B3\u30FC\u30C9", "\u5546\u54C1\u30B3\u30FC\u30C9",
-						"\u767A\u6CE8\u5546\u54C1", "\u500B\u6570", "\u7D0D\u54C1\u4E88\u5B9A\u65E5", ""
-				}) {
+			new Object[][] {
+				{null, null, null, null, null, null, null},
+			},
+			new String[] {
+				"\u767A\u6CE8\u65E5", "\u767A\u6CE8\u30B3\u30FC\u30C9", "\u5546\u54C1\u30B3\u30FC\u30C9", "\u767A\u6CE8\u5546\u54C1", "\u500B\u6570", "\u7D0D\u54C1\u4E88\u5B9A\u65E5", "\u73FE\u5728\u306E\u72B6\u6CC1"
+			}
+		) {
 			Class[] columnTypes = new Class[] {
-					String.class, Integer.class, Integer.class, String.class, Object.class, Object.class, Object.class
+				String.class, Integer.class, Integer.class, String.class, Object.class, Object.class, Object.class
 			};
-
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
@@ -70,6 +71,19 @@ public class OrderHistory extends JFrame implements ActionListener {
 		btnOrder.setActionCommand("btnOrder");
 		btnOrder.addActionListener(this);
 		contentPane.add(btnOrder);
+
+		JLabel lblNewLabel_2 = new JLabel("発注コード：");
+		lblNewLabel_2.setBounds(91, 328, 57, 13);
+		contentPane.add(lblNewLabel_2);
+
+		textField = new JTextField();
+		textField.setBounds(152, 325, 96, 19);
+		contentPane.add(textField);
+		textField.setColumns(10);
+
+		JButton btnNewButton = new JButton("確定");
+		btnNewButton.setBounds(260, 324, 57, 21);
+		contentPane.add(btnNewButton);
 	}
 
 	@Override
