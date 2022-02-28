@@ -23,19 +23,18 @@ public class ProductTableDBAccess {
 		try {
 			con = db.createConnection();
 			
-			String sql = "SELECT `Status`, product.ProductCode, ProductName, CategoryName, Price, MakerName, Stock, LimitDate " 
+			String sql = "SELECT Status, ProductCode, ProductName, CategoryName, SellPrice, MakerName, Stock, LimitDate " 
 					+ "FROM product " 
+					+ "INNER JOIN maker ON product.MakerID = maker.MakerID "
+					+ "INNER JOIN orderhistory ON product.OrderHistoryCode = orderhistory.OrderHistoryCode "
 					+ "INNER JOIN category ON product.CategoryID = category.CategoryID "
-					+ "INNER JOIN maker ON maker.MakerID = product.MakerID " 
-					+ "INNER JOIN foodlimit ON product.FoodLimitCode = foodlimit.FoodLimitCode " 
-					+ "INNER JOIN orders ON orders.FoodLimitCode = foodlimit.FoodLimitCode "
-					+ "INNER JOIN producttable ON orders.OrderCode = orders.OrderCode ";
+					+ "INNER JOIN foodlimit ON product.FoodLimitCode = foodlimit.FoodLimitCode";
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
 				list.add(new ProductTable(rs.getString("Status"),rs.getString("ProductCode"),rs.getString("ProductName"),
-						rs.getString("CategoryName"),rs.getInt("Price"),rs.getString("makerName"),rs.getInt("Stock"),
+						rs.getString("CategoryName"),rs.getInt("SellPrice"),rs.getString("MakerName"),rs.getInt("Stock"),
 						rs.getString("LimitDate")));
 			}
 		}catch(SQLException e) {
