@@ -108,7 +108,7 @@ public class OrderTable extends JFrame implements ActionListener {
 		textField.setColumns(10);
 
 		JLabel lblNewLabel_3 = new JLabel("個数入力：");
-		lblNewLabel_3.setBounds(196, 255, 54, 13);
+		lblNewLabel_3.setBounds(193, 255, 64, 13);
 		contentPane.add(lblNewLabel_3);
 
 		textField_1 = new JTextField();
@@ -117,7 +117,7 @@ public class OrderTable extends JFrame implements ActionListener {
 		textField_1.setColumns(10);
 
 		JLabel lblNewLabel_4 = new JLabel("商品コード：");
-		lblNewLabel_4.setBounds(29, 255, 57, 13);
+		lblNewLabel_4.setBounds(12, 255, 74, 13);
 		contentPane.add(lblNewLabel_4);
 
 		JLabel lblNewLabel_5 = new JLabel("商品削除");
@@ -127,7 +127,7 @@ public class OrderTable extends JFrame implements ActionListener {
 
 		JLabel lblNewLabel_6 = new JLabel("商品コード：");
 
-		lblNewLabel_6.setBounds(32, 314, 64, 13);
+		lblNewLabel_6.setBounds(23, 314, 75, 13);
 		contentPane.add(lblNewLabel_6);
 
 		JButton btnchange = new JButton("変更");
@@ -144,7 +144,7 @@ public class OrderTable extends JFrame implements ActionListener {
 		JButton btnDelete = new JButton("削除");
 		btnDelete.setActionCommand("btnDelete");
 		btnDelete.addActionListener(this);
-		btnDelete.setBounds(208, 310, 91, 21);
+		btnDelete.setBounds(208, 310, 64, 21);
 		contentPane.add(btnDelete);
 
 		JButton producttablebtn = new JButton("商品表");
