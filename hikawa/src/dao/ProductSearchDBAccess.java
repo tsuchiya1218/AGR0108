@@ -33,7 +33,17 @@ public class ProductSearchDBAccess {
 			/*
 			表示項目(商品コード、商品名、カテゴリ、値段、メーカー名、在庫量、食品期限) 
 			*/
-			ps = con.prepareStatement(
+			String sql = "SELECT Status, ProductCode, ProductName, CategoryName, SellPrice, MakerName, Stock, LimitDate " 
+					+ "FROM product " 
+					+ "INNER JOIN maker ON product.MakerID = maker.MakerID "
+					+ "INNER JOIN orderhistory ON product.OrderHistoryCode = orderhistory.OrderHistoryCode "
+					+ "INNER JOIN category ON product.CategoryID = category.CategoryID "
+					+ "INNER JOIN foodlimit ON product.FoodLimitCode = foodlimit.FoodLimitCode "
+					+ "WHERE ProductName LIKE " +"'%" + sName + "%'";
+			ps = con.prepareStatement(sql);
+			
+			/*データベース変更前元のコード
+			 ps = con.prepareStatement(
 					"SELECT `Status`, product.ProductCode, ProductName, CategoryName, Price, MakerName, Stock, LimitDate "
 							+ "FROM product "
 							+ "INNER JOIN category ON product.CategoryID = category.CategoryID "
@@ -43,6 +53,7 @@ public class ProductSearchDBAccess {
 							+ "INNER JOIN producttable ON orders.OrderCode = orders.OrderCode "
 							+ "WHERE ProductName = ?");
 			ps.setString(1, sName);
+			*/
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
@@ -52,7 +63,7 @@ public class ProductSearchDBAccess {
 						rs.getString("ProductCode"),
 						rs.getString("ProductName"),
 						rs.getString("CategoryName"),
-						rs.getInt("Price"),
+						rs.getInt("SellPrice"),
 						rs.getString("makerName"),
 						rs.getInt("Stock"),
 						rs.getString("LimitDate")));
