@@ -286,6 +286,7 @@ public class ProductTable extends JFrame implements ActionListener {
 					} catch (Exception e2) {
 						e2.printStackTrace();
 					}
+				}
 
 		// 削除ボタンが押された時の処理
 		if (cmd.equals("btnDelete")) {
@@ -314,7 +315,12 @@ public class ProductTable extends JFrame implements ActionListener {
 		// 商品追加ボタンが押された時の処理
 		if (cmd.equals("btnAddProduct")) {
 			setVisible(false);
-			HikawaController.AddProductDisplay();
+			try {
+				HikawaController.AddProductDisplay();
+			} catch (Exception e1) {
+				// TODO 自動生成された catch ブロック
+				e1.printStackTrace();
+			}
 		}
 	}
 
