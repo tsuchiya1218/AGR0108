@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class MakerDBAccess {
-	
+
 	//メーカー名からメーカーＩＤを取得する(存在しなければNULLを返す)
 		public static String getMakerIDbyName(String mName) {
 			String mID = null;
@@ -13,7 +13,7 @@ public class MakerDBAccess {
 			DBAccess db = new DBAccess();
 			ResultSet rs = null;
 			PreparedStatement ps = null;
-			try {			
+			try {
 				con = db.createConnection();
 				ps = con.prepareStatement("SELECT makerID FROM maker WHERE makerName = ?");
 				ps.setString(1, mName);
@@ -49,51 +49,59 @@ public class MakerDBAccess {
 			}
 			return mID;
 		}
-		
+
 		//makerIDを作成
-		public static String makeMakerID() {
-			String mID = null;
-			int cnt = 0;
-			Connection con = null;
-			DBAccess db = new DBAccess();
-			ResultSet rs = null;
-			PreparedStatement ps = null;
-			
-			try {
-				con = db.createConnection();
-				ps = con.prepareStatement("SELECT COUNT(*) cnt FROM maker");
-				rs = ps.executeQuery();
-				while(rs.next()) {
-					cnt = rs.getInt("cnt");
-				}
-			}catch (Exception e) {
-				e.printStackTrace();
-			}finally {
-				if(rs!= null) {
+				public static String makeMakerID() {
+					String mID = null;
+					int cnt = 0;
+					String Scnt = null;
+					Connection con = null;
+					DBAccess db = new DBAccess();
+					ResultSet rs = null;
+					PreparedStatement ps = null;
+
 					try {
-						rs.close();
-					} catch (Exception e) {
+						con = db.createConnection();
+						ps = con.prepareStatement("SELECT COUNT(*) cnt FROM maker");
+						rs = ps.executeQuery();
+						while(rs.next()) {
+							cnt = rs.getInt("cnt");
+						}
+					}catch (Exception e) {
 						e.printStackTrace();
+					}finally {
+						if(rs!= null) {
+							try {
+								rs.close();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+						if(ps!= null) {
+							try {
+								ps.close();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+						try {
+							db.closeConnection(con);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
-				}
-				if(ps!= null) {
-					try {
-						ps.close();
-					} catch (Exception e) {
-						e.printStackTrace();
+					cnt = cnt + 1;
+					if(cnt < 10) {
+						Scnt = "0" + cnt;
+					}else if(cnt > 10) {
+						Scnt = String.valueOf(cnt);
 					}
+
+
+					mID  = Scnt;
+					return mID;
 				}
-				try {
-					db.closeConnection(con);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			cnt = cnt + 1;
-			mID  = String.valueOf(cnt);
-			return mID;
-		}
-		
+
 		//新しいメーカーを作成する
 		public static void makeMaker(String makerID, String makerName) throws Exception {
 			Connection con = null;
