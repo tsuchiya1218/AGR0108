@@ -37,7 +37,7 @@ public class ProductTable extends JFrame implements ActionListener {
 
 	/**
 	 * Create the frame.
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public ProductTable() {
 		setVisible(true);
@@ -92,8 +92,8 @@ public class ProductTable extends JFrame implements ActionListener {
 			table.getColumn("カテゴリー").setPreferredWidth(90);
 			table.getColumn("値段").setPreferredWidth(80);
 			table.getColumn("メーカー名").setPreferredWidth(150);
-			table.getColumn("在庫量").setPreferredWidth(70);
-			table.getColumn("食品期限").setPreferredWidth(115);
+			table.getColumn("在庫量").setPreferredWidth(50);
+			table.getColumn("食品期限").setPreferredWidth(135);
 
 			String[][] tabledata = CreateTableData.productTableToArray(ptd.getProductTable());
 			if (tabledata != null) {
@@ -114,12 +114,12 @@ public class ProductTable extends JFrame implements ActionListener {
 						"\u5728\u5EAB\u91CF", "\u98DF\u54C1\u671F\u9650" }) {
 			Class[] columnTypes = new Class[] { String.class, String.class, String.class, String.class, Integer.class,
 					String.class, Integer.class, String.class };
-		
+
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 		});
-		
+
 		*/
 
 		JButton btnOrder = new JButton("発注表");

@@ -13,7 +13,7 @@ public class ProductTableDBAccess {
 	//ProductTable型のArrayList listを生成
 	//最後にこのlistを返す
 	public ArrayList<ProductTable> list = new ArrayList<ProductTable>();
-	
+
 	//商品表に表示するデータをデータベースから読み込む
 	public ArrayList<ProductTable> getProductTable() throws Exception{
 		ResultSet rs = null;
@@ -22,20 +22,20 @@ public class ProductTableDBAccess {
 
 		try {
 			con = db.createConnection();
-			
-			String sql = "SELECT Status, ProductCode, ProductName, CategoryName, SellPrice, MakerName, Stock, LimitDate " 
-					+ "FROM product " 
+
+			String sql = "SELECT Status, ProductCode, ProductName, CategoryName, SellPrice, MakerName, Stock, LimitDate , LimitDisplay "
+					+ "FROM product "
 					+ "INNER JOIN maker ON product.MakerID = maker.MakerID "
 					+ "INNER JOIN orderhistory ON product.OrderHistoryCode = orderhistory.OrderHistoryCode "
 					+ "INNER JOIN category ON product.CategoryID = category.CategoryID "
 					+ "INNER JOIN foodlimit ON product.FoodLimitCode = foodlimit.FoodLimitCode";
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
-			
+
 			while(rs.next()) {
 				list.add(new ProductTable(rs.getString("Status"),rs.getString("ProductCode"),rs.getString("ProductName"),
 						rs.getString("CategoryName"),rs.getInt("SellPrice"),rs.getString("MakerName"),rs.getInt("Stock"),
-						rs.getString("LimitDate")));
+						rs.getString("LimitDisplay") + ":" + rs.getString("LimitDate")));
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -58,12 +58,12 @@ public class ProductTableDBAccess {
 				}
 			}
 			db.closeConnection(con);
-		
+
 		}
 		return list;
 	}
-	
-	
+
+
 
 }
 
