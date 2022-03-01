@@ -25,7 +25,8 @@ public class EditProduct extends JFrame implements ActionListener {
 	JComboBox<String> cIDBox;
 	TextField foodlimitFeild;
 	TextField stockFeild;
-	TextField priceFeild;
+	TextField SpriceFeild;
+	TextField PpriceFeild;
 	JComboBox<String> mNameBox;
 	TextField pNameFeild;
 
@@ -79,28 +80,37 @@ public class EditProduct extends JFrame implements ActionListener {
 		mNameBox.setBounds(104, 155, 138, 23);
 		contentPane.add(mNameBox);
 
-		JLabel lblNewLabel_5 = new JLabel("価格：");
-		lblNewLabel_5.setBounds(58, 190, 37, 16);
+		JLabel lblNewLabel_5 = new JLabel("販売価格：");
+		lblNewLabel_5.setBounds(30, 190, 70, 16);
 		contentPane.add(lblNewLabel_5);
 
-		priceFeild = new TextField();
-		priceFeild.setBounds(103, 190, 140, 23);
-		contentPane.add(priceFeild);
+		SpriceFeild = new TextField();
+		SpriceFeild.setBounds(103, 190, 140, 23);
+		contentPane.add(SpriceFeild);
+
+
+		JLabel lblNewLabel_8 = new JLabel("仕入価格：");
+		lblNewLabel_8.setBounds(30, 220, 70, 16);
+		contentPane.add(lblNewLabel_8);
+
+		PpriceFeild = new TextField();
+		PpriceFeild.setBounds(103, 220, 140, 23);
+		contentPane.add(PpriceFeild);
 
 		JLabel lblNewLabel_6 = new JLabel("在庫量：");
-		lblNewLabel_6.setBounds(46, 230, 53, 16);
+		lblNewLabel_6.setBounds(46, 250, 53, 16);
 		contentPane.add(lblNewLabel_6);
 
 		stockFeild = new TextField();
-		stockFeild.setBounds(102,230, 142, 23);
+		stockFeild.setBounds(102,250, 142, 23);
 		contentPane.add(stockFeild);
 
 		JLabel lblNewLabel_7 = new JLabel("食品期日：");
-		lblNewLabel_7.setBounds(33, 260, 66, 16);
+		lblNewLabel_7.setBounds(33, 280, 66, 16);
 		contentPane.add(lblNewLabel_7);
 
 		foodlimitFeild = new TextField();
-		foodlimitFeild.setBounds(102, 260, 143, 23);
+		foodlimitFeild.setBounds(102, 280, 143, 23);
 		contentPane.add(foodlimitFeild);
 
 		JButton btnProduct = new JButton("商品表");
@@ -112,7 +122,7 @@ public class EditProduct extends JFrame implements ActionListener {
 		JButton Confirm = new JButton("確定");
 		Confirm.setActionCommand("Confirm");
 		Confirm.addActionListener(this);
-		Confirm.setBounds(54, 300, 77, 26);
+		Confirm.setBounds(54, 315, 77, 26);
 		contentPane.add(Confirm);
 	}
 
@@ -121,7 +131,8 @@ public class EditProduct extends JFrame implements ActionListener {
 		String cmd = e.getActionCommand();
 		String pName = null;
 		String mName = null;
-		Integer price = null;
+		Integer Sprice = null;
+		Integer Pprice = null;
 		Integer stock = null;
 		String foodlimit = null;
 		//確定ボタンが押された時の処理
@@ -132,13 +143,15 @@ public class EditProduct extends JFrame implements ActionListener {
 				//入力判定
 				pName = pNameFeild.getText();
 				mName = (String) mNameBox.getSelectedItem();
-				price = Integer.parseInt(priceFeild.getText());
+				Sprice = Integer.parseInt(SpriceFeild.getText());
+				Pprice = Integer.parseInt(PpriceFeild.getText());
 				stock = Integer.parseInt(stockFeild.getText());
 				foodlimit = foodlimitFeild.getText();
 
-				ProductEditDBAccess ped = new ProductEditDBAccess(pCode, pName, mName, price, stock, foodlimit);
+				ProductEditDBAccess ped = new ProductEditDBAccess(pCode, pName, mName, Sprice,Pprice, stock, foodlimit);
 				ped.ProductEdit();
 
+				JOptionPane.showMessageDialog(contentPane, "更新されました");
 			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(contentPane, "項目を入力してください");
 			}
@@ -153,4 +166,3 @@ public class EditProduct extends JFrame implements ActionListener {
 	}
 
 }
-
