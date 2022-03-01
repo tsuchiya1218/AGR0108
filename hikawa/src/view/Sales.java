@@ -13,12 +13,15 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import action.CreateTableData;
 import control.HikawaController;
+import dao.SalesDBAccess;
 
 public class Sales extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTable table;
+	private DefaultTableModel tableModel;
 
 	/**
 	 * Create the frame.
@@ -40,7 +43,7 @@ public class Sales extends JFrame implements ActionListener {
 		scrollPane.setBounds(21, 88, 358, 144);
 		contentPane.add(scrollPane);
 
-		table = new JTable();
+		/*table = new JTable();
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 				{null, null},
@@ -56,7 +59,33 @@ public class Sales extends JFrame implements ActionListener {
 				return columnTypes[columnIndex];
 			}
 		});
+		scrollPane.setViewportView(table);*/
+		
+		String[] columnNames = { "日付", "金額"};
+		tableModel = new DefaultTableModel(columnNames, 0);
+		table = new JTable(tableModel);
+
+		try {
+			SalesDBAccess sda = new SalesDBAccess();
+
+			//列の入れ替えを禁止
+			table.getTableHeader().setReorderingAllowed(false);
+
+			//列の幅指定
+			table.getColumn("日付").setPreferredWidth(100);
+			table.getColumn("金額").setPreferredWidth(100);
+			String[][] tabledata = CreateTableData.SalesToArray(sda.getSales());
+			if (tabledata != null) {
+				for (String[] data : tabledata) {
+					tableModel.addRow(data);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		scrollPane.setViewportView(table);
+		
 
 		JLabel lblNewLabel_1 = new JLabel("売上画面");
 		lblNewLabel_1.setFont(new Font("Dialog", Font.BOLD, 20));
@@ -80,7 +109,7 @@ public class Sales extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 
-		//発注表ボタンを押した際の処理
+		//トップボタンを押した際の処理
 		if (cmd.equals("btnTop")) {
 			setVisible(false);
 			HikawaController.TopDisplay();
