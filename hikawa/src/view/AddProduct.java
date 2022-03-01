@@ -3,6 +3,7 @@ package view;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -23,16 +24,17 @@ public class AddProduct extends JFrame implements ActionListener {
 	private JTextField pNameFeild;
 	private JTextField mNameFeild;
 	private JComboBox<String> cIDBox;
-	private JTextField priceFeild;
-	private JComboBox<String> foodLCodeBox;
+	private JTextField SpriceFeild;
+	private JTextField PpriceFeild;
 
 	/**
 	 * Create the frame.
+	 * @throws Exception
 	 */
-	public AddProduct() {
+	public AddProduct() throws Exception {
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 401, 341);
+		setBounds(100, 100, 361, 324);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -48,7 +50,7 @@ public class AddProduct extends JFrame implements ActionListener {
 		contentPane.add(lblNewLabel_1);
 
 		JLabel lblNewLabel_2 = new JLabel("商品名：");
-		lblNewLabel_2.setBounds(72, 95, 50, 16);
+		lblNewLabel_2.setBounds(55, 95, 63, 16);
 		contentPane.add(lblNewLabel_2);
 
 		pNameFeild = new JTextField();
@@ -56,7 +58,7 @@ public class AddProduct extends JFrame implements ActionListener {
 		contentPane.add(pNameFeild);
 
 		JLabel lblNewLabel_3 = new JLabel("メーカー：");
-		lblNewLabel_3.setBounds(59, 126, 64, 16);
+		lblNewLabel_3.setBounds(56, 126, 65, 16);
 		contentPane.add(lblNewLabel_3);
 
 		mNameFeild = new JTextField();
@@ -64,52 +66,58 @@ public class AddProduct extends JFrame implements ActionListener {
 		contentPane.add(mNameFeild);
 
 		JLabel lblNewLabel_4 = new JLabel("カテゴリ：");
-		lblNewLabel_4.setBounds(59, 155, 62, 16);
+		lblNewLabel_4.setBounds(60, 154, 62, 16);
 		contentPane.add(lblNewLabel_4);
 
+		//DBからカテゴリー名を取得、表示
+		List<String> list2 = ProductAdditionDBAccess.ProductCategory();
+		String[] lists2 = new String[list2.size()];
+		for (int i = 0; i < list2.size(); i++) {
+			lists2[i] = list2.get(i);
+		}
+
 		cIDBox = new JComboBox<String>();
-		cIDBox.setModel(new DefaultComboBoxModel<String>(new String[] { "乳製品", "肉", "飲料" }));
+		cIDBox.setModel(new DefaultComboBoxModel<String>(lists2));
 		cIDBox.setBounds(126, 152, 135, 25);
 		contentPane.add(cIDBox);
 
-		JLabel lblNewLabel_5 = new JLabel("価格：");
-		lblNewLabel_5.setBounds(84, 184, 39, 16);
+		JLabel lblNewLabel_5 = new JLabel("販売価格：");
+		lblNewLabel_5.setBounds(46, 185, 63, 16);
 		contentPane.add(lblNewLabel_5);
 
-		priceFeild = new JTextField();
-		priceFeild.setBounds(125, 182, 135, 23);
-		contentPane.add(priceFeild);
-
-		JLabel lblNewLabel_6 = new JLabel("食品期限：");
-		lblNewLabel_6.setBounds(60, 214, 66, 16);
-		contentPane.add(lblNewLabel_6);
-
-		foodLCodeBox = new JComboBox<String>();
-		foodLCodeBox.setModel(new DefaultComboBoxModel<String>(new String[] { "消費", "賞味" }));
-		foodLCodeBox.setBounds(125, 211, 136, 25);
-		contentPane.add(foodLCodeBox);
+		SpriceFeild = new JTextField();
+		SpriceFeild.setBounds(125, 182, 135, 23);
+		contentPane.add(SpriceFeild);
 
 		JButton btnProduct = new JButton("商品表");
-		btnProduct.setBounds(291, 12, 82, 26);
+		btnProduct.setBounds(254, 10, 82, 26);
 		btnProduct.setActionCommand("btnProduct");
 		btnProduct.addActionListener(this);
 		contentPane.add(btnProduct);
 
 		JButton btnAdd = new JButton("追加");
-		btnAdd.setBounds(78, 257, 82, 26);
+		btnAdd.setBounds(74, 249, 82, 26);
 		btnAdd.setActionCommand("btnAdd");
 		btnAdd.addActionListener(this);
 		contentPane.add(btnAdd);
+
+		JLabel lblNewLabel_7 = new JLabel("仕入価格：");
+		lblNewLabel_7.setBounds(46, 220, 63, 13);
+		contentPane.add(lblNewLabel_7);
+
+		PpriceFeild = new JTextField();
+		PpriceFeild.setBounds(126, 215, 134, 19);
+		contentPane.add(PpriceFeild);
+		PpriceFeild.setColumns(10);
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 		String pName = null;
 		String mName = null;
-		String cIDS = null;
 		String cID = null;
-		Integer price = null;
-		String foodLCode = null;
+		Integer Sprice = null;
+		Integer Pprice = null;
 		ProductAdditionDBAccess pad = null;
 		// 追加ボタンが押された時の処理
 		if (cmd.equals("btnAdd")) {
@@ -120,37 +128,28 @@ public class AddProduct extends JFrame implements ActionListener {
 				try {
 					pName = pNameFeild.getText();
 					mName = mNameFeild.getText();
-					cIDS = (String) cIDBox.getSelectedItem();
-					price = Integer.parseInt(priceFeild.getText());
-					foodLCode = (String) foodLCodeBox.getSelectedItem();
+					cID = (String) cIDBox.getSelectedItem();
+					Sprice = Integer.parseInt(SpriceFeild.getText());
+					Pprice = Integer.parseInt(PpriceFeild.getText());
 				} catch (Exception e2) {
 					JOptionPane.showMessageDialog(contentPane, "項目を入力してください");
 				}
 
-				//コンボボックスで選択した食品期限をコードに変換
+				/*//コンボボックスで選択した食品期限をコードに変換
 				if (foodLCode == "消費") {
 					foodLCode = "01";
 				} else if (foodLCode == "賞味") {
 					foodLCode = "02";
-				}
+				}*/
 
-				//コンボボックスで選択したカテゴリーをコードに変換
-				if (cIDS == "乳製品") {
-					cID = "01";
-				} else if (cIDS == "肉") {
-					cID = "02";
-				} else if (cIDS == "飲料") {
-					cID = "03";
-				}
-
-				pad = new ProductAdditionDBAccess(pName, mName, cID, price, foodLCode);
+				pad = new ProductAdditionDBAccess(pName, mName, cID, Sprice,Pprice);
 				pad.productAddition();
 				JOptionPane.showMessageDialog(contentPane, "追加完了しました");
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-			
-			
+
+
 
 		}
 
