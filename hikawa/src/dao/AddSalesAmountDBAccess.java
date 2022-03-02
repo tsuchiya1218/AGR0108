@@ -29,7 +29,8 @@ public class AddSalesAmountDBAccess {
 		try {
 			con = db.createConnection();
 			//INSERT INTO テーブル名 (列名1, 列名2,...) VALUES (値1, 値2,...);
-			String sql = "INSERT INTO sales (Date,Amount) ";
+			String sql = "INSERT INTO sales (Date,Amount) "
+					+ "VALUES(?,?)";
 
 			ps = con.prepareStatement(sql);
 
