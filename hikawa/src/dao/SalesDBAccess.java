@@ -24,14 +24,14 @@ public class SalesDBAccess {
 		try {
 			con = db.createConnection();
 			
-			String sql = "SELECT date, amount" 
+			String sql = "SELECT Date, Amount" 
 					+ "FROM sales";
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				list.add(new Sales(rs.getString("date"),
-									rs.getInt("amount")));
+				list.add(new Sales(rs.getString("Date"),
+									rs.getInt("Amount")));
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -58,10 +58,6 @@ public class SalesDBAccess {
 		return list;
 	}
 
-	public Object getSaleTable() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
-
+	
 
 }
