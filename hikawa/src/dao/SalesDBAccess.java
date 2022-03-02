@@ -11,7 +11,6 @@ import model.Sales;
 public class SalesDBAccess {
 
 	Connection con;
-	//ProductTable型のArrayList listを生成
 	//最後にこのlistを返す
 	public ArrayList<Sales> list = new ArrayList<Sales>();
 	
@@ -24,8 +23,7 @@ public class SalesDBAccess {
 		try {
 			con = db.createConnection();
 			
-			String sql = "SELECT Date, Amount" 
-					+ "FROM sales";
+			String sql = "SELECT Date,Amount FROM sales";
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			
