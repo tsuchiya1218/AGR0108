@@ -130,14 +130,14 @@ public class ProductAdditionDBAccess {
 	public String makeProductCode() {
 		String ProductCode = null;
 		String Pcode = null;
-		int cnt1 = 1;
+		//01_00の部分を格納
+		String Pcode1 = null;
+		//01_00(1)01この部分を格納
+		Integer Pcode2 = null;
 		int cnt2 = 1;
 
 		Connection con = null;
 		DBAccess db = new DBAccess();
-
-		ResultSet rs = null;
-		PreparedStatement ps = null;
 
 		ResultSet rs1 = null;
 		PreparedStatement ps1 = null;
@@ -148,52 +148,50 @@ public class ProductAdditionDBAccess {
 			con = db.createConnection();
 			//同じ商品が何個あるか
 			ps2 = con.prepareStatement(
-					"SELECT COUNT(*) cnt , ProductCode FROM product WHERE ProductName = ? AND CategoryID = ?");
+					"SELECT COUNT(*) cnt , ProductCode FROM product INNER JOIN maker ON product.MakerID = maker.MakerID WHERE ProductName = ? AND CategoryID = ? AND MakerName = ?");
 			ps2.setString(1, pName);
 			ps2.setString(2, cID);
+			ps2.setString(3, mName);
 			rs2 = ps2.executeQuery();
 
 			while (rs2.next()) {
-				cnt2 += rs2.getInt("cnt");
+				cnt2 = rs2.getInt("cnt");
 
 				Pcode = rs2.getString("ProductCode");
 			}
 
-			if (cnt2 == 1) {//同じ商品がなかった場合
+			if (cnt2 == 0) {//同じ商品がなかった場合
 
 				//同じカテゴリー内に商品が何個あるか
-				ps1 = con.prepareStatement("SELECT COUNT(*) cnt FROM product WHERE CategoryID = ?");
+				ps1 = con.prepareStatement("SELECT ProductCode FROM product WHERE CategoryID = ?");
 				ps1.setString(1, cID);
 				rs1 = ps1.executeQuery();
 
 				while (rs1.next()) {
-					cnt1 += rs1.getInt("cnt");
+					Pcode = rs1.getString("ProductCode");
 				}
 
 				//カテゴリー内の数
-				String Scnt = null;
-				if (cnt1 < 10) {
-					Scnt = "00" + cnt1;
-				} else if (cnt1 < 100) {
-					Scnt = "0" + cnt1;
-				} else {
-					Scnt = "" + cnt1;
-				}
+				Pcode1 = Pcode.substring(0, Pcode.length() - 3);
+				Pcode2 = Integer.parseInt(Pcode.substring(5, Pcode.length() - 2)) + 1;
+				Pcode = Pcode1 + Pcode2;
 
 				//同じ商品個数判定
 				String Spq = null;
+				cnt2 += 1;
 				if (cnt2 < 10) {
 					Spq = "0" + cnt2;
 				} else {
 					Spq = "" + cnt2;
 				}
 
-				ProductCode = cID + "_" + Scnt + Spq;
+				ProductCode = Pcode + Spq;
 
 			} else {
 
 				//同じ商品個数判定
 				String Spq = null;
+				cnt2 += 1;
 				if (cnt2 < 10) {
 					Spq = "0" + cnt2;
 				} else {
