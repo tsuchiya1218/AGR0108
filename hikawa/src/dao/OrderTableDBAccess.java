@@ -14,11 +14,30 @@ import java.util.ArrayList;
 import model.Order;
 
 public class OrderTableDBAccess {
+	String pCode;//商品コード
+	String pCodeOmit = pCode.substring(0, 5);//商品コードの下2桁省いたやつ
+	public OrderTableDBAccess(String pCode) {
+		this.pCode = pCode;
+	}
 
 	//発注表に商品を追加するメソッド
 	//引数pCodeは商品コード
-	public void addOrderTable(String pCode) throws Exception {
+	public void addOrderTable() throws Exception {
 		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		DBAccess db = new DBAccess();
+		try {
+		 if(PDCodeCount.getPCodeCount("Orders", pCodeOmit) == 0) {
+			 
+		 }else {
+			 
+		 }
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		/*Connection con = null;
 		PreparedStatement ps1 = null;
 		ResultSet rs1 = null;
 		PreparedStatement ps2 = null;
@@ -80,6 +99,7 @@ public class OrderTableDBAccess {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		*/
 		
 	}
 
@@ -198,6 +218,9 @@ public class OrderTableDBAccess {
 		
 		
 	}
+	//発注表の同一商品コードがあるか
+	
+	
 	
 	//発注表を抽出しlistで返す
 	public ArrayList<Order> getOrderTable() throws Exception{
