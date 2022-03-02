@@ -263,7 +263,6 @@ public class ProductTable extends JFrame implements ActionListener {
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
-
 			} else {
 				JOptionPane.showMessageDialog(contentPane, "商品コードを入力してください。");
 			}

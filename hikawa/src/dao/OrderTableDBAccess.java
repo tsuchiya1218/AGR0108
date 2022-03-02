@@ -14,29 +14,32 @@ import java.util.ArrayList;
 import model.Order;
 
 public class OrderTableDBAccess {
-	String pCode;//商品コード
-	String pCodeOmit = pCode.substring(0, 5);//商品コードの下2桁省いたやつ
-	public OrderTableDBAccess(String pCode) {
-		this.pCode = pCode;
-	}
-
 	//発注表に商品を追加するメソッド
 	//引数pCodeは商品コード
-	public void addOrderTable() throws Exception {
+	public void addOrderTable(String pCode) throws Exception {
 		Connection con = null;
 		PreparedStatement ps = null;
-		ResultSet rs = null;
 		DBAccess db = new DBAccess();
+		String sql = null;
+		String pCodeOmit = pCode.substring(0, 6);//商品コードの下2桁省いたやつ
+		String newCode = pCodeOmit + "01";
 		try {
+			//発注表にすでに商品がないなら
 		 if(PDCodeCount.getPCodeCount("Orders", pCodeOmit) == 0) {
-			 
+			 sql = "INSERT INTO orders(OrderCode,OrderQuantity,ProductCode) "
+					 + "VALUES('" + makeOrderCode() + "'," + 1 + ",'" + newCode +"')";
 		 }else {
-			 
+			 sql = "UPDATE orders SET OrderQuantity = " + getQuantity(newCode) + " WHERE PoductCode = '" + newCode +"'";
 		 }
+		 con = db.createConnection();
+		 ps = con.prepareStatement(sql);
+		 ps.executeUpdate();
+		 con.commit();
 		} catch (Exception e) {
-			// TODO: handle exception
+			con.rollback();
+			e.printStackTrace();
 		}
-		
+	}
 		/*Connection con = null;
 		PreparedStatement ps1 = null;
 		ResultSet rs1 = null;
@@ -101,8 +104,73 @@ public class OrderTableDBAccess {
 		}
 		*/
 		
+	//ordersから個数を出す
+	public int getQuantity(String newCode) {
+		int quantity = 0;
+		Connection con = null;
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		DBAccess db = new DBAccess();
+		String sql = "SELECT OrderQuantity FROM orders WHERE ProductCode = " + newCode;
+		try {
+			con = db.createConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				quantity = rs.getInt("OrderQuantity");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("getQuantity()のエラー");
+		}finally {
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(ps != null) {
+					ps.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return quantity;
 	}
-
+	
+	//OderCode生成
+	public String makeOrderCode() {
+		int orderCode = 1;
+		int count = 0;
+		Connection con = null;
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		DBAccess db = new DBAccess();
+		String sql = "SELECT COUNT(*) AS cnt FROM orders";
+		try {
+			con = db.createConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				count = rs.getInt("cnt");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+				if(rs != null) {
+					rs.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		orderCode += count;
+		return String.valueOf(orderCode);
+	}
+	
 	
 	//商品コードから商品名を検索し返すメソッド
 	public String serchPName(String pCode) throws Exception {
@@ -112,7 +180,7 @@ public class OrderTableDBAccess {
 		PreparedStatement ps = null;
 		DBAccess db = new DBAccess(); 
 		//SQL文
-		String sql = "SELECT ProductName FROM product WHERE ProductCode = '" + pCode +"'";
+		String sql = "SELECT ProductName FROM product WHERE ProductCode LIKE '%" + pCode +"%'";
 		try {
 			con = db.createConnection();
 			ps = con.prepareStatement(sql);

@@ -17,7 +17,7 @@ public class PDCodeCount {
 		DBAccess db = new DBAccess();
 		ResultSet rs = null;
 		int cnt = 0;
-		String sql = "SELECT COUNT(*) AS cnt FROM " + tableName +"WHERE ProductCode LIKE '%" + pCode + "%'";
+		String sql = "SELECT COUNT(*) AS cnt FROM " + tableName +" WHERE ProductCode LIKE '%" + pCode + "%'"; 
 		try {
 			con = db.createConnection();
 			ps = con.prepareStatement(sql);
@@ -28,6 +28,17 @@ public class PDCodeCount {
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(" getPCodeCount()のエラーです");
+		}finally {
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(ps != null) {
+					ps.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
 		}
 		return cnt;	
 	}
