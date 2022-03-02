@@ -1,28 +1,31 @@
 package model;
 
 public class Sales {
-
-	private String Day; //週
+	private String Date; //週
 	private int Amount; //週合計
 
-	public Sales(String Day, int Amount) {
-		this.Day = Day;
+	public Sales() {
+
+	}
+
+	public Sales(String Date, int Amount) {
+		this.Date = Date;
 		this.Amount = Amount;
 	}
 
-	public void setWeek(String Day) {
-		this.Day = Day;
+	public void setDate(String Date) {
+		this.Date = Date;
 	}
 
-	public String getDay() {
-		return Day;
+	public String getDate() {
+		return Date;
 	}
 
 	public void setAmount(int Amount) {
 		this.Amount = Amount;
 	}
 
-	public int getAMount() {
+	public int getAmount() {
 		return Amount;
 	}
 }
