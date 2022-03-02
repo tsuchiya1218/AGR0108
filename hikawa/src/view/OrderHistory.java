@@ -73,7 +73,7 @@ public class OrderHistory extends JFrame implements ActionListener {
 		contentPane.add(btnOrder);
 
 		JLabel lblNewLabel_2 = new JLabel("発注コード：");
-		lblNewLabel_2.setBounds(91, 328, 57, 13);
+		lblNewLabel_2.setBounds(75, 328, 73, 13);
 		contentPane.add(lblNewLabel_2);
 
 		textField = new JTextField();
@@ -82,7 +82,7 @@ public class OrderHistory extends JFrame implements ActionListener {
 		textField.setColumns(10);
 
 		JButton btnNewButton = new JButton("確定");
-		btnNewButton.setBounds(260, 324, 57, 21);
+		btnNewButton.setBounds(260, 324, 73, 21);
 		contentPane.add(btnNewButton);
 	}
 
