@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import model.Order;
 import model.ProductTable;
+import model.Sales;
 
 public class CreateTableData {
 	/*ProductTable型のArrayListをString[][]に変換する
@@ -37,6 +38,18 @@ public class CreateTableData {
 			tableData[i][0] = o.getPdCode();
 			tableData[i][1] = o.getPdName();
 			tableData[i][2] = Integer.toString(o.getStock());
+		}
+		
+		return tableData;
+	}
+
+	public static String[][] salesToArray(ArrayList<Sales> list) {
+		int listSize = list.size();
+		String[][] tableData = new String[listSize][2];
+		for (int i = 0; i < listSize; i++ ) {
+			Sales s = list.get(i);
+			tableData[i][0] = s.getDate();
+			tableData[i][1] = Integer.toString(s.getAmount());
 		}
 		
 		return tableData;
