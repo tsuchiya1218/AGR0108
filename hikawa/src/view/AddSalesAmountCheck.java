@@ -90,8 +90,8 @@ public class AddSalesAmountCheck extends JFrame implements ActionListener {
 			//date = dateFeild.getText();
 			//amount = Integer.parseInt(amountFeild.getText());
 
-			asad = new AddSalesAmountDBAccess(date, amount);
-			try {
+			try {				
+				asad = new AddSalesAmountDBAccess(date, amount);
 				asad.addSalesAmount();
 			} catch (Exception e1) {
 				// TODO 自動生成された catch ブロック
@@ -108,6 +108,5 @@ public class AddSalesAmountCheck extends JFrame implements ActionListener {
 			setVisible(false);
 			HikawaController.AddSaleDisplay();
 		}
-
 	}
 }
