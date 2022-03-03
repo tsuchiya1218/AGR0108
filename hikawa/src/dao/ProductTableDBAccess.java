@@ -15,7 +15,7 @@ public class ProductTableDBAccess {
 	public ArrayList<ProductTable> list = new ArrayList<ProductTable>();
 
 	//商品表に表示するデータをデータベースから読み込む
-	public ArrayList<ProductTable> getProductTable() throws Exception{
+	public ArrayList<ProductTable> getProductTable() throws Exception {
 		ResultSet rs = null;
 		PreparedStatement ps = null;
 		DBAccess db = new DBAccess();
@@ -34,28 +34,30 @@ public class ProductTableDBAccess {
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 
-			while(rs.next()) {
-				list.add(new ProductTable(rs.getString("Status"),rs.getString("ProductCode"),rs.getString("ProductName"),
-						rs.getString("CategoryName"),rs.getInt("SellPrice"),rs.getString("MakerName"),rs.getInt("Stock"),
+			while (rs.next()) {
+				list.add(new ProductTable(rs.getString("Status"), rs.getString("ProductCode"),
+						rs.getString("ProductName"),
+						rs.getString("CategoryName"), rs.getInt("SellPrice"), rs.getString("MakerName"),
+						rs.getInt("Stock"),
 						rs.getString("LimitDisplay") + ":" + rs.getString("LimitDate")));
 			}
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("データベース接続のエラーです。");
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
-			if(rs != null) {
+		} finally {
+			if (rs != null) {
 				try {
 					rs.close();
-				}catch (Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-			if(ps != null) {
+			if (ps != null) {
 				try {
 					ps.close();
-				}catch (Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -65,6 +67,57 @@ public class ProductTableDBAccess {
 		return list;
 	}
 
+	public ArrayList<ProductTable> getfoodlimitTable() throws Exception {
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		DBAccess db = new DBAccess();
 
+		try {
+			con = db.createConnection();
+
+			String sql = "SELECT Status, ProductCode, ProductName, CategoryName, SellPrice, MakerName, Stock, LimitDate , LimitDisplay "
+					+ "FROM product "
+					+ "INNER JOIN maker ON product.MakerID = maker.MakerID "
+					+ "INNER JOIN orderhistory ON product.OrderHistoryCode = orderhistory.OrderHistoryCode "
+					+ "INNER JOIN category ON product.CategoryID = category.CategoryID "
+					+ "INNER JOIN foodlimit ON product.FoodLimitCode = foodlimit.FoodLimitCode "
+					+ "WHERE Invailed = '0' AND ProductCode NOT LIKE '_______1'"
+					+ "ORDER BY LimitDate ASC";
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				list.add(new ProductTable(rs.getString("Status"), rs.getString("ProductCode"),
+						rs.getString("ProductName"),
+						rs.getString("CategoryName"), rs.getInt("SellPrice"), rs.getString("MakerName"),
+						rs.getInt("Stock"),
+						rs.getString("LimitDisplay") + ":" + rs.getString("LimitDate")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("データベース接続のエラーです。");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			db.closeConnection(con);
+
+		}
+
+		return list;
+	}
 
 }
