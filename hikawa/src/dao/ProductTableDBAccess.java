@@ -28,8 +28,9 @@ public class ProductTableDBAccess {
 					+ "INNER JOIN maker ON product.MakerID = maker.MakerID "
 					+ "INNER JOIN orderhistory ON product.OrderHistoryCode = orderhistory.OrderHistoryCode "
 					+ "INNER JOIN category ON product.CategoryID = category.CategoryID "
-					+ "INNER JOIN foodlimit ON product.FoodLimitCode = foodlimit.FoodLimitCode"
-					+ "WHERE Invailed = '0'";
+					+ "INNER JOIN foodlimit ON product.FoodLimitCode = foodlimit.FoodLimitCode "
+					+ "WHERE Invailed = '0'"
+					+ "ORDER BY ProductCode ASC";
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 
@@ -67,4 +68,3 @@ public class ProductTableDBAccess {
 
 
 }
-
