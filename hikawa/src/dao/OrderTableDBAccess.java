@@ -29,7 +29,7 @@ public class OrderTableDBAccess {
 			 sql = "INSERT INTO orders(OrderCode,OrderQuantity,ProductCode) "
 					 + "VALUES('" + makeOrderCode() + "'," + 1 + ",'" + newCode +"')";
 		 }else {
-			 sql = "UPDATE orders SET OrderQuantity = " + getQuantity(newCode) + " WHERE PoductCode = '" + newCode +"'";
+			 sql = "UPDATE orders SET OrderQuantity = " + getQuantity(newCode) + " WHERE ProductCode = '" + newCode +"'";
 		 }
 		 con = db.createConnection();
 		 ps = con.prepareStatement(sql);
@@ -111,7 +111,7 @@ public class OrderTableDBAccess {
 		ResultSet rs = null;
 		PreparedStatement ps = null;
 		DBAccess db = new DBAccess();
-		String sql = "SELECT OrderQuantity FROM orders WHERE ProductCode = " + newCode;
+		String sql = "SELECT OrderQuantity FROM orders WHERE ProductCode = '" + newCode + "'";
 		try {
 			con = db.createConnection();
 			ps = con.prepareStatement(sql);
@@ -134,7 +134,7 @@ public class OrderTableDBAccess {
 				e2.printStackTrace();
 			}
 		}
-		return quantity;
+		return quantity + 1;
 	}
 	
 	//OderCode生成
