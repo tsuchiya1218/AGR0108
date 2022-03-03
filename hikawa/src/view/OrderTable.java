@@ -67,7 +67,7 @@ public class OrderTable extends JFrame implements ActionListener {
 			table.getColumn("商品名").setPreferredWidth(150);
 			table.getColumn("個数").setPreferredWidth(10);
 
-			String[][] tabledata = CreateTableData.orderTableToArray(otd.getOrderTable());
+			String[][] tabledata = CreateTableData.orderTableToArray(otd.getOrders());
 			if (tabledata != null) {
 				for (String[] data : tabledata) {
 					tableModel.addRow(data);

@@ -37,7 +37,7 @@ public class CreateTableData {
 			Order o = list.get(i);
 			tableData[i][0] = o.getPdCode();
 			tableData[i][1] = o.getPdName();
-			tableData[i][2] = Integer.toString(o.getStock());
+			tableData[i][2] = Integer.toString(o.getQuantity());
 		}
 		
 		return tableData;

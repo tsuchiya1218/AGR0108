@@ -1,40 +1,42 @@
 package model;
 
-public class Order {
+public class Order {;
 	private String PdCode; //商品コード
-	private String PdName; //商品名
-	private int Stock; //在庫量
+	private String pdName; //商品名
+	private int Quantity; //在庫量
 
 	public Order() {
 	}
 	
-	public Order(String PdCode ,String PdName ,int Stock) {
+	public Order(String PdCode ,String pdName ,int Quantity) {
 		this.PdCode = PdCode;
-		this.PdName = PdName;
-		this.Stock = Stock;
-	}
-	public void setPdCode(String PdCode) {
-		this.PdCode = PdCode;
+		this.pdName = pdName;
+		this.Quantity = Quantity;
 	}
 
 	public String getPdCode() {
 		return PdCode;
 	}
-	
-	public void setPdName(String PdName) {
-		this.PdName = PdName;
+
+	public void setPdCode(String pdCode) {
+		PdCode = pdCode;
 	}
 
 	public String getPdName() {
-		return PdName;
+		return pdName;
 	}
 
-	public void setStock(int Stock) {
-		this.Stock = Stock;
+	public void setPdName(String pdName) {
+		this.pdName = pdName;
 	}
 
-	public int getStock() {
-		return Stock;
+	public int getQuantity() {
+		return Quantity;
 	}
+
+	public void setQuantity(int quantity) {
+		Quantity = quantity;
+	}
+	
 }
 //発注表画面

@@ -24,7 +24,7 @@ public class OrderHistoryDBAccess {
 		Connection con = null;
 
 		OrderTableDBAccess ot = new OrderTableDBAccess();
-		String[][] orderlist = CreateTableData.orderTableToArray(ot.getOrderTable());
+		String[][] orderlist = CreateTableData.orderTableToArray(ot.getOrders());
 		int listSize = orderlist.length;
 		
 		//OrderCodeを生成する
