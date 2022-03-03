@@ -153,16 +153,20 @@ public class OrderTableDBAccess {
 	
 	//発注表の個数を更新する
 	public void updateQuantity(String pCode, int quantity) throws SQLException {
+		/*
+		 * pCodeは商品コード
+		 * quantityは個数
+		 */
 		Connection con = null;
 		PreparedStatement ps = null;
 		DBAccess db = new DBAccess();
 		//個数を更新するSQL文
-		String sql = "UPDATE ordertable SET OrderStock = " + quantity + " WHERE ProductCode = " + pCode;
+		String sql = "UPDATE orders SET OrderQuantity = " + quantity + " WHERE ProductCode = '" + pCode +"'";
 		try {
 			con = db.createConnection();
 			ps = con.prepareStatement(sql);
 			//SQL実行
-			ps.executeQuery();
+			ps.executeUpdate();
 			con.commit();
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -241,6 +245,43 @@ public class OrderTableDBAccess {
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
+		}
+	}
+	
+	//発注表に商品が存在するか
+	//存在するならTrue,しないならFalseを返す
+	public boolean checkAvailProduct(String pCode) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		DBAccess db = new DBAccess();
+		int cnt = 0;
+		String sql = "SELECT COUNT(*) AS cnt FROM orders WHERE ProductCode = '" + pCode + "'";
+		try {
+			con = db.createConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				cnt = rs.getInt("cnt");
+			}
+		} catch (Exception e) {
+			System.out.println("checkAvailProduct()のエラー");
+		}finally {
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+				if(rs != null) {
+					rs.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		if(cnt >= 1) {
+			return true;
+		}else {
+			return false;
 		}
 	}
 }

@@ -3,6 +3,7 @@ package view;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -79,74 +80,89 @@ public class OrderTable extends JFrame implements ActionListener {
 		}
 
 		scrollPane.setViewportView(table);
+		
+		//発注履歴ボタン
 		JButton btnOrderHistory = new JButton("発注履歴");
 		btnOrderHistory.setBounds(297, 11, 85, 26);
 		btnOrderHistory.setActionCommand("btnOrderHistory");
 		btnOrderHistory.addActionListener(this);
 		contentPane.add(btnOrderHistory);
-
+		
+		//トップボタン
 		JButton btnTop = new JButton("トップ");
 		btnTop.setBounds(390, 11, 75, 26);
 		btnTop.setActionCommand("btnTop");
 		btnTop.addActionListener(this);
 		contentPane.add(btnTop);
-
+		
+		//発注ボタン
 		JButton btnOrder = new JButton("発注");
 		btnOrder.setBounds(58, 342, 76, 26);
 		btnOrder.setActionCommand("btnOrder");
 		btnOrder.addActionListener(this);
 		contentPane.add(btnOrder);
-
+		
+		//個数変更のラベル
 		JLabel lblNewLabel_2 = new JLabel("個数変更");
 		lblNewLabel_2.setFont(new Font("MS UI Gothic", Font.PLAIN, 14));
 		lblNewLabel_2.setBounds(32, 226, 64, 16);
 		contentPane.add(lblNewLabel_2);
-
+		
+		
+		//個数変更の商品コード入力フィールド
 		textField = new JTextField();
 		textField.setBounds(88, 252, 96, 19);
 		contentPane.add(textField);
 		textField.setColumns(10);
-
+		
+		//個数入力ラベル
 		JLabel lblNewLabel_3 = new JLabel("個数入力：");
 		lblNewLabel_3.setBounds(193, 255, 64, 13);
 		contentPane.add(lblNewLabel_3);
-
+		
+		//個数入力フィールド？
 		textField_1 = new JTextField();
 		textField_1.setBounds(258, 252, 96, 19);
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
-
+		
+		//商品コードラベル
 		JLabel lblNewLabel_4 = new JLabel("商品コード：");
 		lblNewLabel_4.setBounds(12, 255, 74, 13);
 		contentPane.add(lblNewLabel_4);
 
+		//商品削除ラベル
 		JLabel lblNewLabel_5 = new JLabel("商品削除");
 		lblNewLabel_5.setFont(new Font("MS UI Gothic", Font.PLAIN, 14));
 		lblNewLabel_5.setBounds(32, 289, 64, 15);
 		contentPane.add(lblNewLabel_5);
 
+		//商品コードラベル
 		JLabel lblNewLabel_6 = new JLabel("商品コード：");
-
 		lblNewLabel_6.setBounds(23, 314, 75, 13);
 		contentPane.add(lblNewLabel_6);
-
+		
+		//変更ボタン
 		JButton btnchange = new JButton("変更");
 		btnchange.setActionCommand("btnchange");
 		btnchange.addActionListener(this);
 		btnchange.setBounds(360, 251, 64, 21);
 		contentPane.add(btnchange);
-
+		
+		//商品削除の商品コード入力
 		textField_2 = new JTextField();
 		textField_2.setBounds(99, 311, 96, 19);
 		contentPane.add(textField_2);
 		textField_2.setColumns(10);
-
+		
+		//削除ボタン
 		JButton btnDelete = new JButton("削除");
 		btnDelete.setActionCommand("btnDelete");
 		btnDelete.addActionListener(this);
 		btnDelete.setBounds(208, 310, 64, 21);
 		contentPane.add(btnDelete);
-
+		
+		//商品表ボタン
 		JButton producttablebtn = new JButton("商品表");
 		producttablebtn.setActionCommand("producttablebtn");
 		producttablebtn.addActionListener(this);
@@ -197,10 +213,33 @@ public class OrderTable extends JFrame implements ActionListener {
 			}
 			JOptionPane.showMessageDialog(contentPane, "発注完了しました");
 		}
-
-		//変更ボタンが押された時の処理
+		
+		
+		//個数変更ボタンが押された時の処理
 		if (cmd.equals("btnchange")) {
-
+			String qPCode = textField.getText();
+			OrderTableDBAccess otd = new OrderTableDBAccess();
+			if(!(qPCode.equals(""))) {
+				try {
+					int quantity = Integer.parseInt(textField_1.getText());
+					if(otd.checkAvailProduct(qPCode)) {
+						otd.updateQuantity(qPCode, quantity);
+						JOptionPane.showMessageDialog(contentPane, "変更しました。");
+						
+					}else {
+						JOptionPane.showMessageDialog(contentPane, "商品コードが間違っています。");
+					}
+				} catch (NumberFormatException e2) {
+					JOptionPane.showMessageDialog(contentPane, "個数入力に半角数字で入力してください。");
+				}catch(SQLException SQLe) {
+					SQLe.printStackTrace();
+				}
+				setVisible(false);
+				HikawaController.OrderTableDisplay();
+			} else {
+				JOptionPane.showMessageDialog(contentPane, "商品コードを入力してください。");
+			}
+			
 		}
 	}
 }
