@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductAdditionDBAccess {
-	public String pName, mName, cID,pCode,makerID;
-	public int Sprice,Pprice;
+	public String pName, mName, cID, pCode, makerID;
+	public int Sprice, Pprice;
 
-	public ProductAdditionDBAccess(String pName, String mName, String cID, int Sprice,int Pprice) {
+	public ProductAdditionDBAccess(String pName, String mName, String cID, int Sprice, int Pprice) {
 		//引数(商品名、メーカー名、カテゴリID、価格、食品期限コード)
 		this.pName = pName;
 		this.mName = mName;
@@ -48,8 +48,8 @@ public class ProductAdditionDBAccess {
 			ps.setString(2, pName);
 			ps.setInt(3, Sprice);
 			ps.setInt(4, Pprice);
-			ps.setString(5,makerID);
-			ps.setString(6,cID);
+			ps.setString(5, makerID);
+			ps.setString(6, cID);
 
 			ps.executeUpdate();
 			con.commit();
@@ -171,21 +171,25 @@ public class ProductAdditionDBAccess {
 					Pcode = rs1.getString("ProductCode");
 				}
 
-				//カテゴリー内の数
-				Pcode1 = Pcode.substring(0, Pcode.length() - 3);
-				Pcode2 = Integer.parseInt(Pcode.substring(5, Pcode.length() - 2)) + 1;
-				Pcode = Pcode1 + Pcode2;
-
-				//同じ商品個数判定
-				String Spq = null;
-				cnt2 += 1;
-				if (cnt2 < 10) {
-					Spq = "0" + cnt2;
+				if (Pcode == null) {//カテゴリー内に商品が一つも
+					ProductCode = cID + "_" + "00101";
 				} else {
-					Spq = "" + cnt2;
-				}
+					//カテゴリー内の数
+					Pcode1 = Pcode.substring(0, Pcode.length() - 3);
+					Pcode2 = Integer.parseInt(Pcode.substring(5, Pcode.length() - 2)) + 1;
+					Pcode = Pcode1 + Pcode2;
 
-				ProductCode = Pcode + Spq;
+					//同じ商品個数判定
+					String Spq = null;
+					cnt2 += 1;
+					if (cnt2 < 10) {
+						Spq = "0" + cnt2;
+					} else {
+						Spq = "" + cnt2;
+					}
+
+					ProductCode = Pcode + Spq;
+				}
 
 			} else {
 
