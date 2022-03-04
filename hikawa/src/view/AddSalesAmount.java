@@ -17,8 +17,8 @@ import control.HikawaController;
 public class AddSalesAmount extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
-	private JTextField dateFeild;
-	private JTextField amountFeild;
+	static JTextField dateFeild;
+	static JTextField amountFeild;
 
 	/**
 	 * Create the frame.
@@ -82,6 +82,7 @@ public class AddSalesAmount extends JFrame implements ActionListener {
 	static String date = null;
 	static int amount = 0;
 	
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
@@ -91,6 +92,7 @@ public class AddSalesAmount extends JFrame implements ActionListener {
 
 		//売上ボタンを押した際の処理
 		if (cmd.equals("btnSales")) {
+			setVisible(false);
 			HikawaController.SalesDisplay();
 		}
 
@@ -100,19 +102,20 @@ public class AddSalesAmount extends JFrame implements ActionListener {
 				try {
 					date = dateFeild.getText();
 					amount = Integer.parseInt(amountFeild.getText());
+					setVisible(false);
+					HikawaController.AddSalesAmountCheckDisplay();
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(contentPane, "項目を入力してください");
 				}
-				HikawaController.AddSalesAmountCheckDisplay();
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
 		}
 	}
-	public static String getDate() {
+	/*public static String getDate() {
 		return date;
 	}	
 	public static int getAmount() {
 		return amount;
-	}
+	}*/
 }

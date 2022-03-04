@@ -17,13 +17,6 @@ import dao.AddSalesAmountDBAccess;
 public class AddSalesAmountCheck extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
-
-	static String date = AddSalesAmount.getDate();
-
-	static int amount = AddSalesAmount.getAmount();
-	Integer i = Integer.valueOf(amount);
-	String samount = i.toString();
-
 	/**
 	 * Create the frame.
 	 */
@@ -50,7 +43,7 @@ public class AddSalesAmountCheck extends JFrame implements ActionListener {
 		lblNewLabel_2.setBounds(45, 110, 37, 17);
 		contentPane.add(lblNewLabel_2);
 
-		JLabel lblNewLabel_3 = new JLabel(date);
+		JLabel lblNewLabel_3 = new JLabel(AddSalesAmount.dateFeild.getText());
 		lblNewLabel_3.setBounds(92, 111, 118, 16);
 		contentPane.add(lblNewLabel_3);
 
@@ -58,7 +51,7 @@ public class AddSalesAmountCheck extends JFrame implements ActionListener {
 		lblNewLabel_4.setBounds(45, 139, 37, 16);
 		contentPane.add(lblNewLabel_4);
 
-		JLabel lblNewLabel_5 = new JLabel((samount));
+		JLabel lblNewLabel_5 = new JLabel(AddSalesAmount.amountFeild.getText());
 		lblNewLabel_5.setBounds(92, 139, 91, 16);
 		contentPane.add(lblNewLabel_5);
 
@@ -74,6 +67,12 @@ public class AddSalesAmountCheck extends JFrame implements ActionListener {
 		btnRe.addActionListener(this);
 		contentPane.add(btnRe);
 	}
+	
+	static String date ;
+	static String samount ;
+	//Integer i = Integer.valueOf(amount);
+	//String samount = i.toString();
+
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -87,8 +86,10 @@ public class AddSalesAmountCheck extends JFrame implements ActionListener {
 		if (cmd.equals("btnConfirm")) {
 			//DB追加処理書く
 
-			//date = dateFeild.getText();
-			//amount = Integer.parseInt(amountFeild.getText());
+			date = AddSalesAmount.dateFeild.getText();
+			samount = AddSalesAmount.amountFeild.getText();
+			
+			int amount = Integer.parseInt(samount);
 
 			try {				
 				asad = new AddSalesAmountDBAccess(date, amount);
@@ -97,8 +98,8 @@ public class AddSalesAmountCheck extends JFrame implements ActionListener {
 				// TODO 自動生成された catch ブロック
 				e1.printStackTrace();
 			}
-
 			JOptionPane.showMessageDialog(contentPane, "追加完了しました");
+			setVisible(false);
 			HikawaController.SalesDisplay();
 
 		}
