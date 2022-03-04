@@ -29,7 +29,7 @@ public class OrderTableDBAccess {
 			 sql = "INSERT INTO orders(OrderCode,OrderQuantity,ProductCode) "
 					 + "VALUES('" + makeOrderCode() + "'," + 1 + ",'" + newCode +"')";
 		 }else {
-			 sql = "UPDATE orders SET OrderQuantity = " + getQuantity(newCode) + " WHERE ProductCode = '" + newCode +"'";
+			 sql = "UPDATE orders SET OrderQuantity = " + getQuantity(newCode) + " , OrdersInvailed = " + 0 + " WHERE ProductCode = '" + newCode +"'";
 		 }
 		 con = db.createConnection();
 		 ps = con.prepareStatement(sql);
@@ -193,7 +193,8 @@ public class OrderTableDBAccess {
 		ArrayList<Order> list = new ArrayList<Order>();
 		//SQL文
 		String sql = "SELECT orders.ProductCode, ProductName, OrderQuantity FROM orders "
-				+ "INNER JOIN product ON product.ProductCode = orders.ProductCode ";
+				+ "INNER JOIN product ON product.ProductCode = orders.ProductCode "
+				+ "WHERE OrdersInvailed = 0 ";
 		
 		try {
 			con = db.createConnection();
@@ -284,4 +285,39 @@ public class OrderTableDBAccess {
 			return false;
 		}
 	}
+	
+	
+	//商品コードから発注表の商品を削除
+	public void dleateFromOrders(String pCode) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		DBAccess db = new DBAccess();
+		int one = 1;
+		String sql = "UPDATE orders SET OrdersInvailed = " + one
+				+ " WHERE ProductCode = '" + pCode +"'";
+		try {
+			con = db.createConnection();
+			ps = con.prepareStatement(sql);
+			ps.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			try {
+				con.rollback();
+				e.printStackTrace();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}finally {
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+	
+	
+	
 }

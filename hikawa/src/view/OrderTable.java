@@ -215,6 +215,7 @@ public class OrderTable extends JFrame implements ActionListener {
 		}
 		
 		
+		
 		//個数変更ボタンが押された時の処理
 		if (cmd.equals("btnchange")) {
 			String qPCode = textField.getText();
@@ -239,8 +240,30 @@ public class OrderTable extends JFrame implements ActionListener {
 			} else {
 				JOptionPane.showMessageDialog(contentPane, "商品コードを入力してください。");
 			}
-			
 		}
+	
+		
+		//削除ボタンが押された時の処理
+		if (cmd.equals("btnDelete")) {
+			String pCode = textField_2.getText();
+			OrderTableDBAccess otd = new OrderTableDBAccess();
+			if(!(pCode.equals(""))) {
+				if(otd.checkAvailProduct(pCode)) {
+					otd.dleateFromOrders(pCode);
+					JOptionPane.showMessageDialog(contentPane, "削除しました。");
+					setVisible(false);
+					HikawaController.OrderTableDisplay();
+				} else {
+					JOptionPane.showMessageDialog(contentPane, "商品コードが間違っています。");
+				}
+			
+			}else {
+				JOptionPane.showMessageDialog(contentPane, "商品コードを入力してください。");
+			}
+		}
+		
+	
+	
 	}
 }
 
