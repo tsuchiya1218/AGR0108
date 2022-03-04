@@ -23,6 +23,7 @@ import dao.OrderTableDBAccess;
 import dao.ProductDeleteDBAccess;
 import dao.ProductSearchDBAccess;
 import dao.ProductTableDBAccess;
+import dao.WasteDBAccess;
 
 public class ProductTable extends JFrame implements ActionListener {
 
@@ -44,7 +45,7 @@ public class ProductTable extends JFrame implements ActionListener {
 	public ProductTable() {
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 867, 497);
+		setBounds(100, 100, 884, 497);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -348,7 +349,6 @@ public class ProductTable extends JFrame implements ActionListener {
 			try {
 				tableModel.setRowCount(0);
 				ProductTableDBAccess ptd = new ProductTableDBAccess();
-
 				String[][] tabledata = CreateTableData.productTableToArray(ptd.getfoodlimitTable());
 				for (String[] data : tabledata) {
 					tableModel.addRow(data);
@@ -361,7 +361,19 @@ public class ProductTable extends JFrame implements ActionListener {
 
 		// 廃棄商品追加ボタンが押された時の処理
 		if (cmd.equals("btnwasteAdd")) {
-
+			String pCode = wastetext.getText();
+			if(!(pCode.equals(""))) {
+				try {
+					WasteDBAccess wda = new WasteDBAccess(pCode);
+					wda.WasteAdd();
+					JOptionPane.showMessageDialog(contentPane, "廃棄表に追加しました");
+				} catch (Exception e1) {
+					// TODO 自動生成された catch ブロック
+					JOptionPane.showMessageDialog(contentPane, "すでに追加済みか商品コードが間違っています");
+				}
+			}else {
+				JOptionPane.showMessageDialog(contentPane, "商品コードを入力してください");
+			}
 		}
 	}
 }

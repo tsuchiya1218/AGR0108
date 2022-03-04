@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import model.Order;
 import model.ProductTable;
 import model.Sales;
+import model.WasteTable;
 
 public class CreateTableData {
 	/*ProductTable型のArrayListをString[][]に変換する
@@ -14,7 +15,7 @@ public class CreateTableData {
 	public static String[][] productTableToArray(ArrayList<ProductTable> list) {
 		int listSize = list.size();
 		String[][] tableData = new String[listSize][8];
-			
+
 			for (int i = 0; i < listSize; i++) {
 				ProductTable pt = list.get(i);
 				tableData[i][0] = pt.getStatus();
@@ -29,7 +30,7 @@ public class CreateTableData {
 			return tableData;
 
 	}
-	
+
 	public static String[][] orderTableToArray(ArrayList<Order> list){
 		int listSize = list.size();
 		String[][] tableData = new String[listSize][3];
@@ -39,7 +40,7 @@ public class CreateTableData {
 			tableData[i][1] = o.getPdName();
 			tableData[i][2] = Integer.toString(o.getQuantity());
 		}
-		
+
 		return tableData;
 	}
 
@@ -51,7 +52,23 @@ public class CreateTableData {
 			tableData[i][0] = s.getDate();
 			tableData[i][1] = Integer.toString(s.getAmount());
 		}
-		
+
 		return tableData;
 	}
+
+
+	public static String[][] WasteTableToArray(ArrayList<WasteTable> wasteTable) {
+		int listSize = wasteTable.size();
+		String[][] tableData = new String[listSize][4];
+		for (int i = 0; i < listSize; i++ ) {
+			WasteTable w = wasteTable.get(i);
+			tableData[i][0] = w.getProductCode();
+			tableData[i][1] = w.getpName();
+			tableData[i][2] = Integer.toString(w.getStock());
+			tableData[i][3] = w.getlDate();
+		}
+
+		return tableData;
+	}
+
 }

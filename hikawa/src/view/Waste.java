@@ -7,18 +7,24 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import action.CreateTableData;
 import control.HikawaController;
+import dao.WasteDBAccess;
 
 public class Waste extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTable table;
+	private DefaultTableModel tableModel;
+	private JTextField cancelField;
 
 	/**
 	 * Create the frame.
@@ -26,7 +32,7 @@ public class Waste extends JFrame implements ActionListener {
 	public Waste() {
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 541, 360);
+		setBounds(100, 100, 541, 391);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -45,30 +51,25 @@ public class Waste extends JFrame implements ActionListener {
 		scrollPane.setBounds(48, 98, 434, 168);
 		contentPane.add(scrollPane);
 
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
-				new Object[][] {
-						{ null, null, null, null, null },
-				},
-				new String[] {
-						"\u5546\u54C1\u756A\u53F7", "\u5546\u54C1\u540D", "\u500B\u6570", "\u5546\u54C1\u671F\u9650", ""
-				}) {
-			Class[] columnTypes = new Class[] {
-					Integer.class, String.class, String.class, Integer.class, Object.class
-			};
+		String[] columnNames = { "	商品番号", "商品名", "個数", "商品期限" };
+		tableModel = new DefaultTableModel(columnNames, 0);
+		table = new JTable(tableModel);
+		try {
+			WasteDBAccess ptd = new WasteDBAccess();
 
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
+			//列の入れ替えを禁止
+			table.getTableHeader().setReorderingAllowed(false);
+
+			String[][] tabledata = CreateTableData.WasteTableToArray(ptd.getWasteTable());
+			if (tabledata != null) {
+				for (String[] data : tabledata) {
+					tableModel.addRow(data);
+				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-			boolean[] columnEditables = new boolean[] {
-					false, false, false, false, true
-			};
-
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
 		scrollPane.setViewportView(table);
 
 		JButton btnProduct = new JButton("商品表");
@@ -83,17 +84,26 @@ public class Waste extends JFrame implements ActionListener {
 		btnTop.addActionListener(this);
 		contentPane.add(btnTop);
 
-		JButton btnAddWaste = new JButton("廃棄商品追加");
-		btnAddWaste.setBounds(50, 288, 111, 26);
-		btnAddWaste.setActionCommand("btnAddWaste");
-		btnAddWaste.addActionListener(this);
-		contentPane.add(btnAddWaste);
-
 		JButton btnWasteConfirm = new JButton("廃棄完了");
-		btnWasteConfirm.setBounds(174, 288, 98, 26);
+		btnWasteConfirm.setBounds(51, 318, 98, 26);
 		btnWasteConfirm.setActionCommand("btnWasteConfirm");
 		btnWasteConfirm.addActionListener(this);
 		contentPane.add(btnWasteConfirm);
+
+		JLabel lblNewLabel_2 = new JLabel("廃棄解除：");
+		lblNewLabel_2.setBounds(51, 279, 68, 13);
+		contentPane.add(lblNewLabel_2);
+
+		cancelField = new JTextField();
+		cancelField.setBounds(120, 276, 96, 19);
+		contentPane.add(cancelField);
+		cancelField.setColumns(10);
+
+		JButton btncancel = new JButton("解除");
+		btncancel.setActionCommand("btncancel");
+		btncancel.addActionListener(this);
+		btncancel.setBounds(220, 275, 62, 21);
+		contentPane.add(btncancel);
 	}
 
 	@Override
@@ -112,16 +122,63 @@ public class Waste extends JFrame implements ActionListener {
 			HikawaController.ProductTableDisplay();
 		}
 
-		//廃棄商品追加ボタンを押した際の処理
-		if (cmd.equals("btnAddWaste")) {
-			setVisible(false);
-			HikawaController.AddWastePtoductDisplay();
-		}
-
 		//廃棄完了ボタンを押した際の処理
 		if (cmd.equals("btnWasteConfirm")) {
-			//処理を追加
+
+			try {
+				WasteDBAccess.Deletewaste();
+				JOptionPane.showMessageDialog(contentPane, "廃棄完了しました");
+			} catch (Exception e1) {
+				// TODO 自動生成された catch ブロック
+				e1.printStackTrace();
+			}
+
+			try {//再表示
+				tableModel.setRowCount(0);
+				WasteDBAccess wda = new WasteDBAccess();
+				String[][] tabledata = CreateTableData.WasteTableToArray(wda.getWasteTable());
+				for (String[] data : tabledata) {
+					tableModel.addRow(data);
+				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+
+		}
+
+		//解除ボタンが押された時の処理
+		if (cmd.equals("btncancel")) {
+
+			try {
+				String pCode = cancelField.getText();
+
+				if(!(pCode.equals(""))) {
+					WasteDBAccess wad = new WasteDBAccess(pCode);
+					wad.cancelwaste();
+					JOptionPane.showMessageDialog(contentPane, "解除しました");
+				}else {
+
+					JOptionPane.showMessageDialog(contentPane, "商品コードを入力してください");
+
+				}
+
+
+
+			} catch (Exception e2) {
+				// TODO 自動生成された catch ブロック
+				e2.printStackTrace();
+			}
+
+			try {//再表示
+				tableModel.setRowCount(0);
+				WasteDBAccess wda = new WasteDBAccess();
+				String[][] tabledata = CreateTableData.WasteTableToArray(wda.getWasteTable());
+				for (String[] data : tabledata) {
+					tableModel.addRow(data);
+				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
-
 }
