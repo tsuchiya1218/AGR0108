@@ -199,19 +199,17 @@ public class OrderTable extends JFrame implements ActionListener {
 			//発注表に追加
 			try {
 				ohd.addOrderHistory();
+				JOptionPane.showMessageDialog(contentPane, "発注完了しました");
+				otd.deleteOrderTable();
+				setVisible(false);
+				HikawaController.OrderTableDisplay();
 			} catch (Exception e1) {
 				// TODO 自動生成された catch ブロック
 				e1.printStackTrace();
 				System.out.println("発注追加時のエラー");
-			} finally {
-				try {
-					otd.deleteOrderTable();
-				} catch (Exception e2) {
-					e2.printStackTrace();
-					System.out.println("発注表の削除エラー");
-				}
 			}
-			JOptionPane.showMessageDialog(contentPane, "発注完了しました");
+			
+			
 		}
 		
 		
