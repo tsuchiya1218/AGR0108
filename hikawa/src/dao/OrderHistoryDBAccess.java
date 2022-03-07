@@ -3,6 +3,7 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -211,6 +212,38 @@ public class OrderHistoryDBAccess {
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
+		}
+	}
+	
+	//納品日変更
+	public void editDeliDate(String pCode, String date) throws SQLException {
+		DBAccess db = new DBAccess();
+		Connection con = null;
+		PreparedStatement ps = null;
+		String sql = "UPDATE orderhistory " 
+				+ "INNER JOIN product ON orderhistory.OrderHistoryCode = product.OrderHistoryCode "
+				+ "SET DeliveryDate = '" + date + "' WHERE ProductCode = '" + pCode +"'";
+		try {
+			con = db.createConnection();
+			ps = con.prepareStatement(sql);
+			ps.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			con.rollback();
+			e.printStackTrace();
+		}finally {
+			try {
+				if (ps != null) {
+					ps.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		try {
+			db.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

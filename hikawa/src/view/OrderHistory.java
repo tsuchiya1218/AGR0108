@@ -3,16 +3,22 @@ package view;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 import action.CreateTableData;
 import control.HikawaController;
@@ -22,9 +28,10 @@ public class OrderHistory extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTable table;
-	private JTextField textField, textField2;
+	private JTextField textField, textField3;
 	private DefaultTableModel tableModel;
-
+	JFormattedTextField textField4;
+	JFormattedTextField textField2;
 
 	/**
 	 * Create the frame.
@@ -32,7 +39,7 @@ public class OrderHistory extends JFrame implements ActionListener {
 	public OrderHistory() {
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 664, 419);
+		setBounds(120, 120, 664, 419);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -46,7 +53,7 @@ public class OrderHistory extends JFrame implements ActionListener {
 		scrollPane.setBounds(91, 92, 477, 212);
 		contentPane.add(scrollPane);
 
-		String[] columnNames = { "発注日", "商品コード", "商品名", "個数", "納品予定日", "状況"};
+		String[] columnNames = { "発注日", "商品コード", "商品名", "個数", "納品予定日", "状況" };
 		tableModel = new DefaultTableModel(columnNames, 0);
 		table = new JTable(tableModel);
 
@@ -74,8 +81,6 @@ public class OrderHistory extends JFrame implements ActionListener {
 			e.printStackTrace();
 		}
 
-		
-		
 		scrollPane.setViewportView(table);
 
 		JLabel lblNewLabel_1 = new JLabel("発注履歴画面");
@@ -88,30 +93,80 @@ public class OrderHistory extends JFrame implements ActionListener {
 		btnOrder.setActionCommand("btnOrder");
 		btnOrder.addActionListener(this);
 		contentPane.add(btnOrder);
-
-		JLabel lblNewLabel_2 = new JLabel("商品コード：");
-		lblNewLabel_2.setBounds(75, 328, 73, 13);
-		contentPane.add(lblNewLabel_2);
 		
+		/*-------------------------------------------------------*/
+
+		//納品予定用商品コードラベル
+		JLabel lblNewLabel_4 = new JLabel("商品コード：");
+		lblNewLabel_4.setBounds(75, 320, 73, 13);
+		contentPane.add(lblNewLabel_4);
+
+		//納品予定用商品コード入力欄
+		textField3 = new JTextField();
+		textField3.setBounds(152, 320, 96, 19);
+		contentPane.add(textField3);
+		textField3.setColumns(10);
+
+		//納品予定用食品期限ラベル
+		JLabel lblNewLabel_5 = new JLabel("納品予定：");
+		lblNewLabel_5.setBounds(260, 320, 73, 13);
+		contentPane.add(lblNewLabel_5);
+
+		//納品予定用食品期限入力欄
+		DateFormat df = new SimpleDateFormat("yyyy/mm/dd");
+		textField4 = new JFormattedTextField(df);
+		try {
+			MaskFormatter dateMask = new MaskFormatter("####/##/##");
+			dateMask.install(textField4);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		textField4.setBounds(320, 320, 96, 19);
+		contentPane.add(textField4);
+		textField4.setColumns(10);
+		
+
+		JButton btnNewButton2 = new JButton("納品日変更");
+		btnNewButton2.setBounds(430, 320, 110, 21);
+		btnNewButton2.setActionCommand("btnNewButton2");
+		btnNewButton2.addActionListener(this);
+		contentPane.add(btnNewButton2);
+
+		/*-------------------------------------------------------*/
+		
+		//商品コードラベル
+		JLabel lblNewLabel_2 = new JLabel("商品コード：");
+		lblNewLabel_2.setBounds(75, 350, 73, 13);
+		contentPane.add(lblNewLabel_2);
+
 		//商品コード入力欄
 		textField = new JTextField();
-		textField.setBounds(152, 325, 96, 19);
+		textField.setBounds(152, 350, 96, 19);
 		contentPane.add(textField);
 		textField.setColumns(10);
-		
+
+		//食品期限ラベル
 		JLabel lblNewLabel_3 = new JLabel("食品期限：");
-		lblNewLabel_3.setBounds(260, 328, 73, 13);
+		lblNewLabel_3.setBounds(260, 350, 73, 13);
 		contentPane.add(lblNewLabel_3);
-		
-		//食品期限入力欄
-		textField2 = new JTextField();
-		textField2.setBounds(320, 325, 96, 19);
+
+		//食品期限入力欄;
+		DateFormat df2 = new SimpleDateFormat("yyyy/mm/dd");
+		textField2 = new JFormattedTextField(df2);
+		try {
+			MaskFormatter dateMask2 = new MaskFormatter("####/##/##");
+			dateMask2.install(textField2);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		textField2.setBounds(320, 350, 96, 19);
 		contentPane.add(textField2);
 		textField2.setColumns(10);
 
 		JButton btnNewButton = new JButton("納品確定");
-		btnNewButton.setBounds(430, 324, 73, 21);
+		btnNewButton.setBounds(430, 350, 110, 21);
 		contentPane.add(btnNewButton);
+		/*-------------------------------------------------------*/
 	}
 
 	@Override
@@ -122,6 +177,29 @@ public class OrderHistory extends JFrame implements ActionListener {
 		if (cmd.equals("btnOrder")) {
 			setVisible(false);
 			HikawaController.OrderTableDisplay();
+		}
+		
+		
+		//納品日変更ボタンを押した際の処理
+		if (cmd.equals("btnNewButton2")) {
+			String pCode = textField3.getText();
+			String date = textField4.getText();
+			//未入力チェック
+			if(pCode.equals("") || date.equals("    /  /  ") || date.equals("")) {
+				JOptionPane.showMessageDialog(contentPane, "商品コードまたは納品予定を入力してください。");
+			}else {
+				OrderHistoryDBAccess ohd = new OrderHistoryDBAccess();
+				try {
+					ohd.editDeliDate(pCode, date);
+					JOptionPane.showMessageDialog(contentPane, "変更しました。");
+					setVisible(false);
+					HikawaController.OrderHistoryDisplay();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+		}
+			
+			
 		}
 	}
 
