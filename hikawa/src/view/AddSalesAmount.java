@@ -3,6 +3,7 @@ package view;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -50,11 +51,10 @@ public class AddSalesAmount extends JFrame implements ActionListener {
 		MaskFormatter mf = null;
 		try {
 			mf = new MaskFormatter("####-##-##");
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		
 		dateFeild = new JFormattedTextField(mf);
 		dateFeild.setBounds(82, 106, 151, 23);
 		contentPane.add(dateFeild);
@@ -88,17 +88,13 @@ public class AddSalesAmount extends JFrame implements ActionListener {
 		btnCheck.addActionListener(this);
 		contentPane.add(btnCheck);
 	}
-	
+
 	static String date = null;
-	static int amount = 0;
-	
-	
+	static Integer amount = null;
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
-
-		//String date = null;
-		//Integer amount = null;
 
 		//売上ボタンを押した際の処理
 		if (cmd.equals("btnSales")) {
@@ -109,23 +105,25 @@ public class AddSalesAmount extends JFrame implements ActionListener {
 		//確認ボタンを押した際の処理
 		if (cmd.equals("btnCheck")) {
 			try {
+				//入力check
+				date = dateFeild.getText();
+				amount = Integer.parseInt(amountFeild.getText());
+				//日付check
 				try {
-					date = dateFeild.getText();
-					amount = Integer.parseInt(amountFeild.getText());
+					date = date.replace('-', '/');
+					DateFormat format = DateFormat.getDateInstance();
+					format.setLenient(false);
+					format.parse(date);
+
+					//画面遷移
 					setVisible(false);
 					HikawaController.AddSalesAmountCheckDisplay();
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(contentPane, "項目を入力してください");
+					JOptionPane.showMessageDialog(contentPane, "その日付は存在しません");
 				}
 			} catch (Exception e2) {
-				e2.printStackTrace();
+				JOptionPane.showMessageDialog(contentPane, "項目を入力してください");
 			}
 		}
 	}
-	/*public static String getDate() {
-		return date;
-	}	
-	public static int getAmount() {
-		return amount;
-	}*/
 }
