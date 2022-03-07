@@ -5,19 +5,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
 
 import control.HikawaController;
 
 public class AddSalesAmount extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
-	static JTextField dateFeild;
+	static JFormattedTextField dateFeild;
 	static JTextField amountFeild;
 
 	/**
@@ -45,7 +47,15 @@ public class AddSalesAmount extends JFrame implements ActionListener {
 		lblNewLabel_2.setBounds(39, 108, 37, 16);
 		contentPane.add(lblNewLabel_2);
 
-		dateFeild = new JTextField();
+		MaskFormatter mf = null;
+		try {
+			mf = new MaskFormatter("####-##-##");
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+
+		
+		dateFeild = new JFormattedTextField(mf);
 		dateFeild.setBounds(82, 106, 151, 23);
 		contentPane.add(dateFeild);
 
