@@ -3,6 +3,7 @@ package action;
 import java.util.ArrayList;
 
 import model.Order;
+import model.OrderHistory;
 import model.ProductTable;
 import model.Sales;
 import model.WasteTable;
@@ -68,6 +69,21 @@ public class CreateTableData {
 			tableData[i][3] = w.getlDate();
 		}
 
+		return tableData;
+	}
+	
+	public static String[][] historyTableToArray(ArrayList<OrderHistory> historyTable){
+		int listSize = historyTable.size();
+		String [][] tableData = new String[listSize][6];
+		for(int i = 0; i < listSize; i++) {
+			OrderHistory h = historyTable.get(i);
+			tableData[i][0] = h.getOdDate();
+			tableData[i][1] = h.getPdCode();
+			tableData[i][2] = h.getOdName();
+			tableData[i][3] = Integer.toString(h.getOdQuantity());
+			tableData[i][4] = h.getDeliDate();
+			tableData[i][5] = h.getStatus();
+		}
 		return tableData;
 	}
 

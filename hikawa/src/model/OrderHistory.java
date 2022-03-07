@@ -9,6 +9,8 @@ public class OrderHistory {
 	private int OdQuantity; //発注量
 	private String DeliDate; //納品予定日
 	private String FoodLimit; //食品期限コード
+	private String Status;
+	private String Quantity;
 
 	public OrderHistory(String OdDate, String OdCode, String PdCode, String OdName, int OdQuantity, String DeliDate) {
 		this.OdDate = OdDate;
@@ -17,6 +19,15 @@ public class OrderHistory {
 		this.OdName = OdName;
 		this.OdQuantity = OdQuantity;
 		this.DeliDate = DeliDate;
+	}
+	
+	public OrderHistory(String OdDate, String pCode, String OdName, int Quantity, String deliDate, String Status) {
+		this.OdDate = OdDate;
+		this.PdCode = pCode;
+		this.OdName = OdName;
+		this.OdQuantity = Quantity;
+		this.DeliDate = deliDate;
+		this.Status = Status;
 	}
 
 	public String getOdDate() {
@@ -74,6 +85,22 @@ public class OrderHistory {
 	public void setFoodLimit(String foodLimit) {
 		FoodLimit = foodLimit;
 	}
-	
+
+	public String getStatus() {
+		return Status;
+	}
+
+	public void setStatus(String status) {
+		Status = status;
+	}
+
+	public String getQuantity() {
+		return Quantity;
+	}
+
+	public void setQuantity(String quantity) {
+		Quantity = quantity;
+	}
+		
 	
 }

@@ -14,13 +14,16 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import action.CreateTableData;
 import control.HikawaController;
+import dao.OrderHistoryDBAccess;
 
 public class OrderHistory extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTable table;
 	private JTextField textField;
+	private DefaultTableModel tableModel;
 
 
 	/**
@@ -43,22 +46,36 @@ public class OrderHistory extends JFrame implements ActionListener {
 		scrollPane.setBounds(91, 92, 477, 212);
 		contentPane.add(scrollPane);
 
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null, null},
-			},
-			new String[] {
-				"\u767A\u6CE8\u65E5", "\u767A\u6CE8\u30B3\u30FC\u30C9", "\u5546\u54C1\u30B3\u30FC\u30C9", "\u767A\u6CE8\u5546\u54C1", "\u500B\u6570", "\u7D0D\u54C1\u4E88\u5B9A\u65E5", "\u73FE\u5728\u306E\u72B6\u6CC1"
+		String[] columnNames = { "発注日", "商品コード", "商品名", "個数", "納品予定日", "状況"};
+		tableModel = new DefaultTableModel(columnNames, 0);
+		table = new JTable(tableModel);
+
+		try {
+			OrderHistoryDBAccess ohd = new OrderHistoryDBAccess();
+
+			//列の入れ替えを禁止
+			table.getTableHeader().setReorderingAllowed(false);
+
+			//列の幅指定
+			table.getColumn("発注日").setPreferredWidth(150);
+			table.getColumn("商品コード").setPreferredWidth(150);
+			table.getColumn("商品名").setPreferredWidth(280);
+			table.getColumn("個数").setPreferredWidth(90);
+			table.getColumn("納品予定日").setPreferredWidth(150);
+			table.getColumn("状況").setPreferredWidth(90);
+
+			String[][] tabledata = CreateTableData.historyTableToArray(ohd.getOrderHistory());
+			if (tabledata != null) {
+				for (String[] data : tabledata) {
+					tableModel.addRow(data);
+				}
 			}
-		) {
-			Class[] columnTypes = new Class[] {
-				String.class, Integer.class, Integer.class, String.class, Object.class, Object.class, Object.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		
+		
 		scrollPane.setViewportView(table);
 
 		JLabel lblNewLabel_1 = new JLabel("発注履歴画面");

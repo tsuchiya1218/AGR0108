@@ -117,15 +117,15 @@ public class OrderHistoryDBAccess {
 		DBAccess db = new DBAccess();
 		try {
 			con = db.createConnection();
-			//発注日、発注コード、商品コード、発注商品(商品名)、個数、納品予定日
-			String sql = "SELECT OrderDate, OrderCode, 'orders.ProductCode' , ProductName, OrderQuantity, DeliveryDate "
-					+ "FROM orders "
-					+ "INNDER JOIN product ON 'orders.ProductCode' = product.ProductCode;";
+			//{ "発注日", "商品コード", "商品名", "個数", "納品予定日", "状況"}
+			String sql = "SELECT OrderDate, ProductCode, ProductName, Quantity, DeliveryDate,Status FROM product " 
+					+ "INNER JOIN orderhistory ON product.OrderHistoryCode = orderhistory.OrderHistoryCode "
+					+ "WHERE NOT(product.OrderHistoryCode = '00');";
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				list.add(new OrderHistory(rs.getString("OrderDate"),rs.getString("OrderCode"),rs.getString("orders.ProductCode"),
-						rs.getString("ProductName"),rs.getInt("OrderQuantity"),rs.getString("DeliveryDate")));
+				list.add(new OrderHistory(rs.getString("OrderDate"),rs.getString("ProductCode"),rs.getString("ProductName")
+						,rs.getInt("Quantity"),rs.getString("DeliveryDate"),rs.getString("Status")));
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
