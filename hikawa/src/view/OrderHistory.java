@@ -22,7 +22,7 @@ public class OrderHistory extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTable table;
-	private JTextField textField;
+	private JTextField textField, textField2;
 	private DefaultTableModel tableModel;
 
 
@@ -89,17 +89,28 @@ public class OrderHistory extends JFrame implements ActionListener {
 		btnOrder.addActionListener(this);
 		contentPane.add(btnOrder);
 
-		JLabel lblNewLabel_2 = new JLabel("発注コード：");
+		JLabel lblNewLabel_2 = new JLabel("商品コード：");
 		lblNewLabel_2.setBounds(75, 328, 73, 13);
 		contentPane.add(lblNewLabel_2);
-
+		
+		//商品コード入力欄
 		textField = new JTextField();
 		textField.setBounds(152, 325, 96, 19);
 		contentPane.add(textField);
 		textField.setColumns(10);
+		
+		JLabel lblNewLabel_3 = new JLabel("食品期限：");
+		lblNewLabel_3.setBounds(260, 328, 73, 13);
+		contentPane.add(lblNewLabel_3);
+		
+		//食品期限入力欄
+		textField2 = new JTextField();
+		textField2.setBounds(320, 325, 96, 19);
+		contentPane.add(textField2);
+		textField2.setColumns(10);
 
-		JButton btnNewButton = new JButton("確定");
-		btnNewButton.setBounds(260, 324, 73, 21);
+		JButton btnNewButton = new JButton("納品確定");
+		btnNewButton.setBounds(430, 324, 73, 21);
 		contentPane.add(btnNewButton);
 	}
 
