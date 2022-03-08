@@ -7,15 +7,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 import action.CreateTableData;
 import control.HikawaController;
@@ -30,13 +31,13 @@ public class ProductTable extends JFrame implements ActionListener {
 	private JPanel contentPane;
 	private JTable table;
 
-	private TextField AddOrdertext;
-	private TextField Deletetext;
-	private TextField EditProducttext;
+	private JFormattedTextField AddOrdertext;
+	private JFormattedTextField Deletetext;
+	private JFormattedTextField EditProducttext;
 	private JScrollPane scrollPane;
 	private TextComponent btnSerchtext;
 	private DefaultTableModel tableModel;
-	private JTextField wastetext;
+	private JFormattedTextField wastetext;
 
 	/**
 	 * Create the frame.
@@ -117,13 +118,21 @@ public class ProductTable extends JFrame implements ActionListener {
 						"\u5728\u5EAB\u91CF", "\u98DF\u54C1\u671F\u9650" }) {
 			Class[] columnTypes = new Class[] { String.class, String.class, String.class, String.class, Integer.class,
 					String.class, Integer.class, String.class };
-
+		
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 		});
-
+		
 		*/
+
+		//入力制限
+		MaskFormatter mf = null;
+		try {
+			mf = new MaskFormatter("##_#####");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		JButton btnOrder = new JButton("発注表");
 		btnOrder.setBounds(33, 424, 91, 26);
@@ -147,7 +156,7 @@ public class ProductTable extends JFrame implements ActionListener {
 		lblNewLabel_3.setBounds(40, 357, 304, 16);
 		contentPane.add(lblNewLabel_3);
 
-		AddOrdertext = new TextField();
+		AddOrdertext = new JFormattedTextField(mf);
 		AddOrdertext.setBounds(31, 381, 95, 23);
 		contentPane.add(AddOrdertext);
 
@@ -157,7 +166,7 @@ public class ProductTable extends JFrame implements ActionListener {
 		btnAddOrder.setBounds(131, 380, 85, 26);
 		contentPane.add(btnAddOrder);
 
-		EditProducttext = new TextField();
+		EditProducttext = new JFormattedTextField(mf);
 		EditProducttext.setBounds(236, 381, 95, 23);
 		contentPane.add(EditProducttext);
 
@@ -167,7 +176,7 @@ public class ProductTable extends JFrame implements ActionListener {
 		btnEditProduct.setBounds(337, 380, 88, 26);
 		contentPane.add(btnEditProduct);
 
-		Deletetext = new TextField();
+		Deletetext = new JFormattedTextField(mf);
 		Deletetext.setBounds(446, 381, 95, 23);
 		contentPane.add(Deletetext);
 
@@ -183,7 +192,7 @@ public class ProductTable extends JFrame implements ActionListener {
 		btnAddProduct.setBounds(151, 424, 95, 26);
 		contentPane.add(btnAddProduct);
 
-		wastetext = new JTextField();
+		wastetext = new JFormattedTextField(mf);
 		wastetext.setBounds(654, 381, 104, 23);
 		contentPane.add(wastetext);
 		wastetext.setColumns(10);
@@ -262,6 +271,7 @@ public class ProductTable extends JFrame implements ActionListener {
 			setVisible(false);
 			HikawaController.OrderTableDisplay();
 		}
+
 		// 発注追加ボタンが押された時の処理
 		if (cmd.equals("btnAddOrder")) {
 			//入力された商品コードをpCodeに代入
@@ -295,12 +305,19 @@ public class ProductTable extends JFrame implements ActionListener {
 			String ProductCode = null;
 			try {
 				ProductCode = EditProducttext.getText();
+				OrderTableDBAccess otd = new OrderTableDBAccess();
 
 				if (!ProductCode.equals("")) {
+					String pName = otd.serchPName(ProductCode);
+					//商品コードが存在するか判定
+					if (pName != null) {
+						setVisible(false);
+						EditProduct ep = new EditProduct(ProductCode,pName);
+						ep.EditProducts();
+					}else {
+						JOptionPane.showMessageDialog(contentPane, "存在しない商品コードです。");
+					}
 
-					setVisible(false);
-					EditProduct ep = new EditProduct(ProductCode);
-					ep.EditProducts();
 				} else {
 					JOptionPane.showMessageDialog(contentPane, "商品コードを入力してください");
 				}
@@ -362,7 +379,7 @@ public class ProductTable extends JFrame implements ActionListener {
 		// 廃棄商品追加ボタンが押された時の処理
 		if (cmd.equals("btnwasteAdd")) {
 			String pCode = wastetext.getText();
-			if(!(pCode.equals(""))) {
+			if (!(pCode.equals(""))) {
 				try {
 					WasteDBAccess wda = new WasteDBAccess(pCode);
 					wda.WasteAdd();
@@ -371,7 +388,7 @@ public class ProductTable extends JFrame implements ActionListener {
 					// TODO 自動生成された catch ブロック
 					JOptionPane.showMessageDialog(contentPane, "すでに追加済みか商品コードが間違っています");
 				}
-			}else {
+			} else {
 				JOptionPane.showMessageDialog(contentPane, "商品コードを入力してください");
 			}
 		}
