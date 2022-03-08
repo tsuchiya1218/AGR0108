@@ -280,7 +280,7 @@ public class ProductTable extends JFrame implements ActionListener {
 			String pCode = AddOrdertext.getText();
 			OrderTableDBAccess otd = new OrderTableDBAccess();
 			//商品コードの入力判定
-			if (!pCode.equals("")) {
+			if (!pCode.equals("  _     ")) {
 				try {
 					String pName = otd.serchPName(pCode);
 					//商品コードが存在するか判定
@@ -311,22 +311,24 @@ public class ProductTable extends JFrame implements ActionListener {
 			int PurPrice = 0;
 			int Stock = 0;
 			try {
+				OrderTableDBAccess otd = new OrderTableDBAccess();
 				ProductCode = EditProducttext.getText();
 				ProductEditDBAccess peb = new ProductEditDBAccess();
 
-				if (!ProductCode.equals("")) {
-					List<String> List = peb.serchPName(ProductCode);
-					pName = List.get(0);
-					SellPrice = Integer.parseInt(List.get(1));
-					PurPrice = Integer.parseInt(List.get(2));
-					Stock = Integer.parseInt(List.get(3));
-					foodlimit = List.get(4);
+				if (!ProductCode.equals("  _     ")) {
+					String pname = otd.serchPName(ProductCode);
 					//商品コードが存在するか判定
-					if (pName != null) {
+					if (pname != null) {
 						setVisible(false);
-						EditProduct ep = new EditProduct(ProductCode,pName,SellPrice,PurPrice,Stock,foodlimit);
+						List<String> List = peb.serchPName(ProductCode);
+						pName = List.get(0);
+						SellPrice = Integer.parseInt(List.get(1));
+						PurPrice = Integer.parseInt(List.get(2));
+						Stock = Integer.parseInt(List.get(3));
+						foodlimit = List.get(4);
+						EditProduct ep = new EditProduct(ProductCode, pName, SellPrice, PurPrice, Stock, foodlimit);
 						ep.EditProducts();
-					}else {
+					} else {
 						JOptionPane.showMessageDialog(contentPane, "存在しない商品コードです。");
 					}
 
@@ -342,20 +344,19 @@ public class ProductTable extends JFrame implements ActionListener {
 		if (cmd.equals("btnDelete")) {
 			String ProductCode = null;
 			try {
+				ProductCode = Deletetext.getText();
 				//入力判定
-				try {
-					ProductCode = Deletetext.getText();
-				} catch (Exception e1) {
+				if (!ProductCode.equals("  _     ")) {
+					ProductDeleteDBAccess pdd = new ProductDeleteDBAccess(ProductCode);
+					pdd.ProductDelete();
+					JOptionPane.showMessageDialog(contentPane, "該当商品を削除しました");
+					//再読み込み
+					setVisible(false);
+					HikawaController.ProductTableDisplay();
+
+				} else {
 					JOptionPane.showMessageDialog(contentPane, "商品コードを入力してください");
 				}
-				ProductDeleteDBAccess pdd = new ProductDeleteDBAccess(ProductCode);
-				pdd.ProductDelete();
-
-				JOptionPane.showMessageDialog(contentPane, "該当商品を削除しました");
-
-				//再読み込み
-				setVisible(false);
-				HikawaController.ProductTableDisplay();
 
 			} catch (Exception e2) {
 				e2.printStackTrace();
