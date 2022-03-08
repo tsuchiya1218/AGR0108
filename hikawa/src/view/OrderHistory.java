@@ -22,6 +22,7 @@ import javax.swing.text.MaskFormatter;
 
 import action.CreateTableData;
 import control.HikawaController;
+import dao.FoodLimitDBAccess;
 import dao.OrderHistoryDBAccess;
 
 public class OrderHistory extends JFrame implements ActionListener {
@@ -165,6 +166,8 @@ public class OrderHistory extends JFrame implements ActionListener {
 
 		JButton btnNewButton = new JButton("納品確定");
 		btnNewButton.setBounds(430, 350, 110, 21);
+		btnNewButton.setActionCommand("btnNewButton");
+		btnNewButton.addActionListener(this);
 		contentPane.add(btnNewButton);
 		/*-------------------------------------------------------*/
 	}
@@ -197,10 +200,30 @@ public class OrderHistory extends JFrame implements ActionListener {
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
+			}
 		}
-			
-			
+		
+		if (cmd.equals("btnNewButton")) {
+			String pCode = textField.getText();
+			String date = textField2.getText();
+			//未入力チェック
+			if(pCode.equals("") || date.equals("    /  /  ") || date.equals("")) {
+				JOptionPane.showMessageDialog(contentPane, "商品コードまたは食品期限を入力してください。");
+			}else {
+				FoodLimitDBAccess fl = new FoodLimitDBAccess();
+				try {
+					fl.regFoodLimit(pCode, date);
+					JOptionPane.showMessageDialog(contentPane, "確定しました。");
+					setVisible(false);
+					HikawaController.OrderHistoryDisplay();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(contentPane, "商品コードが正しくありません");
+				}
+			}
 		}
+		
+		
 	}
 
 }
