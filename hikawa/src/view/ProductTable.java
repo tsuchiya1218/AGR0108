@@ -5,6 +5,7 @@ import java.awt.TextComponent;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -22,6 +23,7 @@ import action.CreateTableData;
 import control.HikawaController;
 import dao.OrderTableDBAccess;
 import dao.ProductDeleteDBAccess;
+import dao.ProductEditDBAccess;
 import dao.ProductSearchDBAccess;
 import dao.ProductTableDBAccess;
 import dao.WasteDBAccess;
@@ -303,16 +305,26 @@ public class ProductTable extends JFrame implements ActionListener {
 		// 商品編集ボタンが押された時の処理
 		if (cmd.equals("btnEditProduct")) {
 			String ProductCode = null;
+			String pName = null;
+			String foodlimit = null;
+			int SellPrice = 0;
+			int PurPrice = 0;
+			int Stock = 0;
 			try {
 				ProductCode = EditProducttext.getText();
-				OrderTableDBAccess otd = new OrderTableDBAccess();
+				ProductEditDBAccess peb = new ProductEditDBAccess();
 
 				if (!ProductCode.equals("")) {
-					String pName = otd.serchPName(ProductCode);
+					List<String> List = peb.serchPName(ProductCode);
+					pName = List.get(0);
+					SellPrice = Integer.parseInt(List.get(1));
+					PurPrice = Integer.parseInt(List.get(2));
+					Stock = Integer.parseInt(List.get(3));
+					foodlimit = List.get(4);
 					//商品コードが存在するか判定
 					if (pName != null) {
 						setVisible(false);
-						EditProduct ep = new EditProduct(ProductCode,pName);
+						EditProduct ep = new EditProduct(ProductCode,pName,SellPrice,PurPrice,Stock,foodlimit);
 						ep.EditProducts();
 					}else {
 						JOptionPane.showMessageDialog(contentPane, "存在しない商品コードです。");

@@ -12,10 +12,14 @@ import java.util.List;
 
 public class ProductEditDBAccess {
 
-	public String pCode, pName, foodlimit,cID,SmID;
-	public int Sprice,Pprice, stock, mID;
+	public String pCode, pName, foodlimit, cID, SmID;
+	public int Sprice, Pprice, stock, mID;
 
-	public ProductEditDBAccess(String pCode, String pName, String mName, Integer Sprice,Integer Pprice , Integer stock,
+	public ProductEditDBAccess() {
+
+	}
+
+	public ProductEditDBAccess(String pCode, String pName, String mName, Integer Sprice, Integer Pprice, Integer stock,
 			String foodlimit) {
 		//引数(商品コード、商品名、メーカー名、カテゴリID、値段、在庫数、食品期限)
 		this.pCode = pCode;
@@ -42,16 +46,15 @@ public class ProductEditDBAccess {
 				this.mID = rs.getInt("MakerID");
 			}
 
-			if(mID < 10) {
+			if (mID < 10) {
 				SmID = "0" + mID;
-			}else if(mID > 10) {
+			} else if (mID > 10) {
 				SmID = String.valueOf(mID);
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 
 	}
 
@@ -63,10 +66,11 @@ public class ProductEditDBAccess {
 		PreparedStatement ps2 = null;
 
 		try {
-			//商品表更新（商品名,仕入れ価格,販売価格,在庫,メーカーID）
+			//商品表更新（商品名、価格,メーカーID）
 			ps1 = con.prepareStatement(
 					"UPDATE product "
-							+ "SET ProductName = '" + pName + "' , SellPrice = '" + Sprice + "' , PurPrice = '" + Pprice + "' , Stock =  '"+ stock + "' ,  MakerID = '" + SmID + "' "
+							+ "SET ProductName = '" + pName + "' , SellPrice = '" + Sprice + "' , PurPrice = '" + Pprice
+							+ "' , Stock =  '" + stock + "' ,  MakerID = '" + SmID + "' "
 							+ "WHERE ProductCode = '" + pCode + "'");
 
 			//食品期限変更(直接foodlimitを更新してるので商品一つ一つ変更できるようにする)
@@ -116,7 +120,6 @@ public class ProductEditDBAccess {
 		Connection con = db.createConnection();
 		ResultSet rs = null;
 		PreparedStatement ps = null;
-		int i = 0;
 		try {
 
 			ps = con.prepareStatement(
@@ -136,4 +139,50 @@ public class ProductEditDBAccess {
 
 	}
 
+	//商品コード検索し返すメソッド
+	public List<String> serchPName(String pCode) throws Exception {
+		List<String> List = new ArrayList<String>(5);
+		Connection con = null;
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		DBAccess db = new DBAccess();
+		//SQL文
+		String sql = "SELECT ProductName,SellPrice,PurPrice,Stock,LimitDate FROM product INNER JOIN foodlimit ON foodlimit.FoodLimitCode = product.FoodLimitCode "
+				+ "WHERE ProductCode LIKE '%" + pCode + "%' AND Invailed = 0";
+		try {
+			con = db.createConnection();
+			ps = con.prepareStatement(sql);
+			//SQL実行
+			rs = ps.executeQuery();
+
+			//DBから抽出した情報をlistに入れる
+			while (rs.next()) {
+				List.add(rs.getString("ProductName"));
+				List.add(rs.getString("SellPrice"));
+				List.add(rs.getString("PurPrice"));
+				List.add(rs.getString("Stock"));
+				List.add(rs.getString("LimitDate"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			//データベースクローズ
+			db.closeConnection(con);
+		}
+		return List;
+	}
 }

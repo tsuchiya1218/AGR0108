@@ -9,29 +9,37 @@ import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
 
 import control.HikawaController;
 import dao.ProductEditDBAccess;
 
 public class EditProduct extends JFrame implements ActionListener {
-	String pCode;
+	String pCode,pName,foodlimit;
+	Integer sellPrice,purPrice,stock;
 
 	private JPanel contentPane;
 	JComboBox<String> cIDBox;
-	TextField foodlimitFeild;
+	JFormattedTextField foodlimitFeild;
 	TextField stockFeild;
 	TextField SpriceFeild;
 	TextField PpriceFeild;
 	JComboBox<String> mNameBox;
 	TextField pNameFeild;
 
-	public EditProduct(String pCode) {
+	public EditProduct(String pCode, String pName, int sellPrice, int purPrice, int stock, String foodlimit) {
 		this.pCode = pCode;
+		this.pName = pName;
+		this.sellPrice = sellPrice;
+		this.purPrice = purPrice;
+		this.stock = stock;
+		this.foodlimit = foodlimit;
 	}
 
 	/**
@@ -41,6 +49,16 @@ public class EditProduct extends JFrame implements ActionListener {
 
 	public void EditProducts() throws Exception {
 		setVisible(true);
+		
+		//入力制限
+		MaskFormatter mf = null;
+		try {
+			mf = new MaskFormatter("####-##-##");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 342, 390);
 		contentPane = new JPanel();
@@ -54,14 +72,19 @@ public class EditProduct extends JFrame implements ActionListener {
 
 		JLabel lblNewLabel_1 = new JLabel("商品編集画面");
 		lblNewLabel_1.setFont(new Font("Dialog", Font.BOLD, 20));
-		lblNewLabel_1.setBounds(104, 62, 124, 33);
+		lblNewLabel_1.setBounds(104, 50, 124, 33);
 		contentPane.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_9 = new JLabel("商品コード:" + pCode + "  商品名:" + pName);
+		lblNewLabel_9.setFont(new Font("Dialog", Font.BOLD, 14));
+		lblNewLabel_9.setBounds(15, 85, 700, 33);
+		contentPane.add(lblNewLabel_9);
 
 		JLabel lblNewLabel_2 = new JLabel("商品名：");
 		lblNewLabel_2.setBounds(46, 123, 50, 16);
 		contentPane.add(lblNewLabel_2);
 
-		pNameFeild = new TextField();
+		pNameFeild = new TextField(pName);
 		pNameFeild.setBounds(104, 120, 138, 23);
 		contentPane.add(pNameFeild);
 
@@ -85,6 +108,7 @@ public class EditProduct extends JFrame implements ActionListener {
 		contentPane.add(lblNewLabel_5);
 
 		SpriceFeild = new TextField();
+		SpriceFeild.setText(sellPrice.toString());
 		SpriceFeild.setBounds(103, 190, 140, 23);
 		contentPane.add(SpriceFeild);
 
@@ -93,7 +117,7 @@ public class EditProduct extends JFrame implements ActionListener {
 		lblNewLabel_8.setBounds(30, 220, 70, 16);
 		contentPane.add(lblNewLabel_8);
 
-		PpriceFeild = new TextField();
+		PpriceFeild = new TextField(purPrice.toString());
 		PpriceFeild.setBounds(103, 220, 140, 23);
 		contentPane.add(PpriceFeild);
 
@@ -101,7 +125,7 @@ public class EditProduct extends JFrame implements ActionListener {
 		lblNewLabel_6.setBounds(46, 250, 53, 16);
 		contentPane.add(lblNewLabel_6);
 
-		stockFeild = new TextField();
+		stockFeild = new TextField(stock.toString());
 		stockFeild.setBounds(102,250, 142, 23);
 		contentPane.add(stockFeild);
 
@@ -109,7 +133,8 @@ public class EditProduct extends JFrame implements ActionListener {
 		lblNewLabel_7.setBounds(33, 280, 66, 16);
 		contentPane.add(lblNewLabel_7);
 
-		foodlimitFeild = new TextField();
+		foodlimitFeild = new JFormattedTextField(mf);
+		foodlimitFeild.setText(foodlimit);
 		foodlimitFeild.setBounds(102, 280, 143, 23);
 		contentPane.add(foodlimitFeild);
 
