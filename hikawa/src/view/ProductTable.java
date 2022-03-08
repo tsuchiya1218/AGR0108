@@ -343,16 +343,22 @@ public class ProductTable extends JFrame implements ActionListener {
 		// 削除ボタンが押された時の処理
 		if (cmd.equals("btnDelete")) {
 			String ProductCode = null;
+			OrderTableDBAccess otd = new OrderTableDBAccess();
 			try {
 				ProductCode = Deletetext.getText();
 				//入力判定
 				if (!ProductCode.equals("  _     ")) {
-					ProductDeleteDBAccess pdd = new ProductDeleteDBAccess(ProductCode);
-					pdd.ProductDelete();
-					JOptionPane.showMessageDialog(contentPane, "該当商品を削除しました");
-					//再読み込み
-					setVisible(false);
-					HikawaController.ProductTableDisplay();
+					String pname = otd.serchPName(ProductCode);
+					if (pname != null) {
+						ProductDeleteDBAccess pdd = new ProductDeleteDBAccess(ProductCode);
+						pdd.ProductDelete();
+						JOptionPane.showMessageDialog(contentPane, "該当商品を削除しました");
+						//再読み込み
+						setVisible(false);
+						HikawaController.ProductTableDisplay();
+					} else {
+						JOptionPane.showMessageDialog(contentPane, "存在しない商品コードです。");
+					}
 
 				} else {
 					JOptionPane.showMessageDialog(contentPane, "商品コードを入力してください");
