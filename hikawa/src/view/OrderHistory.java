@@ -24,6 +24,7 @@ import action.CreateTableData;
 import control.HikawaController;
 import dao.FoodLimitDBAccess;
 import dao.OrderHistoryDBAccess;
+import dao.PDCodeCount;
 
 public class OrderHistory extends JFrame implements ActionListener {
 
@@ -191,15 +192,20 @@ public class OrderHistory extends JFrame implements ActionListener {
 			if(pCode.equals("") || date.equals("    /  /  ") || date.equals("")) {
 				JOptionPane.showMessageDialog(contentPane, "商品コードまたは納品予定を入力してください。");
 			}else {
-				OrderHistoryDBAccess ohd = new OrderHistoryDBAccess();
-				try {
-					ohd.editDeliDate(pCode, date);
-					JOptionPane.showMessageDialog(contentPane, "変更しました。");
-					setVisible(false);
-					HikawaController.OrderHistoryDisplay();
-				} catch (SQLException e1) {
-					e1.printStackTrace();
+				if(PDCodeCount.getPCodeCountOH(pCode) != 0) {
+					OrderHistoryDBAccess ohd = new OrderHistoryDBAccess();
+					try {
+						ohd.editDeliDate(pCode, date);
+						JOptionPane.showMessageDialog(contentPane, "変更しました。");
+						setVisible(false);
+						HikawaController.OrderHistoryDisplay();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+				}else {
+					JOptionPane.showMessageDialog(contentPane, "正しい商品コードを入力してください。");
 				}
+				
 			}
 		}
 		
@@ -210,16 +216,21 @@ public class OrderHistory extends JFrame implements ActionListener {
 			if(pCode.equals("") || date.equals("    /  /  ") || date.equals("")) {
 				JOptionPane.showMessageDialog(contentPane, "商品コードまたは食品期限を入力してください。");
 			}else {
-				FoodLimitDBAccess fl = new FoodLimitDBAccess();
-				try {
-					fl.regFoodLimit(pCode, date);
-					JOptionPane.showMessageDialog(contentPane, "確定しました。");
-					setVisible(false);
-					HikawaController.OrderHistoryDisplay();
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-					JOptionPane.showMessageDialog(contentPane, "商品コードが正しくありません");
+				if(PDCodeCount.getPCodeCountOH(pCode) != 0) {
+					FoodLimitDBAccess fl = new FoodLimitDBAccess();
+					try {
+						fl.regFoodLimit(pCode, date);
+						JOptionPane.showMessageDialog(contentPane, "確定しました。");
+						setVisible(false);
+						HikawaController.OrderHistoryDisplay();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+						JOptionPane.showMessageDialog(contentPane, "商品コードが正しくありません");
+					}
+				}else {
+					JOptionPane.showMessageDialog(contentPane, "正しい商品コードを入力してください。");
 				}
+				
 			}
 		}
 		

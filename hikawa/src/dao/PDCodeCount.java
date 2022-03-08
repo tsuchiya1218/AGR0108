@@ -42,5 +42,38 @@ public class PDCodeCount {
 		}
 		return cnt;	
 	}
+	
+	public static int getPCodeCountOH(String pCode) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		DBAccess db = new DBAccess();
+		ResultSet rs = null;
+		int cnt = 0;
+		String sql = "SELECT COUNT(*) AS cnt FROM orderhistory INNER JOIN product ON orderhistory.OrderHistoryCode = product.OrderHistoryCode "
+				+ "WHERE ProductCode = '" + pCode + "' AND NOT (product.OrderHistoryCode = '00' )";
+		try {
+			con = db.createConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				cnt = rs.getInt("cnt");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(" getPCodeCount()のエラーです");
+		}finally {
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(ps != null) {
+					ps.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return cnt;	
+	}
 }
 	
