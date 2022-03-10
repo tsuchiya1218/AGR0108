@@ -113,13 +113,17 @@ public class Login extends JFrame implements ActionListener {
 				//LoginDBA引渡し
 				try {
 
-					judge = lb.login(Integer.parseInt(StaffID), password);
-					//判定true画面遷移falseエラー表示
-					if (judge) {
-						setVisible(false);
-						HikawaController.TopDisplay();
-					} else {
-						JOptionPane.showMessageDialog(frame, "従業員番号かパスワードが間違っています");
+					if (!StaffID.equals("") && !password.equals("")) {
+						judge = lb.login(Integer.parseInt(StaffID), password);
+						//判定true画面遷移falseエラー表示
+						if (judge) {
+							setVisible(false);
+							HikawaController.TopDisplay();
+						} else {
+							JOptionPane.showMessageDialog(frame, "従業員番号かパスワードが間違っています");
+						}
+					}else {
+						JOptionPane.showMessageDialog(frame, "項目を入力してください");
 					}
 
 				} catch (Exception e1) {
