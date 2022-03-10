@@ -341,33 +341,42 @@ public class ProductTable extends JFrame implements ActionListener {
 		}
 
 		// 削除ボタンが押された時の処理
-		if (cmd.equals("btnDelete")) {
-			String ProductCode = null;
-			OrderTableDBAccess otd = new OrderTableDBAccess();
-			try {
-				ProductCode = Deletetext.getText();
-				//入力判定
-				if (!ProductCode.equals("  _     ")) {
-					String pname = otd.serchPName(ProductCode);
-					if (pname != null) {
-						ProductDeleteDBAccess pdd = new ProductDeleteDBAccess(ProductCode);
-						pdd.ProductDelete();
-						JOptionPane.showMessageDialog(contentPane, "該当商品を削除しました");
-						//再読み込み
-						setVisible(false);
-						HikawaController.ProductTableDisplay();
-					} else {
-						JOptionPane.showMessageDialog(contentPane, "存在しない商品コードです。");
+				if (cmd.equals("btnDelete")) {
+					String ProductCode = null;
+					ProductDeleteDBAccess pdd = new ProductDeleteDBAccess();
+					try {
+						ProductCode = Deletetext.getText();
+						//入力判定
+						if (!ProductCode.equals("  _     ")) {
+							String pname = pdd.serchPName(ProductCode);
+							if (pname != null) {
+								int option = JOptionPane.showConfirmDialog(this,"商品名：" + pname +  "を削除しますか？",
+										"最終確認", JOptionPane.YES_NO_OPTION,
+										JOptionPane.WARNING_MESSAGE);
+								if (option == JOptionPane.YES_OPTION) {
+									pdd = new ProductDeleteDBAccess(ProductCode);
+									pdd.ProductDelete();
+									JOptionPane.showMessageDialog(contentPane, "該当商品を削除しました");
+									//再読み込み
+									setVisible(false);
+									HikawaController.ProductTableDisplay();
+
+								} else if (option == JOptionPane.NO_OPTION) {
+									JOptionPane.showMessageDialog(contentPane, "削除を中止しました");
+								}
+
+							} else {
+								JOptionPane.showMessageDialog(contentPane, "存在しない商品コードです。");
+							}
+
+						} else {
+							JOptionPane.showMessageDialog(contentPane, "商品コードを入力してください");
+						}
+
+					} catch (Exception e2) {
+						e2.printStackTrace();
 					}
-
-				} else {
-					JOptionPane.showMessageDialog(contentPane, "商品コードを入力してください");
 				}
-
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
-		}
 
 		// 商品追加ボタンが押された時の処理
 		if (cmd.equals("btnAddProduct")) {
