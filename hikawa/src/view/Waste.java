@@ -147,22 +147,33 @@ public class Waste extends JFrame implements ActionListener {
 		}
 
 		//解除ボタンが押された時の処理
-		if (cmd.equals("btncancel")) {
+				if (cmd.equals("btncancel")) {
+					OrderTableDBAccess otd = new OrderTableDBAccess();
+					try {
+						String pCode = cancelField.getText();
 
-			try {
-				String pCode = cancelField.getText();
+						if (!(pCode.equals("  _     "))) {
 
-				if(!(pCode.equals(""))) {
-					WasteDBAccess wad = new WasteDBAccess(pCode);
-					wad.cancelwaste();
-					JOptionPane.showMessageDialog(contentPane, "解除しました");
-				}else {
+							String pname = otd.serchPName(pCode);
 
-					JOptionPane.showMessageDialog(contentPane, "商品コードを入力してください");
+							if (pname != null) {
+								WasteDBAccess wad = new WasteDBAccess(pCode);
+								wad.cancelwaste();
+								JOptionPane.showMessageDialog(contentPane, "解除しました");
+							} else {
+								JOptionPane.showMessageDialog(contentPane, "存在しない商品コードです。");
+							}
 
-				}
+						} else {
 
+							JOptionPane.showMessageDialog(contentPane, "商品コードを入力してください");
 
+						}
+
+					} catch (Exception e2) {
+						// TODO 自動生成された catch ブロック
+						e2.printStackTrace();
+					}
 
 			} catch (Exception e2) {
 				// TODO 自動生成された catch ブロック
