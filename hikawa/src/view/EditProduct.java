@@ -21,8 +21,8 @@ import control.HikawaController;
 import dao.ProductEditDBAccess;
 
 public class EditProduct extends JFrame implements ActionListener {
-	String pCode,pName,foodlimit;
-	Integer sellPrice,purPrice,stock;
+	String pCode, pName, foodlimit;
+	Integer sellPrice, purPrice, stock;
 
 	private JPanel contentPane;
 	JComboBox<String> cIDBox;
@@ -49,7 +49,7 @@ public class EditProduct extends JFrame implements ActionListener {
 
 	public void EditProducts() throws Exception {
 		setVisible(true);
-		
+
 		//入力制限
 		MaskFormatter mf = null;
 		try {
@@ -58,7 +58,6 @@ public class EditProduct extends JFrame implements ActionListener {
 			e.printStackTrace();
 		}
 
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 342, 390);
 		contentPane = new JPanel();
@@ -74,7 +73,7 @@ public class EditProduct extends JFrame implements ActionListener {
 		lblNewLabel_1.setFont(new Font("Dialog", Font.BOLD, 20));
 		lblNewLabel_1.setBounds(104, 50, 124, 33);
 		contentPane.add(lblNewLabel_1);
-		
+
 		JLabel lblNewLabel_9 = new JLabel("商品コード:" + pCode + "  商品名:" + pName);
 		lblNewLabel_9.setFont(new Font("Dialog", Font.BOLD, 14));
 		lblNewLabel_9.setBounds(15, 85, 700, 33);
@@ -112,7 +111,6 @@ public class EditProduct extends JFrame implements ActionListener {
 		SpriceFeild.setBounds(103, 190, 140, 23);
 		contentPane.add(SpriceFeild);
 
-
 		JLabel lblNewLabel_8 = new JLabel("仕入価格：");
 		lblNewLabel_8.setBounds(30, 220, 70, 16);
 		contentPane.add(lblNewLabel_8);
@@ -126,7 +124,7 @@ public class EditProduct extends JFrame implements ActionListener {
 		contentPane.add(lblNewLabel_6);
 
 		stockFeild = new TextField(stock.toString());
-		stockFeild.setBounds(102,250, 142, 23);
+		stockFeild.setBounds(102, 250, 142, 23);
 		contentPane.add(stockFeild);
 
 		JLabel lblNewLabel_7 = new JLabel("食品期日：");
@@ -154,33 +152,80 @@ public class EditProduct extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
-		String pName = null;
-		String mName = null;
+		String pName = "";
+		String mName = "";
 		Integer Sprice = null;
 		Integer Pprice = null;
 		Integer stock = null;
-		String foodlimit = null;
+		String foodlimit = "    -  -  ";
 		//確定ボタンが押された時の処理
 		if (cmd.equals("Confirm")) {
 
-			try {
-
+			for (int i = 0; i < 1; i++) {
 				//入力判定
 				pName = pNameFeild.getText();
-				mName = (String) mNameBox.getSelectedItem();
-				Sprice = Integer.parseInt(SpriceFeild.getText());
-				Pprice = Integer.parseInt(PpriceFeild.getText());
-				stock = Integer.parseInt(stockFeild.getText());
-				foodlimit = foodlimitFeild.getText();
+				if (!pName.equals("")) {
+					mName = (String) mNameBox.getSelectedItem();
+					if (!mName.equals("")) {
 
-				ProductEditDBAccess ped = new ProductEditDBAccess(pCode, pName, mName, Sprice,Pprice, stock, foodlimit);
-				ped.ProductEdit();
+						try {
+							Sprice = Integer.parseInt(SpriceFeild.getText());
+						} catch (Exception e1) {
+							JOptionPane.showMessageDialog(contentPane, "販売価格には数値を入力してください");
+							break;
+						}
 
-				JOptionPane.showMessageDialog(contentPane, "更新されました");
-			} catch (Exception e1) {
-				JOptionPane.showMessageDialog(contentPane, "項目を入力してください");
+						if (!(Sprice == null)) {
+
+							try {
+								Pprice = Integer.parseInt(PpriceFeild.getText());
+							} catch (Exception e2) {
+								JOptionPane.showMessageDialog(contentPane, "仕入れ価格には数値を入力してください");
+								break;
+							}
+
+							if (!(Pprice == null)) {
+
+								try {
+									stock = Integer.parseInt(stockFeild.getText());
+								} catch (Exception e2) {
+									JOptionPane.showMessageDialog(contentPane, "在庫には数値を入力してください");
+									break;
+								}
+
+								if (!(stock == null)) {
+									foodlimit = foodlimitFeild.getText();
+									if (!foodlimit.equals("    -  -  ")) {
+
+										ProductEditDBAccess ped = new ProductEditDBAccess(pCode, pName, mName, Sprice,
+												Pprice, stock,
+												foodlimit);
+										try {
+											ped.ProductEdit();
+										} catch (Exception e1) {
+											// TODO 自動生成された catch ブロック
+											e1.printStackTrace();
+										}
+
+										JOptionPane.showMessageDialog(contentPane, "更新されました");
+
+									} else {
+										JOptionPane.showMessageDialog(contentPane, "食品期日を入力してください");
+									}
+
+								}
+							}
+
+						}
+					} else {
+						JOptionPane.showMessageDialog(contentPane, "メーカーを選択してください");
+					}
+
+				} else {
+					JOptionPane.showMessageDialog(contentPane, "商品名を入力してください");
+
+				}
 			}
-
 		}
 
 		//商品表ボタンを押した際の処理
@@ -189,5 +234,4 @@ public class EditProduct extends JFrame implements ActionListener {
 			HikawaController.ProductTableDisplay();
 		}
 	}
-
 }
