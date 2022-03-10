@@ -29,8 +29,8 @@ public class ProductTableDBAccess {
 					+ "INNER JOIN orderhistory ON product.OrderHistoryCode = orderhistory.OrderHistoryCode "
 					+ "INNER JOIN category ON product.CategoryID = category.CategoryID "
 					+ "INNER JOIN foodlimit ON product.FoodLimitCode = foodlimit.FoodLimitCode "
-					+ "WHERE Invailed = '0'"
-					+ "ORDER BY ProductCode ASC";
+					+ "WHERE Invailed = '0' AND ProductCode NOT LIKE '_______1' AND Status = '確定'"
+					+ "ORDER BY LimitDate ASC";
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 
